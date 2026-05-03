@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -495,7 +496,6 @@ function resetInactivityTimer() {
     if (!currentUser) return;
     
     // FEATURE: PIN Lock ONLY for Admins
-    // ลูกค้าทั่วไป (customer) จะไม่โดนระบบล็อกหน้าจอกวนใจ
     if (currentUser.role === 'customer') return;
     
     const timeout = (db.settings.pinLockTimeout || 5) * 60 * 1000;
@@ -950,7 +950,7 @@ function renderAdminDashboard() {
             ${isSuper ? `
             <div class="action-btn" onclick="triggerManualBackup()">
                 <div class="action-icon gold"><svg class="icon" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></div>
-                <b>ดาวน์โหลดข้อมูล (รวมลูกค้า)</b>
+                <b>ดาวน์โหลด Excel (รวมลูกค้า)</b>
             </div>` : `<div></div>`}
         </div>
 
@@ -1114,9 +1114,12 @@ function renderAdminSettings() {
             </div>
         </div>
         <div class="admin-card" style="border-color:var(--gold);">
-            <h4 style="margin-bottom:10px;color:var(--gold);">📦 สำรองข้อมูลอัตโนมัติ</h4>
+            <h4 style="margin-bottom:10px;color:var(--gold);">📦 สำรองข้อมูลและดาวน์โหลด</h4>
             <label class="admin-label">อีเมลสำหรับส่งไฟล์สำรอง (จำลอง)</label>
             <input type="email" id="set-backup-email" class="admin-input" value="${s.backupEmail||''}" placeholder="admin@example.com">
+            <button class="btn btn-outline" style="width:100%; border-color:var(--success); color:var(--success); margin-top:10px;" onclick="downloadExcelAll()">
+                📊 ดาวน์โหลดข้อมูลทั้งหมดเป็น Excel (CSV)
+            </button>
         </div>`:''}
         
         <div class="admin-card">
@@ -1257,7 +1260,20 @@ function saveAdminSettings() {
         sessionStorage.removeItem('aumthong_goldcache_v3');
     }
     
-    saveDB(); updateShopIdentity(); showNotify('บันทึกสำเร็จ'); navigate('home');
+    saveDB(); 
+    updateShopIdentity(); 
+    
+    // FEATURE: Notify when settings changed
+    sendTelegramAlert(
+        `⚙️ <b>มีการตั้งค่าระบบใหม่</b>\n` +
+        `👨‍💻 แก้ไขโดย: ${currentUser.name}\n` +
+        `🏪 ชื่อร้าน: ${s.shopName}\n` +
+        `💰 รับซื้อ fallback: ฿${fmt.thb(s.buyPrice)}\n` +
+        `💰 ขายออก fallback: ฿${fmt.thb(s.sellPrice)}`
+    );
+
+    showNotify('บันทึกสำเร็จ'); 
+    navigate('home');
 }
 
 // ─── USER MANAGEMENT ─────────────────────────────────────────
@@ -1319,6 +1335,17 @@ function proceedSaveUserEditAdmin(phone, newRole) {
     u.telegramChatId = document.getElementById('ed-tg-id').value.trim() || null;
     u.role          = newRole;
     saveDB(); 
+
+    // FEATURE: Notify when admin edits user
+    sendTelegramAlert(
+        `⚙️ <b>ข้อมูลผู้ใช้ถูกแก้ไข</b>\n` +
+        `👤 ลูกค้า: ${u.name} (${u.phone})\n` +
+        `👨‍💻 แก้ไขโดย: ${currentUser.name}\n` +
+        `💰 เงินสะสมปัจจุบัน: ฿${fmt.thb(u.balanceTHB)}\n` +
+        `🥇 ทองสะสมปัจจุบัน: ${fmt.gold(u.balanceGold)} ก.\n` +
+        `🔰 สิทธิ์ผู้ใช้: ${u.role}`
+    );
+
     showNotify('อัปเดตข้อมูลเรียบร้อย'); 
     closeModal(); 
     renderView();
@@ -1338,7 +1365,7 @@ function executeDeleteUser(phone) {
     db.transactions = db.transactions.filter(t=>t.userId!==target.uid);
     delete db.users[phone];
     saveDB();
-    sendTelegramAlert(`🗑 <b>ลบผู้ใช้</b>\nชื่อ: ${target.name}\nเบอร์: ${target.phone}`);
+    sendTelegramAlert(`🗑 <b>ผู้ใช้ถูกลบออกจากระบบ</b>\nชื่อ: ${target.name}\nเบอร์: ${target.phone}\nลบโดย: ${currentUser.name}`);
     showNotify('ลบผู้ใช้งานเรียบร้อย');
     closeModal(); renderView();
 }
@@ -1607,7 +1634,14 @@ async function saveProfile() {
     const newPass = document.getElementById('p-pass').value;
     if (newPass) user.passHash = await hashPassword(newPass);
     if (window._tempP) { user.profilePic = window._tempP; window._tempP=null; }
-    saveDB(); currentUser=user; closeModal(); initApp();
+    saveDB(); 
+
+    // FEATURE: Notify on Profile Update
+    sendTelegramAlert(`📝 <b>มีการอัปเดตโปรไฟล์ผู้ใช้</b>\n👤 ผู้ใช้: ${user.name}\n📱 เบอร์โทร: ${user.phone}`);
+
+    currentUser=user; 
+    closeModal(); 
+    initApp();
     showNotify('บันทึกโปรไฟล์เรียบร้อย');
 }
 
@@ -1621,7 +1655,7 @@ function viewImage(url) {
     setTimeout(()=>layer.style.opacity='1',10);
 }
 
-// ─── EXPORT CSV ───────────────────────────────────────────────
+// ─── EXPORT CSV (EXCEL) ───────────────────────────────────────
 function generateCSVContent(filterUid=null) {
     const rows=[["วันที่","ชื่อลูกค้า","เบอร์โทร","อีเมล","รายการ","จำนวนเงิน(บาท)","จำนวนทอง(กรัม)","มูลค่าทอง(บาท)","สถานะ","ยอดเงินสะสม(บาท)","ยอดทองสะสม(กรัม)"]];
     const txs = filterUid ? db.transactions.filter(t=>t.userId===filterUid) : db.transactions;
@@ -1660,6 +1694,15 @@ function triggerManualBackup() {
     }
 }
 
+// ฟังก์ชันสำหรับปุ่มดาวน์โหลดข้อมูลทั้งหมดแบบไม่ส่งเข้า TG
+function downloadExcelAll() {
+    if (currentUser.role!=='superadmin') return showNotify('คุณไม่มีสิทธิ์','error');
+    const csv = generateCSVContent();
+    const fn = `ฐานข้อมูลออมทองทั้งหมด_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
+    downloadCSV(csv, fn);
+    showNotify('ดาวน์โหลด Excel สำเร็จ');
+}
+
 function exportUserCSV(uid) {
     if (currentUser.role!=='superadmin') return showNotify('คุณไม่มีสิทธิ์','error');
     const user=Object.values(db.users).find(u=>u.uid===uid);
@@ -1670,7 +1713,6 @@ function downloadCSV(csvContent, filename) {
     const blob=new Blob([csvContent],{type:'text/csv;charset=utf-8;'});
     const link=document.createElement("a");
     link.href=URL.createObjectURL(blob); link.download=filename; link.click();
-    showNotify('ดาวน์โหลดสำเร็จ');
 }
 
 function checkWeeklyBackup() {
@@ -1802,6 +1844,10 @@ async function handleAuth() {
         const passHash = await hashPassword(pass);
         db.users[phone] = { uid:'u'+Date.now(), phone, name, role, balanceTHB:0, balanceGold:0, passHash, email:'', profilePic:null, telegramChatId:null };
         saveDB(); saveSession(phone); currentUser = db.users[phone];
+        
+        // FEATURE: Notify when new user registered
+        sendTelegramAlert(`🎉 <b>มีสมาชิกสมัครใหม่เข้าสู่ระบบ!</b>\n👤 ชื่อ: ${name}\n📱 เบอร์โทร: ${phone}\n🔰 สิทธิ์: ${role==='superadmin'?'แอดมินหลัก':'ลูกค้า'}`);
+
         if (role === 'superadmin') showNotify('คุณได้รับสิทธิ์ Super Admin แล้ว!');
     }
     initApp();
@@ -1813,6 +1859,7 @@ async function handleLineLogin() {
         const h = await hashPassword("linepass");
         db.users[key] = { uid:'line_'+Date.now(), phone:key, name:"ผู้ใช้ LINE (Demo)", role:"customer", balanceTHB:0, balanceGold:0, passHash:h, email:"", profilePic:"https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg", telegramChatId:null };
         saveDB();
+        sendTelegramAlert(`🎉 <b>มีสมาชิกสมัครใหม่เข้าสู่ระบบ!</b>\n👤 ชื่อ: ผู้ใช้ LINE (Demo)\n📱 รูปแบบ: เข้าสู่ระบบผ่าน LINE`);
     }
     saveSession(key); currentUser = db.users[key];
     showNotify('เข้าสู่ระบบด้วย LINE สำเร็จ'); initApp();
