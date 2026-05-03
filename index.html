@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -321,6 +322,32 @@ async function sendTelegramToCustomer(userId, text) {
     } catch(e) { console.warn("TG Customer:", e); }
 }
 
+// ฟังก์ชันทดสอบการแจ้งเตือน (เรียกใช้จากปุ่มหน้าตั้งค่า)
+async function testTelegramNotification() {
+    const chatId = document.getElementById('set-tg-chat-id').value;
+    if (!chatId) return showNotify('กรุณากรอก Chat ID ก่อน', 'warning');
+    
+    showNotify('กำลังส่งข้อความทดสอบ...');
+    try {
+        const res = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+            method: 'POST', headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({ 
+                chat_id: chatId, 
+                text: '🔔 <b>ทดสอบระบบแจ้งเตือนออมทอง</b>\n\n✅ หากคุณเห็นข้อความนี้ แสดงว่าระบบเชื่อมต่อกับ Telegram สำเร็จแล้ว!', 
+                parse_mode: 'HTML' 
+            })
+        });
+        const data = await res.json();
+        if(data.ok) {
+            showNotify('ส่งทดสอบสำเร็จ! โปรดเช็ค Telegram');
+        } else {
+            showNotify('ส่งล้มเหลว: ' + data.description, 'error');
+        }
+    } catch(e) {
+        showNotify('เชื่อมต่อ Telegram API ไม่สำเร็จ', 'error');
+    }
+}
+
 // ─── PASSWORD HASHING ──────
 async function hashPassword(pass) {
     if (window.crypto && window.crypto.subtle) {
@@ -375,7 +402,7 @@ const DEFAULT_DB = {
         shopName: "ออมทองออนไลน์", shopTagline: "ออมทองออนไลน์ ปลอดภัย เชื่อถือได้ 100%",
         shopLink: "https://www.facebook.com", lineContact: "https://line.me/ti/p/~@aumthong",
         phoneContact: "02-123-4567", qrUrl: null, shopLogo: null,
-        tgChatId: "-1003963635991", // Add default TG Chat ID
+        tgChatId: "-1003963635991",
         backupEmail: "", lastBackupDate: 0,
         pinLockEnabled: true, pinLockTimeout: 5
     }
@@ -383,7 +410,6 @@ const DEFAULT_DB = {
 
 // ─── STATE ──────────────────────────────────────────────────
 let db = JSON.parse(localStorage.getItem('aumthong_v6_db')) || DEFAULT_DB;
-// Migrate missing fields
 if (!db.settings.backupEmail)    db.settings.backupEmail   = "";
 if (!db.settings.lastBackupDate) db.settings.lastBackupDate = 0;
 if (!db.settings.buyPrice)       db.settings.buyPrice      = 48200;
@@ -464,16 +490,23 @@ function resetInactivityTimer() {
     if (currentUser) {
         localStorage.setItem('aumthong_last_active', Date.now());
     }
-
     if (!db.settings.pinLockEnabled) return;
     clearTimeout(_inactivityTimer);
+    
     if (!currentUser) return;
+    
+    // FEATURE: PIN Lock ONLY for Admins
+    // ลูกค้าทั่วไป (customer) จะไม่โดนระบบล็อกหน้าจอกวนใจ
+    if (currentUser.role === 'customer') return;
+    
     const timeout = (db.settings.pinLockTimeout || 5) * 60 * 1000;
     _inactivityTimer = setTimeout(activatePinLock, timeout);
 }
 
 function activatePinLock() {
     if (!currentUser || _pinLockActive) return;
+    if (currentUser.role === 'customer') return; // Double check
+    
     _pinLockActive = true;
     _pinLockValue = '';
     const overlay = document.getElementById('pin-lock-overlay');
@@ -1027,6 +1060,22 @@ function renderAdminSettings() {
     const isSuper = currentUser.role==='superadmin';
     return `
         <h2 style="margin-bottom:15px;color:var(--text);">ตั้งค่าระบบ</h2>
+
+        <!-- FEATURE 2: Admin Edit Profile Block -->
+        <div class="admin-card" style="border-color:#1976d2;">
+            <h4 style="margin-bottom:10px;color:#1976d2;">👤 ข้อมูลโปรไฟล์แอดมิน</h4>
+            <div style="display:flex; align-items:center; gap: 15px; margin-bottom: 15px;">
+                <div class="avatar" style="width:50px;height:50px;font-size:1.5rem;border:2px solid var(--border);">
+                    ${currentUser.profilePic ? `<img src="${currentUser.profilePic}" style="object-fit:cover;width:100%;height:100%;">` : currentUser.name[0]}
+                </div>
+                <div style="flex:1;">
+                    <b style="font-size:1.1rem;color:var(--text);">${currentUser.name}</b>
+                    <div style="font-size:0.8rem;color:var(--text3);">${currentUser.phone} ${currentUser.email ? ` | ${currentUser.email}` : ''}</div>
+                </div>
+            </div>
+            <button class="btn btn-outline" style="width:100%;border-color:#1976d2;color:#1976d2;" onclick="openEditProfileModal()">แก้ไขโปรไฟล์ / เปลี่ยนรหัสผ่าน</button>
+        </div>
+
         ${isSuper?`
         <div class="admin-card" style="border-color:var(--gold);">
             <h4 style="margin-bottom:10px;color:var(--gold);">💰 ราคาทอง (fallback เมื่อ API ขัดข้อง)</h4>
@@ -1048,9 +1097,12 @@ function renderAdminSettings() {
             <input type="text" class="admin-input" value="*******" disabled>
             <label class="admin-label">Admin Group Chat ID (แก้ไขได้)</label>
             <input type="text" id="set-tg-chat-id" class="admin-input" value="${s.tgChatId || ''}" placeholder="เช่น -100123456789">
+            <div style="display:flex;gap:10px;margin-top:10px;">
+                <button class="btn btn-outline btn-sm" style="flex:1;border-color:#1565c0;color:#1565c0;" onclick="testTelegramNotification()">🔔 ทดสอบแจ้งเตือน</button>
+            </div>
         </div>
         <div class="admin-card" style="border-color:var(--red);">
-            <h4 style="margin-bottom:10px;color:var(--red);">🔒 ตั้งค่า PIN Lock</h4>
+            <h4 style="margin-bottom:10px;color:var(--red);">🔒 ตั้งค่า PIN Lock (สำหรับแอดมิน)</h4>
             <label class="admin-label">เปิดใช้งาน PIN Lock</label>
             <select id="set-pin-lock" class="admin-input">
                 <option value="true" ${s.pinLockEnabled?'selected':''}>เปิด (แนะนำ)</option>
@@ -1251,7 +1303,7 @@ function saveUserEditAdmin(phone) {
     // FEATURE 2: PIN Validation for Role Escalation
     if ((newRole === 'admin' || newRole === 'superadmin') && u.role !== newRole) {
         openPinModal(`ยืนยันการให้สิทธิ์ผู้ดูแลระบบ`, (pin) => {
-            if (pin !== '9999') return showNotify('PIN ไม่ถูกต้อง (ใช้ 9999)', 'error');
+            if (pin !== '1234') return showNotify('PIN ไม่ถูกต้อง (ใช้ 1234)', 'error');
             proceedSaveUserEditAdmin(phone, newRole);
         });
     } else {
@@ -1277,7 +1329,7 @@ function confirmDeleteUser(phone) {
     if (currentUser.role!=='superadmin') return showNotify('เฉพาะแอดมินหลักเท่านั้น','error');
     const target = db.users[phone];
     openPinModal(`ยืนยันลบ "${target.name}"`, (pin) => {
-        if (pin !== '9999') return showNotify('PIN ไม่ถูกต้อง (ใช้ 9999)', 'error');
+        if (pin !== '1234') return showNotify('PIN ไม่ถูกต้อง (ใช้ 1234)', 'error');
         executeDeleteUser(phone);
     });
 }
