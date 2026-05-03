@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -285,23 +286,27 @@
 <script>
 // ─── CONFIG ────────────────────────────────────────────────
 const TG_BOT_TOKEN = "8731749401:AAEmA6wiK5o4NM0CcjJnmgt_827PbyMtPYw";
-const TG_CHAT_ID   = "-1003963635991";
 
 async function sendTelegramAlert(text) {
+    const chatId = db.settings.tgChatId;
+    if (!chatId) return;
     try {
         await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
             method: 'POST', headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ chat_id: TG_CHAT_ID, text, parse_mode: 'HTML' })
+            body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' })
         });
     } catch(e) { console.warn("TG:", e); }
 }
+
 async function sendTelegramDocument(csvContent, filename) {
+    const chatId = db.settings.tgChatId;
+    if (!chatId) return;
     try {
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
         const fd = new FormData();
-        fd.append('chat_id', TG_CHAT_ID);
+        fd.append('chat_id', chatId);
         fd.append('document', blob, filename);
-        fd.append('caption', `📊 <b>ไฟล์สำรองข้อมูลอัตโนมัติประจำสัปดาห์</b>`);
+        fd.append('caption', `📊 <b>ไฟล์สำรองข้อมูลออมทอง (รวมลูกค้าทุกคน)</b>`);
         await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendDocument`, { method:'POST', body:fd });
     } catch(e) { console.warn("TG Doc:", e); }
 }
@@ -371,6 +376,7 @@ const DEFAULT_DB = {
         shopName: "ออมทองออนไลน์", shopTagline: "ออมทองออนไลน์ ปลอดภัย เชื่อถือได้ 100%",
         shopLink: "https://www.facebook.com", lineContact: "https://line.me/ti/p/~@aumthong",
         phoneContact: "02-123-4567", qrUrl: null, shopLogo: null,
+        tgChatId: "-1003963635991", // Add default TG Chat ID
         backupEmail: "", lastBackupDate: 0,
         pinLockEnabled: true, pinLockTimeout: 5
     }
@@ -383,6 +389,8 @@ if (!db.settings.backupEmail)    db.settings.backupEmail   = "";
 if (!db.settings.lastBackupDate) db.settings.lastBackupDate = 0;
 if (!db.settings.buyPrice)       db.settings.buyPrice      = 48200;
 if (!db.settings.sellPrice)      db.settings.sellPrice     = 47800;
+if (!db.settings.tgChatId)       db.settings.tgChatId      = "-1003963635991";
+if (!db.settings.bankName)       db.settings.bankName      = "กสิกรไทย";
 if (db.settings.pinLockEnabled === undefined) db.settings.pinLockEnabled = true;
 if (!db.settings.pinLockTimeout) db.settings.pinLockTimeout = 5;
 Object.values(db.users).forEach(u => { if (!u.telegramChatId) u.telegramChatId = null; });
@@ -394,12 +402,10 @@ let lastActive   = localStorage.getItem('aumthong_last_active') || 0;
 if (sessionPhone) {
     const SIX_HOURS = 6 * 60 * 60 * 1000;
     if (Date.now() - parseInt(lastActive) > SIX_HOURS) {
-        // Expired after 6 hours of inactivity
         localStorage.removeItem('aumthong_v6_phone');
         localStorage.removeItem('aumthong_last_active');
         sessionPhone = null;
     } else {
-        // Extend session active time on fresh load
         localStorage.setItem('aumthong_last_active', Date.now());
     }
 }
@@ -456,7 +462,6 @@ let _inactivityTimer = null;
 const PIN_CODE = '1234'; 
 
 function resetInactivityTimer() {
-    // Extend the 6-hour expiration on any activity
     if (currentUser) {
         localStorage.setItem('aumthong_last_active', Date.now());
     }
@@ -735,11 +740,11 @@ function renderDepositForm() {
     const s = db.settings;
     return `
         <h2 style="font-family:'Noto Serif Thai';color:var(--red);margin-bottom:15px">แจ้งโอนเงินออม</h2>
-        <div style="background:var(--surface2);padding:1.5rem;border-radius:15px;border:1px solid var(--gold);margin-bottom:20px;text-align:center">
-            <div style="font-size:0.8rem;color:var(--text3)">ธนาคาร ${s.bankName}</div>
-            <div style="font-size:1.4rem;font-weight:700;color:var(--red)">${s.accountNumber}</div>
-            <div style="font-weight:600">${s.accountName}</div>
-            ${s.qrUrl ? `<img src="${s.qrUrl}" style="width:140px;margin-top:10px;border-radius:10px">` : ''}
+        <div style="background:var(--surface2);padding:2rem 1.5rem;border-radius:20px;border:1.5px solid var(--gold);margin-bottom:20px;text-align:center;box-shadow: 0 4px 15px rgba(200,134,10,0.1);">
+            <div style="font-size:1rem;color:var(--text3);font-weight:600;">ธนาคาร ${s.bankName}</div>
+            <div style="font-size:1.6rem;font-weight:700;color:var(--red);letter-spacing:1px;margin:5px 0;">${s.accountNumber}</div>
+            <div style="font-weight:600;font-size:1.1rem;margin-bottom:10px;">${s.accountName}</div>
+            ${s.qrUrl ? `<img src="${s.qrUrl}" style="width:250px;max-width:100%;margin-top:15px;border-radius:15px;box-shadow: 0 8px 24px rgba(0,0,0,0.15);">` : ''}
         </div>
         <div class="form-group"><label class="form-label">จำนวนเงินที่โอน (บาท)</label><input type="number" id="dep-amount" class="form-input" placeholder="0.00" inputmode="decimal"></div>
         <div class="form-group">
@@ -914,7 +919,7 @@ function renderAdminDashboard() {
             ${isSuper ? `
             <div class="action-btn" onclick="triggerManualBackup()">
                 <div class="action-icon gold"><svg class="icon" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></div>
-                <b>ดาวน์โหลด Excel</b>
+                <b>ดาวน์โหลดข้อมูล (รวมลูกค้า)</b>
             </div>` : `<div></div>`}
         </div>
 
@@ -1040,10 +1045,10 @@ function renderAdminSettings() {
                 💡 ระบบส่งแจ้งเตือนทุกความเคลื่อนไหวไปยังกลุ่ม Telegram แอดมิน<br>
                 และส่งตรงถึงลูกค้าหากมีการบันทึก Telegram Chat ID ในโปรไฟล์
             </div>
-            <label class="admin-label">Telegram Bot Token</label>
-            <input type="text" class="admin-input" value="******* (ตั้งค่าในโค้ด)" disabled>
-            <label class="admin-label">Admin Group Chat ID</label>
-            <input type="text" class="admin-input" value="******* (ตั้งค่าในโค้ด)" disabled>
+            <label class="admin-label">Telegram Bot Token (ฝังในระบบ)</label>
+            <input type="text" class="admin-input" value="*******" disabled>
+            <label class="admin-label">Admin Group Chat ID (แก้ไขได้)</label>
+            <input type="text" id="set-tg-chat-id" class="admin-input" value="${s.tgChatId || ''}" placeholder="เช่น -100123456789">
         </div>
         <div class="admin-card" style="border-color:var(--red);">
             <h4 style="margin-bottom:10px;color:var(--red);">🔒 ตั้งค่า PIN Lock</h4>
@@ -1060,9 +1065,10 @@ function renderAdminSettings() {
         </div>
         <div class="admin-card" style="border-color:var(--gold);">
             <h4 style="margin-bottom:10px;color:var(--gold);">📦 สำรองข้อมูลอัตโนมัติ</h4>
-            <label class="admin-label">อีเมลสำหรับส่งไฟล์สำรอง</label>
+            <label class="admin-label">อีเมลสำหรับส่งไฟล์สำรอง (จำลอง)</label>
             <input type="email" id="set-backup-email" class="admin-input" value="${s.backupEmail||''}" placeholder="admin@example.com">
         </div>`:''}
+        
         <div class="admin-card">
             <label class="admin-label">โลโก้ร้าน</label>
             <input type="file" id="logo-file" style="display:none" accept="image/*" onchange="handleFileSelect(event, val=>{ db.settings.shopLogo=val; renderView(); })">
@@ -1074,8 +1080,12 @@ function renderAdminSettings() {
             <label class="admin-label">ลิงก์หน้าร้าน</label><input type="text" id="set-link" class="admin-input" value="${s.shopLink}">
         </div>
         <div class="admin-card">
-            <label class="admin-label">ชื่อบัญชีธนาคาร</label><input type="text" id="set-acc-name" class="admin-input" value="${s.accountName}">
-            <label class="admin-label">เลขที่บัญชี</label><input type="text" id="set-acc-num" class="admin-input" value="${s.accountNumber}">
+            <label class="admin-label">ชื่อธนาคาร (เช่น กสิกรไทย, ไทยพาณิชย์)</label>
+            <input type="text" id="set-bank-name" class="admin-input" value="${s.bankName}">
+            <label class="admin-label">ชื่อบัญชีธนาคาร</label>
+            <input type="text" id="set-acc-name" class="admin-input" value="${s.accountName}">
+            <label class="admin-label">เลขที่บัญชี</label>
+            <input type="text" id="set-acc-num" class="admin-input" value="${s.accountNumber}">
             <label class="admin-label">QR Code รับเงิน</label>
             <input type="file" id="qr-file" style="display:none" accept="image/*" onchange="handleFileSelect(event, val=>{ db.settings.qrUrl=val; renderView(); })">
             <div class="file-upload-box" onclick="document.getElementById('qr-file').click()">
@@ -1181,11 +1191,14 @@ function saveAdminSettings() {
     s.shopName      = document.getElementById('set-name').value;
     s.shopTagline   = document.getElementById('set-tag').value;
     s.shopLink      = document.getElementById('set-link').value;
+    s.bankName      = document.getElementById('set-bank-name').value;
     s.accountName   = document.getElementById('set-acc-name').value;
     s.accountNumber = document.getElementById('set-acc-num').value;
     s.phoneContact  = document.getElementById('set-phone').value;
     s.lineContact   = document.getElementById('set-line').value;
+    
     if (currentUser.role==='superadmin') {
+        s.tgChatId       = document.getElementById('set-tg-chat-id').value;
         s.backupEmail    = document.getElementById('set-backup-email').value;
         s.buyPrice       = Number(document.getElementById('set-buy').value);
         s.sellPrice      = Number(document.getElementById('set-sell').value);
@@ -1193,6 +1206,7 @@ function saveAdminSettings() {
         s.pinLockTimeout = Number(document.getElementById('set-pin-timeout').value) || 5;
         sessionStorage.removeItem('aumthong_goldcache_v3');
     }
+    
     saveDB(); updateShopIdentity(); showNotify('บันทึกสำเร็จ'); navigate('home');
 }
 
@@ -1232,14 +1246,32 @@ function openEditUserAdminModal(phone) {
 
 function saveUserEditAdmin(phone) {
     const u = db.users[phone];
+    const roleEl = document.getElementById('ed-role');
+    const newRole = (roleEl && !roleEl.disabled) ? roleEl.value : u.role;
+
+    // FEATURE 2: PIN Validation for Role Escalation
+    if ((newRole === 'admin' || newRole === 'superadmin') && u.role !== newRole) {
+        openPinModal(`ยืนยันการให้สิทธิ์ผู้ดูแลระบบ`, (pin) => {
+            if (pin !== '9999') return showNotify('PIN ไม่ถูกต้อง (ใช้ 9999)', 'error');
+            proceedSaveUserEditAdmin(phone, newRole);
+        });
+    } else {
+        proceedSaveUserEditAdmin(phone, newRole);
+    }
+}
+
+function proceedSaveUserEditAdmin(phone, newRole) {
+    const u = db.users[phone];
     u.name          = document.getElementById('ed-name').value;
     u.email         = document.getElementById('ed-email').value;
     u.balanceTHB    = Number(document.getElementById('ed-thb').value);
     u.balanceGold   = Number(document.getElementById('ed-gold').value);
     u.telegramChatId = document.getElementById('ed-tg-id').value.trim() || null;
-    const roleEl = document.getElementById('ed-role');
-    if (roleEl && !roleEl.disabled) u.role = roleEl.value;
-    saveDB(); showNotify('อัปเดตข้อมูลเรียบร้อย'); closeModal(); renderView();
+    u.role          = newRole;
+    saveDB(); 
+    showNotify('อัปเดตข้อมูลเรียบร้อย'); 
+    closeModal(); 
+    renderView();
 }
 
 function confirmDeleteUser(phone) {
@@ -1561,7 +1593,21 @@ function generateCSVContent(filterUid=null) {
 
 function triggerManualBackup() {
     if (currentUser.role!=='superadmin') return showNotify('คุณไม่มีสิทธิ์','error');
-    downloadCSV(generateCSVContent(), `รายงานออมทองรวม_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`);
+    
+    // FEATURE 3: Download full data and send to Telegram (simulating email flow)
+    const csv = generateCSVContent();
+    const fn = `รายงานออมทองรวม_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
+    
+    // ดาวน์โหลดลงเครื่อง
+    downloadCSV(csv, fn);
+    
+    // ส่งเข้า Telegram กลุ่มหากมีการตั้งค่าไว้
+    if (db.settings.tgChatId) {
+        sendTelegramDocument(csv, fn);
+        showNotify('ดาวน์โหลดและส่งไฟล์รวมเข้า Telegram สำเร็จ');
+    } else {
+        showNotify('ดาวน์โหลดสำเร็จ (ไม่ได้ส่ง TG เพราะไม่ได้ตั้งค่า Chat ID)');
+    }
 }
 
 function exportUserCSV(uid) {
@@ -1580,12 +1626,16 @@ function downloadCSV(csvContent, filename) {
 function checkWeeklyBackup() {
     if (!currentUser||currentUser.role!=='superadmin') return;
     const now=Date.now(); const last=db.settings.lastBackupDate||0;
-    if (now-last >= 7*24*60*60*1000 && db.settings.backupEmail) {
+    // หากเกิน 7 วัน (7 * 24 * 60 * 60 * 1000 มิลลิวินาที) จะทำการแบคอัป
+    if (now-last >= 7*24*60*60*1000) {
         db.settings.lastBackupDate=now; saveDB();
-        showNotify('กำลังสำรองข้อมูลอัตโนมัติ...');
+        showNotify('กำลังสร้างไฟล์สำรองข้อมูลรายสัปดาห์อัตโนมัติ...');
         const csv=generateCSVContent();
-        const fn=`ออมทอง_Backup_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
-        sendTelegramDocument(csv, fn);
+        const fn=`ออมทอง_Backup_Weekly_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
+        
+        if (db.settings.tgChatId) {
+            sendTelegramDocument(csv, fn);
+        }
         downloadCSV(csv, fn);
     }
 }
@@ -1743,6 +1793,8 @@ function initApp() {
     updateShopIdentity();
     fetchLiveGoldPrice().then(() => navigate('home'));
     resetInactivityTimer(); 
+    
+    // เรียกตรวจเช็ค Weekly Backup หลังล็อกอินเสร็จ 1.5 วินาที
     setTimeout(checkWeeklyBackup, 1500);
 }
 
