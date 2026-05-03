@@ -1,5 +1,5 @@
+```html
 <!DOCTYPE html>
-
 <html lang="th">
 <head>
     <meta charset="UTF-8">
@@ -30,174 +30,170 @@
         body { font-family: 'Prompt', sans-serif; background: var(--surface) !important; color: var(--text) !important; overflow-x: hidden; min-height: 100vh; -webkit-text-size-adjust: 100%; }
         .icon { width: 1.2em; height: 1.2em; display: inline-block; vertical-align: middle; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; }
 
-```
-    /* LOGIN */
-    #login-page { min-height: 100vh; background: radial-gradient(ellipse at 20% 20%, var(--red-dark) 0%, #2D0000 40%, #0D0000 100%) !important; display: flex; align-items: center; justify-content: center; padding: 1.5rem; position: relative; overflow: hidden; }
-    .login-bg-pattern { position: absolute; inset: 0; pointer-events: none; opacity: 0.04; background-image: repeating-linear-gradient(45deg, var(--gold-bright) 0, var(--gold-bright) 1px, transparent 0, transparent 50%); background-size: 30px 30px; }
-    .login-card { background: rgba(255,248,232,0.97) !important; border: 1px solid rgba(200,134,10,0.3); border-radius: 2.5rem; padding: 2.5rem 2rem; width: 100%; max-width: 400px; box-shadow: 0 24px 80px rgba(0,0,0,0.5); position: relative; z-index: 1; }
-    .login-logo { text-align: center; margin-bottom: 1.5rem; }
-    .login-logo-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; border-radius: 1.5rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; box-shadow: 0 8px 32px rgba(139,0,0,0.4); overflow: hidden; }
-    .login-logo-icon svg { width: 36px; height: 36px; stroke: var(--gold-bright); }
-    .login-title { font-family: 'Noto Serif Thai', serif; font-size: 1.8rem; font-weight: 900; color: var(--red) !important; }
-    .login-subtitle { font-size: 0.8rem; color: var(--text3) !important; margin-top: 0.2rem; }
-    .login-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; background: var(--surface3) !important; border-radius: var(--radius); padding: 0.25rem; }
-    .login-tab { flex: 1; padding: 0.6rem; border-radius: calc(var(--radius) - 0.25rem); border: none; background: transparent !important; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text3) !important; font-family: 'Prompt', sans-serif; }
-    .login-tab.active { background: white !important; color: var(--red) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-weight: 600; }
-    .form-group { margin-bottom: 1rem; }
-    .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text2) !important; margin-bottom: 0.4rem; }
-    .form-input { width: 100%; padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: white !important; font-family: 'Prompt', sans-serif; outline: none; transition: 0.2s; color: var(--text) !important; font-size: 0.9rem; }
-    .form-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-muted); }
-    .form-input:disabled { background: #f5f5f5 !important; color: #888 !important; cursor: not-allowed; }
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.5rem; border-radius: var(--radius-sm); border: none; cursor: pointer; font-family: 'Prompt', sans-serif; font-weight: 600; transition: 0.2s; width: 100%; font-size: 0.9rem; }
-    .btn:active { transform: scale(0.98); }
-    .btn-primary { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; color: white !important; }
-    .btn-outline { background: transparent !important; border: 1.5px solid var(--border); color: var(--text2) !important; }
-    .btn-success { background: var(--success) !important; color: white !important; }
-    .btn-danger { background: var(--error) !important; color: white !important; }
-    .btn-warning { background: var(--warning) !important; color: white !important; }
-    .btn-line { background: var(--line) !important; color: white !important; }
-    .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; width: auto; }
-    .btn-pdf { background: linear-gradient(135deg, #7B1FA2, #4A148C) !important; color: white !important; }
-    .login-divider { display: flex; align-items: center; text-align: center; margin: 1.25rem 0; color: var(--text3) !important; font-size: 0.8rem; }
-    .login-divider::before, .login-divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border); margin: 0 0.5rem; }
+        /* LOGIN */
+        #login-page { min-height: 100vh; background: radial-gradient(ellipse at 20% 20%, var(--red-dark) 0%, #2D0000 40%, #0D0000 100%) !important; display: flex; align-items: center; justify-content: center; padding: 1.5rem; position: relative; overflow: hidden; }
+        .login-bg-pattern { position: absolute; inset: 0; pointer-events: none; opacity: 0.04; background-image: repeating-linear-gradient(45deg, var(--gold-bright) 0, var(--gold-bright) 1px, transparent 0, transparent 50%); background-size: 30px 30px; }
+        .login-card { background: rgba(255,248,232,0.97) !important; border: 1px solid rgba(200,134,10,0.3); border-radius: 2.5rem; padding: 2.5rem 2rem; width: 100%; max-width: 400px; box-shadow: 0 24px 80px rgba(0,0,0,0.5); position: relative; z-index: 1; }
+        .login-logo { text-align: center; margin-bottom: 1.5rem; }
+        .login-logo-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; border-radius: 1.5rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; box-shadow: 0 8px 32px rgba(139,0,0,0.4); overflow: hidden; }
+        .login-logo-icon svg { width: 36px; height: 36px; stroke: var(--gold-bright); }
+        .login-title { font-family: 'Noto Serif Thai', serif; font-size: 1.8rem; font-weight: 900; color: var(--red) !important; }
+        .login-subtitle { font-size: 0.8rem; color: var(--text3) !important; margin-top: 0.2rem; }
+        .login-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; background: var(--surface3) !important; border-radius: var(--radius); padding: 0.25rem; }
+        .login-tab { flex: 1; padding: 0.6rem; border-radius: calc(var(--radius) - 0.25rem); border: none; background: transparent !important; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text3) !important; font-family: 'Prompt', sans-serif; }
+        .login-tab.active { background: white !important; color: var(--red) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-weight: 600; }
+        .form-group { margin-bottom: 1rem; }
+        .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text2) !important; margin-bottom: 0.4rem; }
+        .form-input { width: 100%; padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: white !important; font-family: 'Prompt', sans-serif; outline: none; transition: 0.2s; color: var(--text) !important; font-size: 0.9rem; }
+        .form-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-muted); }
+        .form-input:disabled { background: #f5f5f5 !important; color: #888 !important; cursor: not-allowed; }
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.5rem; border-radius: var(--radius-sm); border: none; cursor: pointer; font-family: 'Prompt', sans-serif; font-weight: 600; transition: 0.2s; width: 100%; font-size: 0.9rem; }
+        .btn:active { transform: scale(0.98); }
+        .btn-primary { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; color: white !important; }
+        .btn-outline { background: transparent !important; border: 1.5px solid var(--border); color: var(--text2) !important; }
+        .btn-success { background: var(--success) !important; color: white !important; }
+        .btn-danger { background: var(--error) !important; color: white !important; }
+        .btn-warning { background: var(--warning) !important; color: white !important; }
+        .btn-line { background: var(--line) !important; color: white !important; }
+        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; width: auto; }
+        .btn-pdf { background: linear-gradient(135deg, #7B1FA2, #4A148C) !important; color: white !important; }
+        .login-divider { display: flex; align-items: center; text-align: center; margin: 1.25rem 0; color: var(--text3) !important; font-size: 0.8rem; }
+        .login-divider::before, .login-divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border); margin: 0 0.5rem; }
 
-    /* LAYOUT */
-    #app-layout { display: none; flex-direction: column; min-height: 100vh; background: var(--surface) !important; }
-    .topbar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%) !important; padding: 0 1rem; height: 64px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 20px rgba(139,0,0,0.3); color: white !important; }
-    .topbar-brand { display: flex; align-items: center; gap: 0.5rem; }
-    .topbar-name { font-family: 'Noto Serif Thai', serif; font-size: 1.2rem; font-weight: 900; color: var(--gold-bright) !important; }
-    .topbar-user { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
-    .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 700; border: 2px solid rgba(255,215,0,0.5); overflow: hidden; }
-    .avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .main-content { flex: 1; padding: 1.5rem 1rem 5.5rem; max-width: 480px; margin: 0 auto; width: 100%; background: var(--surface) !important; }
+        /* LAYOUT */
+        #app-layout { display: none; flex-direction: column; min-height: 100vh; background: var(--surface) !important; }
+        .topbar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%) !important; padding: 0 1rem; height: 64px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 20px rgba(139,0,0,0.3); color: white !important; }
+        .topbar-brand { display: flex; align-items: center; gap: 0.5rem; }
+        .topbar-name { font-family: 'Noto Serif Thai', serif; font-size: 1.2rem; font-weight: 900; color: var(--gold-bright) !important; }
+        .topbar-user { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
+        .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 700; border: 2px solid rgba(255,215,0,0.5); overflow: hidden; }
+        .avatar img { width: 100%; height: 100%; object-fit: cover; }
+        .main-content { flex: 1; padding: 1.5rem 1rem 5.5rem; max-width: 480px; margin: 0 auto; width: 100%; background: var(--surface) !important; }
 
-    /* PRICE WIDGET */
-    .price-ticker { background: linear-gradient(135deg, var(--red-dark) 0%, #3D0000 100%) !important; border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem; color: white !important; }
-    .price-row { display: flex; gap: 1rem; margin-top: 0.5rem; }
-    .price-item { flex: 1; }
-    .price-val { font-size: 1.4rem; font-weight: 700; color: var(--gold-bright) !important; }
-    .price-loading { color: rgba(255,215,0,0.5) !important; font-size: 1.4rem; font-weight: 700; animation: shimmer 1.2s infinite; }
-    @keyframes shimmer { 0%,100%{opacity:0.4} 50%{opacity:1} }
-    .price-live-link { display: flex; align-items: center; gap: 6px; background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.3); border-radius: 20px; padding: 5px 12px; color: var(--gold-bright) !important; text-decoration: none; font-size: 0.72rem; font-weight: 600; margin-top: 10px; width: fit-content; transition: background 0.2s; }
-    .price-refresh-btn { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 4px 8px; color: rgba(255,255,255,0.7) !important; font-size: 0.7rem; cursor: pointer; font-family: 'Prompt'; display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
+        /* PRICE WIDGET */
+        .price-ticker { background: linear-gradient(135deg, var(--red-dark) 0%, #3D0000 100%) !important; border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem; color: white !important; }
+        .price-row { display: flex; gap: 1rem; margin-top: 0.5rem; }
+        .price-item { flex: 1; }
+        .price-val { font-size: 1.4rem; font-weight: 700; color: var(--gold-bright) !important; }
+        .price-loading { color: rgba(255,215,0,0.5) !important; font-size: 1.4rem; font-weight: 700; animation: shimmer 1.2s infinite; }
+        @keyframes shimmer { 0%,100%{opacity:0.4} 50%{opacity:1} }
+        .price-live-link { display: flex; align-items: center; gap: 6px; background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.3); border-radius: 20px; padding: 5px 12px; color: var(--gold-bright) !important; text-decoration: none; font-size: 0.72rem; font-weight: 600; margin-top: 10px; width: fit-content; transition: background 0.2s; }
+        .price-refresh-btn { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 4px 8px; color: rgba(255,255,255,0.7) !important; font-size: 0.7rem; cursor: pointer; font-family: 'Prompt'; display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
 
-    /* WALLET */
-    .wallet-card { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.25rem; color: white !important; box-shadow: 0 8px 32px rgba(139,0,0,0.3); position: relative; overflow: hidden; }
-    .wallet-card::before { content: ''; position: absolute; right: -20px; top: -20px; width: 120px; height: 120px; background: rgba(255,215,0,0.07); border-radius: 50%; }
-    .wallet-card::after { content: ''; position: absolute; right: 20px; bottom: -30px; width: 80px; height: 80px; background: rgba(255,215,0,0.05); border-radius: 50%; }
-    .wallet-label { font-size: 0.7rem; opacity: 0.7; letter-spacing: 0.05em; text-transform: uppercase; }
-    .wallet-name { font-weight: 600; margin-top: 3px; font-size: 0.95rem; opacity: 0.9; }
-    .wallet-balance { font-size: 2rem; font-weight: 800; margin-top: 4px; color: white !important; letter-spacing: -0.02em; font-family: 'Noto Serif Thai', serif; }
-    .wallet-currency { font-size: 0.9rem; opacity: 0.6; margin-left: 4px; }
-    .gold-source-badge { display:inline-flex; align-items:center; gap:4px; font-size:0.65rem; background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.3); border-radius:20px; padding:2px 8px; color:rgba(255,215,0,0.9) !important; margin-left:6px; vertical-align:middle; }
-    .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
-    .action-btn { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: 0.2s; }
-    .action-btn:active { transform: scale(0.97); background: var(--surface2) !important; }
-    .action-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .action-icon.green { background: #e8f5e9 !important; color: var(--success) !important; }
-    .action-icon.red { background: #ffebee !important; color: var(--error) !important; }
-    .action-icon.gold { background: #fff8e1 !important; color: var(--gold) !important; }
-    .action-icon.blue { background: #e3f2fd !important; color: #1976d2 !important; }
-    .action-icon.purple { background: #f3e5f5 !important; color: #7b1fa2 !important; }
-    .tx-item { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-    .tx-info { flex: 1; }
-    .badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 20px; font-weight: 600; display: inline-block; }
-    .badge-pending { background: #fff3e0 !important; color: var(--warning) !important; }
-    .badge-approved { background: #e8f5e9 !important; color: var(--success) !important; }
-    .badge-rejected { background: #ffebee !important; color: var(--error) !important; }
-    .badge-super { background: var(--red) !important; color: white !important; }
-    .badge-sub { background: var(--warning) !important; color: white !important; }
-    .search-bar { display: flex; align-items: center; gap: 0.5rem; background: white !important; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 1rem; margin-bottom: 1rem; }
-    .search-bar input { border: none; outline: none; flex: 1; font-family: 'Prompt', sans-serif; font-size: 0.9rem; background: transparent !important; color: var(--text) !important; }
-    .filter-chips { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-    .filter-chips::-webkit-scrollbar { display: none; }
-    .chip { padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--border); background: white !important; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'Prompt', sans-serif; transition: 0.15s; color: var(--text3) !important; flex-shrink: 0; }
-    .chip.active { background: var(--red) !important; border-color: var(--red); color: white !important; }
-    .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white !important; border-top: 1px solid var(--border); display: flex; height: 65px; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 100; }
-    .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text3) !important; border: none; background: none !important; cursor: pointer; font-family: 'Prompt', sans-serif; transition: 0.15s; }
-    .nav-item.active { color: var(--red) !important; font-weight: 600; }
-    #notification { position: fixed; top: 75px; left: 50%; transform: translateX(-50%); z-index: 1000; padding: 0.8rem 1.5rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: none; white-space: nowrap; font-size: 0.875rem; font-weight: 600; }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: flex-end; justify-content: center; }
-    .modal { background: white !important; width: 100%; max-width: 480px; padding: 2rem; border-radius: 2rem 2rem 0 0; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
-    @keyframes slideUp { from { transform: translateY(100%); } }
-    .pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.5rem; }
-    .pin-btn { padding: 1rem; font-size: 1.2rem; font-weight: 700; border: 1.5px solid var(--border); border-radius: 12px; background: white !important; cursor: pointer; font-family: 'Prompt', sans-serif; transition: 0.15s; color: var(--text) !important; }
-    .pin-btn:active { background: var(--surface3) !important; transform: scale(0.95); }
-    .pin-btn.danger { color: var(--error) !important; }
-    .pin-display { display: flex; gap: 1rem; justify-content: center; margin: 1.5rem 0; }
-    .pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--red); transition: 0.2s; }
-    .pin-dot.filled { background: var(--red) !important; }
-    .admin-card { background: white !important; border: 1px solid var(--border); border-radius: 15px; padding: 1rem; margin-bottom: 1rem; }
-    .admin-label { font-size: 0.75rem; color: var(--text3) !important; font-weight: 600; margin-bottom: 4px; display: block; }
-    .admin-input { width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'Prompt'; margin-bottom: 10px; font-size: 0.875rem; outline: none; background: white !important; color: var(--text) !important; }
-    .admin-input:focus { border-color: var(--gold); }
-    .file-upload-box { border: 2px dashed var(--border); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; margin-bottom: 15px; background: var(--surface2) !important; }
-    .preview-img-container { width: 100%; max-height: 250px; overflow: hidden; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--border); }
-    .preview-img-container img { width: 100%; height: auto; display: block; }
-    .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    .shop-link-btn { background: var(--surface3) !important; border: 1px solid var(--gold); border-radius: 10px; padding: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--gold) !important; font-weight: 700; text-decoration: none; margin-bottom: 1rem; font-size: 0.875rem; }
-    .chart-wrap { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1rem; }
-    .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 100px; margin-top: 0.5rem; }
-    .chart-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .chart-bar { width: 100%; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--gold-light), var(--gold)); transition: height 0.5s ease; min-height: 4px; }
-    .chart-label { font-size: 0.6rem; color: var(--text3) !important; text-align: center; white-space: nowrap; }
-    .summary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
-    .summary-card { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; }
-    .summary-val { font-size: 1.1rem; font-weight: 700; color: var(--red) !important; }
-    .section-title { font-size: 1rem; font-weight: 700; color: var(--red) !important; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
-    .gold-stat-card { background: linear-gradient(135deg, #FFF8E1, #FEF3D4) !important; border: 1px solid rgba(200,134,10,0.3); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 12px; }
-    .gold-thb-val { font-size: 0.72rem; color: var(--gold) !important; margin-top: 2px; font-weight: 600; }
+        /* WALLET */
+        .wallet-card { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.25rem; color: white !important; box-shadow: 0 8px 32px rgba(139,0,0,0.3); position: relative; overflow: hidden; }
+        .wallet-card::before { content: ''; position: absolute; right: -20px; top: -20px; width: 120px; height: 120px; background: rgba(255,215,0,0.07); border-radius: 50%; }
+        .wallet-card::after { content: ''; position: absolute; right: 20px; bottom: -30px; width: 80px; height: 80px; background: rgba(255,215,0,0.05); border-radius: 50%; }
+        .wallet-label { font-size: 0.7rem; opacity: 0.7; letter-spacing: 0.05em; text-transform: uppercase; }
+        .wallet-name { font-weight: 600; margin-top: 3px; font-size: 0.95rem; opacity: 0.9; }
+        .wallet-balance { font-size: 2rem; font-weight: 800; margin-top: 4px; color: white !important; letter-spacing: -0.02em; font-family: 'Noto Serif Thai', serif; }
+        .wallet-currency { font-size: 0.9rem; opacity: 0.6; margin-left: 4px; }
+        .gold-source-badge { display:inline-flex; align-items:center; gap:4px; font-size:0.65rem; background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.3); border-radius:20px; padding:2px 8px; color:rgba(255,215,0,0.9) !important; margin-left:6px; vertical-align:middle; }
+        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+        .action-btn { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: 0.2s; }
+        .action-btn:active { transform: scale(0.97); background: var(--surface2) !important; }
+        .action-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .action-icon.green { background: #e8f5e9 !important; color: var(--success) !important; }
+        .action-icon.red { background: #ffebee !important; color: var(--error) !important; }
+        .action-icon.gold { background: #fff8e1 !important; color: var(--gold) !important; }
+        .action-icon.blue { background: #e3f2fd !important; color: #1976d2 !important; }
+        .action-icon.purple { background: #f3e5f5 !important; color: #7b1fa2 !important; }
+        .tx-item { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
+        .tx-info { flex: 1; }
+        .badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 20px; font-weight: 600; display: inline-block; }
+        .badge-pending { background: #fff3e0 !important; color: var(--warning) !important; }
+        .badge-approved { background: #e8f5e9 !important; color: var(--success) !important; }
+        .badge-rejected { background: #ffebee !important; color: var(--error) !important; }
+        .badge-super { background: var(--red) !important; color: white !important; }
+        .badge-sub { background: var(--warning) !important; color: white !important; }
+        .search-bar { display: flex; align-items: center; gap: 0.5rem; background: white !important; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 1rem; margin-bottom: 1rem; }
+        .search-bar input { border: none; outline: none; flex: 1; font-family: 'Prompt', sans-serif; font-size: 0.9rem; background: transparent !important; color: var(--text) !important; }
+        .filter-chips { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .filter-chips::-webkit-scrollbar { display: none; }
+        .chip { padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--border); background: white !important; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'Prompt', sans-serif; transition: 0.15s; color: var(--text3) !important; flex-shrink: 0; }
+        .chip.active { background: var(--red) !important; border-color: var(--red); color: white !important; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white !important; border-top: 1px solid var(--border); display: flex; height: 65px; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 100; }
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text3) !important; border: none; background: none !important; cursor: pointer; font-family: 'Prompt', sans-serif; transition: 0.15s; }
+        .nav-item.active { color: var(--red) !important; font-weight: 600; }
+        #notification { position: fixed; top: 75px; left: 50%; transform: translateX(-50%); z-index: 1000; padding: 0.8rem 1.5rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: none; white-space: nowrap; font-size: 0.875rem; font-weight: 600; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: flex-end; justify-content: center; }
+        .modal { background: white !important; width: 100%; max-width: 480px; padding: 2rem; border-radius: 2rem 2rem 0 0; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
+        @keyframes slideUp { from { transform: translateY(100%); } }
+        .pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.5rem; }
+        .pin-btn { padding: 1rem; font-size: 1.2rem; font-weight: 700; border: 1.5px solid var(--border); border-radius: 12px; background: white !important; cursor: pointer; font-family: 'Prompt', sans-serif; transition: 0.15s; color: var(--text) !important; }
+        .pin-btn:active { background: var(--surface3) !important; transform: scale(0.95); }
+        .pin-btn.danger { color: var(--error) !important; }
+        .pin-display { display: flex; gap: 1rem; justify-content: center; margin: 1.5rem 0; }
+        .pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--red); transition: 0.2s; }
+        .pin-dot.filled { background: var(--red) !important; }
+        .admin-card { background: white !important; border: 1px solid var(--border); border-radius: 15px; padding: 1rem; margin-bottom: 1rem; }
+        .admin-label { font-size: 0.75rem; color: var(--text3) !important; font-weight: 600; margin-bottom: 4px; display: block; }
+        .admin-input { width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'Prompt'; margin-bottom: 10px; font-size: 0.875rem; outline: none; background: white !important; color: var(--text) !important; }
+        .admin-input:focus { border-color: var(--gold); }
+        .file-upload-box { border: 2px dashed var(--border); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; margin-bottom: 15px; background: var(--surface2) !important; }
+        .preview-img-container { width: 100%; max-height: 250px; overflow: hidden; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--border); }
+        .preview-img-container img { width: 100%; height: auto; display: block; }
+        .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .shop-link-btn { background: var(--surface3) !important; border: 1px solid var(--gold); border-radius: 10px; padding: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--gold) !important; font-weight: 700; text-decoration: none; margin-bottom: 1rem; font-size: 0.875rem; }
+        .chart-wrap { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1rem; }
+        .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 100px; margin-top: 0.5rem; }
+        .chart-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .chart-bar { width: 100%; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--gold-light), var(--gold)); transition: height 0.5s ease; min-height: 4px; }
+        .chart-label { font-size: 0.6rem; color: var(--text3) !important; text-align: center; white-space: nowrap; }
+        .summary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+        .summary-card { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; }
+        .summary-val { font-size: 1.1rem; font-weight: 700; color: var(--red) !important; }
+        .section-title { font-size: 1rem; font-weight: 700; color: var(--red) !important; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
+        .gold-stat-card { background: linear-gradient(135deg, #FFF8E1, #FEF3D4) !important; border: 1px solid rgba(200,134,10,0.3); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 12px; }
+        .gold-thb-val { font-size: 0.72rem; color: var(--gold) !important; margin-top: 2px; font-weight: 600; }
 
-    /* ─── FEATURE 1: Telegram Notification Badge ─── */
-    .tg-badge { display:inline-flex; align-items:center; gap:4px; background:#e3f2fd; border:1px solid #90caf9; border-radius:20px; padding:2px 8px; font-size:0.65rem; color:#1565c0; font-weight:600; margin-left:6px; }
+        /* ─── FEATURE 1: Telegram Notification Badge ─── */
+        .tg-badge { display:inline-flex; align-items:center; gap:4px; background:#e3f2fd; border:1px solid #90caf9; border-radius:20px; padding:2px 8px; font-size:0.65rem; color:#1565c0; font-weight:600; margin-left:6px; }
 
-    /* ─── FEATURE 2: PIN LOCK OVERLAY ─── */
-    #pin-lock-overlay {
-        position: fixed; inset: 0;
-        background: linear-gradient(135deg, var(--red-dark) 0%, #2D0000 60%, #0D0000 100%) !important;
-        z-index: 9998; display: none; flex-direction: column;
-        align-items: center; justify-content: center; padding: 2rem;
-    }
-    #pin-lock-overlay .pin-lock-logo { font-family: 'Noto Serif Thai', serif; font-size: 1.8rem; font-weight: 900; color: var(--gold-bright) !important; margin-bottom: 0.25rem; letter-spacing: 0.02em; }
-    #pin-lock-overlay .pin-lock-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5) !important; margin-bottom: 2rem; }
-    #pin-lock-overlay .pin-lock-timer { font-size: 0.7rem; color: rgba(255,215,0,0.5) !important; margin-top: 1.5rem; }
-    #pin-lock-overlay .pin-display .pin-dot { border-color: rgba(255,215,0,0.6); }
-    #pin-lock-overlay .pin-display .pin-dot.filled { background: var(--gold-bright) !important; border-color: var(--gold-bright); }
-    #pin-lock-overlay .pin-btn { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15); color: white !important; }
-    #pin-lock-overlay .pin-btn:active { background: rgba(255,255,255,0.2) !important; }
-    #pin-lock-overlay .pin-btn.danger { color: rgba(255,150,150,0.9) !important; }
-    #pin-lock-overlay .pin-pad { max-width: 280px; width: 100%; }
-    #pin-lock-err { color: rgba(255,150,150,0.9); font-size: 0.8rem; margin-top: 1rem; min-height: 1.2em; text-align:center; }
+        /* ─── FEATURE 2: PIN LOCK OVERLAY ─── */
+        #pin-lock-overlay {
+            position: fixed; inset: 0;
+            background: linear-gradient(135deg, var(--red-dark) 0%, #2D0000 60%, #0D0000 100%) !important;
+            z-index: 9998; display: none; flex-direction: column;
+            align-items: center; justify-content: center; padding: 2rem;
+        }
+        #pin-lock-overlay .pin-lock-logo { font-family: 'Noto Serif Thai', serif; font-size: 1.8rem; font-weight: 900; color: var(--gold-bright) !important; margin-bottom: 0.25rem; letter-spacing: 0.02em; }
+        #pin-lock-overlay .pin-lock-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5) !important; margin-bottom: 2rem; }
+        #pin-lock-overlay .pin-lock-timer { font-size: 0.7rem; color: rgba(255,215,0,0.5) !important; margin-top: 1.5rem; }
+        #pin-lock-overlay .pin-display .pin-dot { border-color: rgba(255,215,0,0.6); }
+        #pin-lock-overlay .pin-display .pin-dot.filled { background: var(--gold-bright) !important; border-color: var(--gold-bright); }
+        #pin-lock-overlay .pin-btn { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15); color: white !important; }
+        #pin-lock-overlay .pin-btn:active { background: rgba(255,255,255,0.2) !important; }
+        #pin-lock-overlay .pin-btn.danger { color: rgba(255,150,150,0.9) !important; }
+        #pin-lock-overlay .pin-pad { max-width: 280px; width: 100%; }
+        #pin-lock-err { color: rgba(255,150,150,0.9); font-size: 0.8rem; margin-top: 1rem; min-height: 1.2em; text-align:center; }
 
-    /* ─── FEATURE 3: Gold Value THB ─── */
-    .gold-value-row { display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap; }
-    .gold-value-tag { background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.35); border-radius:20px; padding:3px 10px; font-size:0.72rem; color:var(--gold-bright) !important; font-weight:600; }
-    .gold-mkt-badge { font-size:0.62rem; color:rgba(255,215,0,0.55) !important; }
+        /* ─── FEATURE 3: Gold Value THB ─── */
+        .gold-value-row { display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap; }
+        .gold-value-tag { background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.35); border-radius:20px; padding:3px 10px; font-size:0.72rem; color:var(--gold-bright) !important; font-weight:600; }
+        .gold-mkt-badge { font-size:0.62rem; color:rgba(255,215,0,0.55) !important; }
 
-    /* ─── FEATURE 4: PDF Print Styles ─── */
-    @media print {
-        body * { visibility: hidden !important; }
-        #pdf-print-area, #pdf-print-area * { visibility: visible !important; }
-        #pdf-print-area { position: absolute !important; top: 0; left: 0; width: 100%; padding: 20px; background: white !important; }
-        .pdf-page-break { page-break-before: always; }
-    }
-    #pdf-print-area { display: none; }
+        /* ─── FEATURE 4: PDF Print Styles ─── */
+        @media print {
+            body * { visibility: hidden !important; }
+            #pdf-print-area, #pdf-print-area * { visibility: visible !important; }
+            #pdf-print-area { position: absolute !important; top: 0; left: 0; width: 100%; padding: 20px; background: white !important; }
+            .pdf-page-break { page-break-before: always; }
+        }
+        #pdf-print-area { display: none; }
 
-    /* Gold savings THB display in wallet */
-    .wallet-gold-row { display:flex; align-items:center; gap:10px; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.15); flex-wrap:wrap; }
-    .wallet-gold-item { display:flex; flex-direction:column; }
-    .wallet-gold-label { font-size:0.62rem; opacity:0.55; }
-    .wallet-gold-val { font-size:0.95rem; font-weight:700; color:var(--gold-bright) !important; }
-</style>
-```
-
+        /* Gold savings THB display in wallet */
+        .wallet-gold-row { display:flex; align-items:center; gap:10px; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.15); flex-wrap:wrap; }
+        .wallet-gold-item { display:flex; flex-direction:column; }
+        .wallet-gold-label { font-size:0.62rem; opacity:0.55; }
+        .wallet-gold-val { font-size:0.95rem; font-weight:700; color:var(--gold-bright) !important; }
+    </style>
 </head>
 <body>
 <div id="notification"></div>
 
 <!-- ─── FEATURE 2: PIN LOCK OVERLAY ─── -->
-
 <div id="pin-lock-overlay">
     <div class="pin-lock-logo" id="pin-lock-shop-name">ออมทอง</div>
     <div class="pin-lock-sub">🔒 กรุณายืนยันตัวตนเพื่อเข้าใช้งาน</div>
@@ -214,11 +210,9 @@
 </div>
 
 <!-- ─── FEATURE 4: PDF Print Area ─── -->
-
 <div id="pdf-print-area"></div>
 
 <!-- Login Page -->
-
 <div id="login-page">
     <div class="login-bg-pattern"></div>
     <div class="login-card">
@@ -262,7 +256,6 @@
 </div>
 
 <!-- App Layout -->
-
 <div id="app-layout">
     <header class="topbar">
         <div class="topbar-brand">
@@ -286,7 +279,6 @@
 </div>
 
 <!-- Modal -->
-
 <div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
     <div class="modal" id="modal-content" onclick="event.stopPropagation()"></div>
 </div>
@@ -316,10 +308,7 @@ async function sendTelegramDocument(csvContent, filename) {
 }
 
 // ─── FEATURE 1: Enhanced Telegram Notifications ─────────────
-// Sends notification with customer Telegram user_id stored in profile
-// Admin gets notified for EVERY status change; customer gets DM if their chat_id is stored
 async function sendTelegramToCustomer(userId, text) {
-    // userId here is Telegram chat_id stored in user profile
     if (!userId) return;
     try {
         await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
@@ -331,11 +320,35 @@ async function sendTelegramToCustomer(userId, text) {
 
 // ─── PASSWORD HASHING ──────
 async function hashPassword(pass) {
-    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
-    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+    if (window.crypto && window.crypto.subtle) {
+        try {
+            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
+            return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+        } catch(e) {
+            console.warn("Crypto failed");
+        }
+    }
+    let hash = 0;
+    for (let i = 0; i < pass.length; i++) {
+        const char = pass.charCodeAt(i);
+        hash = ((hash << 5) - hash) + char;
+        hash = hash & hash;
+    }
+    return "fb_" + hash.toString();
 }
+
 async function verifyPassword(pass, hash) {
-    return await hashPassword(pass) === hash;
+    if (hash.startsWith("fb_")) {
+        return await hashPassword(pass) === hash;
+    }
+    if (window.crypto && window.crypto.subtle) {
+        const checkHash = await hashPassword(pass);
+        return checkHash === hash;
+    }
+    if (pass === "123456" && hash === "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92") {
+        return true;
+    }
+    return false;
 }
 
 // ─── DEFAULT DB ─────────────────────────────────────────────
@@ -360,7 +373,7 @@ const DEFAULT_DB = {
         shopLink: "https://www.facebook.com", lineContact: "https://line.me/ti/p/~@aumthong",
         phoneContact: "02-123-4567", qrUrl: null, shopLogo: null,
         backupEmail: "", lastBackupDate: 0,
-        pinLockEnabled: true, pinLockTimeout: 5 // minutes
+        pinLockEnabled: true, pinLockTimeout: 5
     }
 };
 
@@ -373,10 +386,25 @@ if (!db.settings.buyPrice)       db.settings.buyPrice      = 48200;
 if (!db.settings.sellPrice)      db.settings.sellPrice     = 47800;
 if (db.settings.pinLockEnabled === undefined) db.settings.pinLockEnabled = true;
 if (!db.settings.pinLockTimeout) db.settings.pinLockTimeout = 5;
-// Migrate users to add telegramChatId
 Object.values(db.users).forEach(u => { if (!u.telegramChatId) u.telegramChatId = null; });
 
-let sessionPhone  = sessionStorage.getItem('aumthong_v6_phone') || null;
+// FEATURE: 6-Hour Session Expiration & Persistent Login
+let sessionPhone = localStorage.getItem('aumthong_v6_phone') || null;
+let lastActive   = localStorage.getItem('aumthong_last_active') || 0;
+
+if (sessionPhone) {
+    const SIX_HOURS = 6 * 60 * 60 * 1000;
+    if (Date.now() - parseInt(lastActive) > SIX_HOURS) {
+        // Expired after 6 hours of inactivity
+        localStorage.removeItem('aumthong_v6_phone');
+        localStorage.removeItem('aumthong_last_active');
+        sessionPhone = null;
+    } else {
+        // Extend session active time on fresh load
+        localStorage.setItem('aumthong_last_active', Date.now());
+    }
+}
+
 let currentUser   = sessionPhone ? db.users[sessionPhone] : null;
 let activePage    = 'home';
 let loginMode     = 'login';
@@ -391,8 +419,16 @@ const fmt = {
 };
 
 function saveDB()   { localStorage.setItem('aumthong_v6_db', JSON.stringify(db)); }
-function saveSession(phone) { sessionStorage.setItem('aumthong_v6_phone', phone); sessionPhone = phone; }
-function clearSession()     { sessionStorage.removeItem('aumthong_v6_phone'); sessionPhone = null; }
+function saveSession(phone) { 
+    localStorage.setItem('aumthong_v6_phone', phone); 
+    localStorage.setItem('aumthong_last_active', Date.now());
+    sessionPhone = phone; 
+}
+function clearSession() { 
+    localStorage.removeItem('aumthong_v6_phone'); 
+    localStorage.removeItem('aumthong_last_active');
+    sessionPhone = null; 
+}
 function getUser()  { return sessionPhone ? db.users[sessionPhone] : null; }
 function hasSuperAdmin() { return Object.values(db.users).some(u => u.role === 'superadmin'); }
 
@@ -418,9 +454,14 @@ function handleFileSelect(event, callback) {
 let _pinLockValue  = '';
 let _pinLockActive = false;
 let _inactivityTimer = null;
-const PIN_CODE = '1234'; // Default PIN — in production, store hashed per user
+const PIN_CODE = '1234'; 
 
 function resetInactivityTimer() {
+    // Extend the 6-hour expiration on any activity
+    if (currentUser) {
+        localStorage.setItem('aumthong_last_active', Date.now());
+    }
+
     if (!db.settings.pinLockEnabled) return;
     clearTimeout(_inactivityTimer);
     if (!currentUser) return;
@@ -479,7 +520,6 @@ function pinLockPress(k) {
             errEl.innerText = '❌ PIN ไม่ถูกต้อง กรุณาลองใหม่';
             _pinLockValue = '';
             updatePinLockDots();
-            // Shake animation
             const overlay = document.getElementById('pin-lock-overlay');
             overlay.style.animation = 'none';
             overlay.offsetHeight;
@@ -488,7 +528,6 @@ function pinLockPress(k) {
     }
 }
 
-// Track user activity
 ['click','touchstart','keydown','scroll','mousemove'].forEach(ev => {
     document.addEventListener(ev, resetInactivityTimer, { passive: true });
 });
@@ -630,7 +669,6 @@ function renderCustomerHome() {
             <div class="chart-label">${d.label}</div>
         </div>`).join('');
 
-    // FEATURE 3: Gold value in THB displayed inline
     const goldTHB = calcGoldTHB(user.balanceGold);
     const priceInfo = getGoldPrice();
     const goldValueLine = user.balanceGold > 0 ? `
@@ -732,7 +770,6 @@ function renderHistory() {
             <div class="summary-card"><div style="font-size:0.75rem;color:var(--text3);">ยอดออมสำเร็จ</div><div class="summary-val">฿${fmt.thb(totalSaved)}</div></div>
             <div class="summary-card"><div style="font-size:0.75rem;color:var(--text3);">สำเร็จ / รอ</div><div class="summary-val">${approved} / ${pending}</div></div>
         </div>
-        <!-- FEATURE 4: Export PDF button for customer -->
         <button class="btn btn-pdf btn-sm" style="margin-bottom:12px;" onclick="exportCustomerPDF('${user.uid}')">
             <svg class="icon" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
             ส่งออก PDF สรุปรายการ
@@ -786,12 +823,10 @@ function renderProfile() {
             <div class="summary-card">
                 <div style="font-size:0.75rem;color:var(--text3);">ทองสะสม</div>
                 <div style="color:var(--gold);font-weight:700;font-size:1.1rem;">${fmt.gold(user.balanceGold)} ก.</div>
-                <!-- FEATURE 3: Gold THB value with price source label -->
                 <div class="gold-thb-val">≈ ฿${fmt.thb(goldTHB)}</div>
                 <div style="font-size:0.62rem;color:var(--text3);margin-top:1px;">${priceLabel}</div>
             </div>
         </div>
-        <!-- FEATURE 4: PDF export from profile -->
         <div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
             <button class="btn btn-pdf btn-sm" style="flex:1;" onclick="exportCustomerPDF('${user.uid}')">
                 <svg class="icon" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
@@ -822,7 +857,6 @@ function renderAdminDashboard() {
            </span>`
         : `<span style="font-size:0.68rem;color:rgba(255,200,100,0.6);">⚙️ ราคาที่แอดมินตั้ง · <a href="https://goldpricez.com/th/baht" target="_blank" style="color:var(--gold);">ดูราคาสากล ↗</a></span>`;
 
-    // FEATURE 3: Total gold value in THB
     const totalGoldTHB = calcGoldTHB(totalGold);
 
     const chartData = buildAllSavingsChart();
@@ -843,7 +877,6 @@ function renderAdminDashboard() {
                 <div>
                     <small style="opacity:0.7;">ทองรวม</small><br>
                     <b style="color:var(--gold-bright);">${fmt.gold(totalGold)} ก.</b>
-                    <!-- FEATURE 3: THB value of total gold -->
                     <div style="font-size:0.65rem;color:rgba(255,215,0,0.8);">≈ ฿${fmt.thb(totalGoldTHB)}</div>
                 </div>
                 <div><small style="opacity:0.7;">ลูกค้า</small><br><b>${customers.length} คน</b></div>
@@ -972,7 +1005,6 @@ function renderAdminUsers() {
                     <div>
                         <small style="color:var(--text3);">ทอง</small><br>
                         <b style="color:var(--gold);">${fmt.gold(u.balanceGold||0)} ก.</b>
-                        <!-- FEATURE 3: Gold THB in user list -->
                         <div class="gold-thb-val">≈ ฿${fmt.thb(goldTHB)}</div>
                     </div>
                     <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;">
@@ -1076,7 +1108,6 @@ function submitDeposit() {
     if (!tempFile)    return showNotify('กรุณาแนบสลิปหลักฐานการโอน', 'error');
     db.transactions.push({ id:'t'+Date.now(), userId:user.uid, type:'deposit', amountTHB:amt, goldWeight:0, status:'pending', note, timestamp:new Date().toISOString(), slipImage:tempFile });
     saveDB();
-    // FEATURE 1: Notify admin group
     sendTelegramAlert(`📢 <b>แจ้งโอนเงินใหม่ (รอตรวจสอบ)</b>\n👤 ${user.name}\n📱 ${user.phone}\n💰 ฿${fmt.thb(amt)}\n📝 ${note}\n⏰ ${new Date().toLocaleString('th-TH')}`);
     showNotify('ส่งหลักฐานเรียบร้อย'); navigate('home');
 }
@@ -1091,7 +1122,6 @@ function approveTx(id) {
     u.balanceGold += weight;
     saveDB();
 
-    // FEATURE 1: Notify admin group (every movement)
     sendTelegramAlert(
         `✅ <b>อนุมัติรายการฝากเงิน</b>\n` +
         `👤 ลูกค้า: ${u.name} (${u.phone})\n` +
@@ -1102,7 +1132,6 @@ function approveTx(id) {
         `✍️ อนุมัติโดย: ${currentUser.name}`
     );
 
-    // FEATURE 1: Notify customer directly if they have Telegram Chat ID
     if (u.telegramChatId) {
         sendTelegramToCustomer(
             u.telegramChatId,
@@ -1125,7 +1154,6 @@ function rejectTx(id) {
     const u=Object.values(db.users).find(usr=>usr.uid===tx.userId);
     tx.status='rejected'; saveDB();
 
-    // FEATURE 1: Notify admin group
     sendTelegramAlert(
         `❌ <b>ปฏิเสธรายการฝากเงิน</b>\n` +
         `👤 ${u.name} (${u.phone})\n` +
@@ -1135,7 +1163,6 @@ function rejectTx(id) {
         `⏰ ${new Date().toLocaleString('th-TH')}`
     );
 
-    // FEATURE 1: Notify customer if they have Telegram
     if (u.telegramChatId) {
         sendTelegramToCustomer(
             u.telegramChatId,
@@ -1185,7 +1212,6 @@ function openEditUserAdminModal(phone) {
         <div class="form-group"><label class="admin-label">อีเมล</label><input type="email" id="ed-email" class="admin-input" value="${u.email||''}"></div>
         <div class="form-group"><label class="admin-label">ยอดเงินสะสม (฿)</label><input type="number" id="ed-thb" class="admin-input" value="${u.balanceTHB}"></div>
         <div class="form-group"><label class="admin-label">ยอดทองสะสม (กรัม)</label><input type="number" id="ed-gold" class="admin-input" value="${u.balanceGold||0}" step="0.0001"></div>
-        <!-- FEATURE 1: Telegram Chat ID field -->
         <div class="form-group" style="background:#e3f2fd;padding:10px;border-radius:8px;border:1px dashed #90caf9;">
             <label class="admin-label" style="color:#1565c0;">📨 Telegram Chat ID (สำหรับแจ้งเตือนส่วนตัว)</label>
             <input type="text" id="ed-tg-id" class="admin-input" value="${u.telegramChatId||''}" placeholder="เช่น 123456789 (ได้จาก @userinfobot)">
@@ -1245,7 +1271,6 @@ function openUserHistoryModal(uid) {
     modal.innerHTML = `
         <h3 style="margin-bottom:5px;color:var(--text);">ประวัติ: <span style="color:var(--red);">${user.name}</span></h3>
         <div style="font-size:0.85rem;color:var(--success);margin-bottom:5px;">ยอดออมสำเร็จรวม: <b>฿${fmt.thb(total)}</b></div>
-        <!-- FEATURE 3: Gold value in history modal -->
         <div style="font-size:0.8rem;color:var(--gold);margin-bottom:15px;">🥇 ทองสะสม: <b>${fmt.gold(user.balanceGold||0)} ก.</b> ≈ ฿${fmt.thb(goldTHBVal)}</div>
         <div style="max-height:50vh;overflow-y:auto;padding-right:5px;margin-bottom:15px;">
             ${txs.map(t=>`
@@ -1261,7 +1286,6 @@ function openUserHistoryModal(uid) {
                     ${t.slipImage?`<button class="btn btn-outline btn-sm" style="margin-top:8px;font-size:0.7rem;" onclick="viewImage('${t.slipImage}')">ดูสลิป</button>`:''}
                 </div>`).join('')||'<p style="text-align:center;padding:20px;color:var(--text3);">ไม่มีประวัติ</p>'}
         </div>
-        <!-- FEATURE 4: PDF export from modal -->
         <div style="display:flex;gap:8px;">
             <button class="btn btn-pdf btn-sm" style="flex:1;" onclick="closeModal();exportCustomerPDF('${uid}')">
                 📄 Export PDF
@@ -1325,363 +1349,412 @@ function exportCustomerPDF(uid) {
             .pdf-sum-label { font-size: 10px; color: #9A7A5A; }
             .pdf-sum-val { font-size: 16px; font-weight: 700; color: #8B0000; margin-top: 2px; }
         </style>
+        <div class="pdf-header">
+            <div class="pdf-title">📄 ${db.settings.shopName}</div>
+            <div class="pdf-subtitle">รายงานสรุปบัญชีออมทอง | พิมพ์เมื่อ ${nowStr}</div>
+            <div class="pdf-meta">
+                <div class="pdf-meta-item">
+                    <div class="pdf-meta-label">ชื่อสมาชิก</div>
+                    <div class="pdf-meta-val" style="font-size:14px;">${user.name}</div>
+                    <div class="pdf-meta-sub">${user.phone === 'line_user_001' ? 'LINE Account' : user.phone}</div>
+                </div>
+                <div class="pdf-meta-item">
+                    <div class="pdf-meta-label">ยอดเงินสะสม</div>
+                    <div class="pdf-meta-val">฿${fmt.thb(user.balanceTHB)}</div>
+                </div>
+                <div class="pdf-meta-item">
+                    <div class="pdf-meta-label">ทองสะสม</div>
+                    <div class="pdf-meta-val">${fmt.gold(user.balanceGold||0)} ก.</div>
+                    <div class="pdf-meta-sub">≈ ฿${fmt.thb(goldTHBVal)} (${priceLabel})</div>
+                </div>
+                <div class="pdf-meta-item">
+                    <div class="pdf-meta-label">ราคาทองอ้างอิง</div>
+                    <div class="pdf-meta-val" style="font-size:12px;">รับ ฿${fmt.thb(priceInfo.buy)}/ก.</div>
+                    <div class="pdf-meta-sub">ขาย ฿${fmt.thb(priceInfo.sell)}/ก.</div>
+                </div>
+            </div>
+        </div>
+        <div class="pdf-summary-grid">
+            <div class="pdf-sum-card">
+                <div class="pdf-sum-label">ยอดออมสำเร็จทั้งหมด</div>
+                <div class="pdf-sum-val">฿${fmt.thb(totalSaved)}</div>
+            </div>
+            <div class="pdf-sum-card">
+                <div class="pdf-sum-label">ทองที่ได้รับทั้งหมด</div>
+                <div class="pdf-sum-val">${fmt.gold(totalGold)} ก.</div>
+            </div>
+            <div class="pdf-sum-card">
+                <div class="pdf-sum-label">จำนวนรายการสำเร็จ</div>
+                <div class="pdf-sum-val">${approvedTxs.length} ครั้ง</div>
+            </div>
+        </div>
+        <div class="pdf-section">
+            <div class="pdf-section-title">📋 ประวัติธุรกรรมทั้งหมด</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>วันที่</th>
+                        <th>หมายเหตุ</th>
+                        <th style="text-align:right;">จำนวนเงิน</th>
+                        <th style="text-align:right;">ทอง</th>
+                        <th style="text-align:center;">สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody>${txRows || '<tr><td colspan="5" style="text-align:center;padding:20px;color:#9A7A5A;">ไม่มีประวัติ</td></tr>'}</tbody>
+            </table>
+        </div>
+        <div class="pdf-footer">
+            รายงานนี้ออกโดย ${db.settings.shopName} · ${nowStr}<br>
+            ราคาทองอ้างอิงเท่านั้น ไม่ใช่เอกสารทางการเงินอย่างเป็นทางการ
+        </div>
+    `;
 
-```
-    <div class="pdf-header">
-        <div class="pdf-title">📄 ${db.settings.shopName}</div>
-        <div class="pdf-subtitle">รายงานสรุปบัญชีออมทอง | พิมพ์เมื่อ ${nowStr}</div>
-        <div class="pdf-meta">
-            <div class="pdf-meta-item">
-                <div class="pdf-meta-label">ชื่อสมาชิก</div>
-                <div class="pdf-meta-val" style="font-size:14px;">${user.name}</div>
-                <div class="pdf-meta-sub">${user.phone === 'line_user_001' ? 'LINE Account' : user.phone}</div>
-            </div>
-            <div class="pdf-meta-item">
-                <div class="pdf-meta-label">ยอดเงินสะสม</div>
-                <div class="pdf-meta-val">฿${fmt.thb(user.balanceTHB)}</div>
-            </div>
-            <div class="pdf-meta-item">
-                <div class="pdf-meta-label">ทองสะสม</div>
-                <div class="pdf-meta-val">${fmt.gold(user.balanceGold||0)} ก.</div>
-                <div class="pdf-meta-sub">≈ ฿${fmt.thb(goldTHBVal)} (${priceLabel})</div>
-            </div>
-            <div class="pdf-meta-item">
-                <div class="pdf-meta-label">ราคาทองอ้างอิง</div>
-                <div class="pdf-meta-val" style="font-size:12px;">รับ ฿${fmt.thb(priceInfo.buy)}/ก.</div>
-                <div class="pdf-meta-sub">ขาย ฿${fmt.thb(priceInfo.sell)}/ก.</div>
-            </div>
-        </div>
-    </div>
-    <div class="pdf-summary-grid">
-        <div class="pdf-sum-card">
-            <div class="pdf-sum-label">ยอดออมสำเร็จทั้งหมด</div>
-            <div class="pdf-sum-val">฿${fmt.thb(totalSaved)}</div>
-        </div>
-        <div class="pdf-sum-card">
-            <div class="pdf-sum-label">ทองที่ได้รับทั้งหมด</div>
-            <div class="pdf-sum-val">${fmt.gold(totalGold)} ก.</div>
-        </div>
-        <div class="pdf-sum-card">
-            <div class="pdf-sum-label">จำนวนรายการสำเร็จ</div>
-            <div class="pdf-sum-val">${approvedTxs.length} ครั้ง</div>
-        </div>
-    </div>
-    <div class="pdf-section">
-        <div class="pdf-section-title">📋 ประวัติธุรกรรมทั้งหมด</div>
-        <table>
-            <thead>
-                <tr>
-                    <th>วันที่</th>
-                    <th>หมายเหตุ</th>
-                    <th style="text-align:right;">จำนวนเงิน</th>
-                    <th style="text-align:right;">ทอง</th>
-                    <th style="text-align:center;">สถานะ</th>
-                </tr>
-            </thead>
-            <tbody>${txRows || '<tr><td colspan="5" style="text-align:center;padding:20px;color:#9A7A5A;">ไม่มีประวัติ</td></tr>'}</tbody>
-        </table>
-    </div>
-    <div class="pdf-footer">
-        รายงานนี้ออกโดย ${db.settings.shopName} · ${nowStr}<br>
-        ราคาทองอ้างอิงเท่านั้น ไม่ใช่เอกสารทางการเงินอย่างเป็นทางการ
-    </div>
-`;
+    const printArea = document.getElementById('pdf-print-area');
+    printArea.innerHTML = printHTML;
+    printArea.style.display = 'block';
 
-const printArea = document.getElementById('pdf-print-area');
-printArea.innerHTML = printHTML;
-printArea.style.display = 'block';
-
-// Trigger print
-setTimeout(() => {
-    window.print();
     setTimeout(() => {
-        printArea.style.display = 'none';
-    }, 500);
-}, 200);
+        window.print();
+        setTimeout(() => {
+            printArea.style.display = 'none';
+        }, 500);
+    }, 200);
 
-showNotify('กำลังเปิดหน้าต่างพิมพ์ PDF...');
-```
-
+    showNotify('กำลังเปิดหน้าต่างพิมพ์ PDF...');
 }
 
 // ─── PIN MODAL (for admin confirmation) ──────────────────────
 let _pinCallback = null;
-let _pinValue    = ‘’;
+let _pinValue    = '';
 
 function openPinModal(title, callback) {
-_pinCallback = callback; _pinValue = ‘’;
-const modal = document.getElementById(‘modal-content’);
-modal.innerHTML = ` <h3 style="text-align:center;margin-bottom:5px;color:var(--text);">${title}</h3> <p style="text-align:center;font-size:0.8rem;color:var(--text3);margin-bottom:5px;">กรอก PIN เพื่อยืนยัน</p> <div class="pin-display"> <div class="pin-dot" id="pd0"></div> <div class="pin-dot" id="pd1"></div> <div class="pin-dot" id="pd2"></div> <div class="pin-dot" id="pd3"></div> </div> <div class="pin-pad"> ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>`
-<button class=“pin-btn ${k===‘⌫’?‘danger’:’’}”
-onclick=“pinPress(’${k}’)” ${k===’’?‘style=“visibility:hidden”’:’’}>
-${k}
-</button>`).join('')} </div> <button class="btn btn-outline" style="margin-top:15px;" onclick="closeModal()">ยกเลิก</button> `;
-document.getElementById(‘modal-overlay’).style.display=‘flex’;
+    _pinCallback = callback; _pinValue = '';
+    const modal = document.getElementById('modal-content');
+    modal.innerHTML = ` 
+        <h3 style="text-align:center;margin-bottom:5px;color:var(--text);">${title}</h3> 
+        <p style="text-align:center;font-size:0.8rem;color:var(--text3);margin-bottom:5px;">กรอก PIN เพื่อยืนยัน</p> 
+        <div class="pin-display"> 
+            <div class="pin-dot" id="pd0"></div> 
+            <div class="pin-dot" id="pd1"></div> 
+            <div class="pin-dot" id="pd2"></div> 
+            <div class="pin-dot" id="pd3"></div> 
+        </div> 
+        <div class="pin-pad"> 
+            ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>`
+            <button class="pin-btn ${k==='⌫'?'danger':''}"
+            onclick="pinPress('${k}')" ${k===''?'style="visibility:hidden"':''}>
+            ${k}
+            </button>`).join('')} 
+        </div> 
+        <button class="btn btn-outline" style="margin-top:15px;" onclick="closeModal()">ยกเลิก</button> 
+    `;
+    document.getElementById('modal-overlay').style.display='flex';
 }
 
 function pinPress(k) {
-if (k===’’) return;
-if (k===‘⌫’) { _pinValue=_pinValue.slice(0,-1); }
-else if (_pinValue.length<4) { _pinValue+=k; }
-for(let i=0;i<4;i++) {
-const dot=document.getElementById(‘pd’+i);
-if(dot) dot.classList.toggle(‘filled’, i<_pinValue.length);
-}
-if (_pinValue.length===4) {
-setTimeout(()=>{ _pinCallback && _pinCallback(_pinValue); }, 200);
-}
+    if (k==='') return;
+    if (k==='⌫') { _pinValue=_pinValue.slice(0,-1); }
+    else if (_pinValue.length<4) { _pinValue+=k; }
+    for(let i=0;i<4;i++) {
+        const dot=document.getElementById('pd'+i);
+        if(dot) dot.classList.toggle('filled', i<_pinValue.length);
+    }
+    if (_pinValue.length===4) {
+        setTimeout(()=>{ _pinCallback && _pinCallback(_pinValue); }, 200);
+    }
 }
 
 // ─── WITHDRAW MODAL ───────────────────────────────────────────
 function openWithdrawModal() {
-const s = db.settings;
-let lineLink = s.lineContact||’’;
-if (lineLink && !lineLink.startsWith(‘http’)) lineLink=`https://line.me/ti/p/~${lineLink.replace('@','')}`;
-const user = getUser();
-const goldTHBVal = calcGoldTHB(user.balanceGold||0);
-const modal = document.getElementById(‘modal-content’);
-modal.innerHTML = ` <div style="text-align:center"> <h3 style="margin-bottom:10px;color:var(--red)">แจ้งถอนทอง</h3> <!-- FEATURE 3: Show gold value when withdrawing --> <div style="background:var(--gold-pale);border:1px solid rgba(200,134,10,0.3);border-radius:12px;padding:12px;margin-bottom:16px;"> <div style="font-size:0.8rem;color:var(--text3);">ทองสะสมของคุณ</div> <div style="font-size:1.3rem;font-weight:700;color:var(--gold);">${fmt.gold(user.balanceGold||0)} กรัม</div> <div class="gold-thb-val" style="font-size:0.85rem;">≈ ฿${fmt.thb(goldTHBVal)}</div> </div> <p style="margin-bottom:20px;font-size:0.85rem;color:var(--text3)">กรุณาติดต่อเจ้าหน้าที่เพื่อยืนยันตัวตนและแจ้งที่อยู่จัดส่ง</p> ${s.phoneContact?`<a href="tel:${s.phoneContact}" class="btn btn-outline" style="margin-bottom:10px;text-decoration:none;">📞 ${s.phoneContact}</a>`:''} ${lineLink?`<a href="${lineLink}" target="_blank" class="btn btn-line" style="text-decoration:none;margin-bottom:10px;">
-<svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:20px;height:20px;flex-shrink:0;"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.038 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.57-3.843 2.57-5.992z"/></svg>
-แอดไลน์ติดต่อแอดมิน
-</a>`:''} <button class="btn btn-outline" style="margin-top:10px;" onclick="closeModal()">ปิด</button> </div> `;
-document.getElementById(‘modal-overlay’).style.display=‘flex’;
+    const s = db.settings;
+    let lineLink = s.lineContact||'';
+    if (lineLink && !lineLink.startsWith('http')) lineLink=`https://line.me/ti/p/~${lineLink.replace('@','')}`;
+    const user = getUser();
+    const goldTHBVal = calcGoldTHB(user.balanceGold||0);
+    const modal = document.getElementById('modal-content');
+    modal.innerHTML = ` 
+        <div style="text-align:center"> 
+            <h3 style="margin-bottom:10px;color:var(--red)">แจ้งถอนทอง</h3> 
+            <div style="background:var(--gold-pale);border:1px solid rgba(200,134,10,0.3);border-radius:12px;padding:12px;margin-bottom:16px;"> 
+                <div style="font-size:0.8rem;color:var(--text3);">ทองสะสมของคุณ</div> 
+                <div style="font-size:1.3rem;font-weight:700;color:var(--gold);">${fmt.gold(user.balanceGold||0)} กรัม</div> 
+                <div class="gold-thb-val" style="font-size:0.85rem;">≈ ฿${fmt.thb(goldTHBVal)}</div> 
+            </div> 
+            <p style="margin-bottom:20px;font-size:0.85rem;color:var(--text3)">กรุณาติดต่อเจ้าหน้าที่เพื่อยืนยันตัวตนและแจ้งที่อยู่จัดส่ง</p> 
+            ${s.phoneContact?`<a href="tel:${s.phoneContact}" class="btn btn-outline" style="margin-bottom:10px;text-decoration:none;">📞 ${s.phoneContact}</a>`:''} 
+            ${lineLink?`<a href="${lineLink}" target="_blank" class="btn btn-line" style="text-decoration:none;margin-bottom:10px;">
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:20px;height:20px;flex-shrink:0;"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.038 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.57-3.843 2.57-5.992z"/></svg>
+            แอดไลน์ติดต่อแอดมิน
+            </a>`:''} 
+            <button class="btn btn-outline" style="margin-top:10px;" onclick="closeModal()">ปิด</button> 
+        </div> 
+    `;
+    document.getElementById('modal-overlay').style.display='flex';
 }
 
 // ─── PROFILE ─────────────────────────────────────────────────
 function openEditProfileModal() {
-const user = getUser();
-const modal = document.getElementById(‘modal-content’);
-modal.innerHTML = ` <h3 style="margin-bottom:15px;color:var(--text);">แก้ไขโปรไฟล์</h3> <div class="form-group"> <label class="admin-label">รูปโปรไฟล์</label> <input type="file" id="p-file" style="display:none" accept="image/*" onchange="handleFileSelect(event, val=>{ document.getElementById('p-preview').src=val; window._tempP=val; })"> <div style="width:70px;height:70px;border-radius:50%;margin:0 auto 10px;overflow:hidden;border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:white;" onclick="document.getElementById('p-file').click()"> ${user.profilePic?`<img id="p-preview" src="${user.profilePic}" style="width:100%;height:100%;object-fit:cover;">`:`<span id="p-preview-text">${user.name[0]}</span>`} </div> </div> <div class="form-group"><label class="admin-label">ชื่อ</label><input type="text" id="p-name" class="admin-input" value="${user.name}"></div> <div class="form-group"><label class="admin-label">อีเมล</label><input type="email" id="p-email" class="admin-input" value="${user.email||''}"></div> <!-- FEATURE 1: Let customer set their own Telegram ID --> <div class="form-group" style="background:#e3f2fd;padding:10px;border-radius:8px;border:1px dashed #90caf9;"> <label class="admin-label" style="color:#1565c0;">📨 Telegram Chat ID (รับแจ้งเตือนส่วนตัว)</label> <input type="text" id="p-tg-id" class="admin-input" value="${user.telegramChatId||''}" placeholder="กด /start ใน @AumthongBot แล้วกรอก ID"> <small style="color:var(--text3);font-size:0.7rem;">เปิด Telegram → ค้นหา @userinfobot → กด Start → คัดลอก ID</small> </div> <div class="form-group"><label class="admin-label">รหัสผ่านใหม่ (ปล่อยว่างถ้าไม่เปลี่ยน)</label><input type="password" id="p-pass" class="admin-input" placeholder="••••••"></div> <button class="btn btn-primary" onclick="saveProfile()">บันทึกข้อมูล</button> `;
-document.getElementById(‘modal-overlay’).style.display=‘flex’;
+    const user = getUser();
+    const modal = document.getElementById('modal-content');
+    modal.innerHTML = ` 
+        <h3 style="margin-bottom:15px;color:var(--text);">แก้ไขโปรไฟล์</h3> 
+        <div class="form-group"> 
+            <label class="admin-label">รูปโปรไฟล์</label> 
+            <input type="file" id="p-file" style="display:none" accept="image/*" onchange="handleFileSelect(event, val=>{ document.getElementById('p-preview').src=val; window._tempP=val; })"> 
+            <div style="width:70px;height:70px;border-radius:50%;margin:0 auto 10px;overflow:hidden;border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:white;" onclick="document.getElementById('p-file').click()"> 
+                ${user.profilePic?`<img id="p-preview" src="${user.profilePic}" style="width:100%;height:100%;object-fit:cover;">`:`<span id="p-preview-text">${user.name[0]}</span>`} 
+            </div> 
+        </div> 
+        <div class="form-group"><label class="admin-label">ชื่อ</label><input type="text" id="p-name" class="admin-input" value="${user.name}"></div> 
+        <div class="form-group"><label class="admin-label">อีเมล</label><input type="email" id="p-email" class="admin-input" value="${user.email||''}"></div> 
+        <div class="form-group" style="background:#e3f2fd;padding:10px;border-radius:8px;border:1px dashed #90caf9;"> 
+            <label class="admin-label" style="color:#1565c0;">📨 Telegram Chat ID (รับแจ้งเตือนส่วนตัว)</label> 
+            <input type="text" id="p-tg-id" class="admin-input" value="${user.telegramChatId||''}" placeholder="กด /start ใน @AumthongBot แล้วกรอก ID"> 
+            <small style="color:var(--text3);font-size:0.7rem;">เปิด Telegram → ค้นหา @userinfobot → กด Start → คัดลอก ID</small> 
+        </div> 
+        <div class="form-group"><label class="admin-label">รหัสผ่านใหม่ (ปล่อยว่างถ้าไม่เปลี่ยน)</label><input type="password" id="p-pass" class="admin-input" placeholder="••••••"></div> 
+        <button class="btn btn-primary" onclick="saveProfile()">บันทึกข้อมูล</button> 
+    `;
+    document.getElementById('modal-overlay').style.display='flex';
 }
 
 async function saveProfile() {
-const user = getUser();
-user.name  = document.getElementById(‘p-name’).value;
-user.email = document.getElementById(‘p-email’).value;
-user.telegramChatId = document.getElementById(‘p-tg-id’).value.trim() || null;
-const newPass = document.getElementById(‘p-pass’).value;
-if (newPass) user.passHash = await hashPassword(newPass);
-if (window._tempP) { user.profilePic = window._tempP; window._tempP=null; }
-saveDB(); currentUser=user; closeModal(); initApp();
-showNotify(‘บันทึกโปรไฟล์เรียบร้อย’);
+    const user = getUser();
+    user.name  = document.getElementById('p-name').value;
+    user.email = document.getElementById('p-email').value;
+    user.telegramChatId = document.getElementById('p-tg-id').value.trim() || null;
+    const newPass = document.getElementById('p-pass').value;
+    if (newPass) user.passHash = await hashPassword(newPass);
+    if (window._tempP) { user.profilePic = window._tempP; window._tempP=null; }
+    saveDB(); currentUser=user; closeModal(); initApp();
+    showNotify('บันทึกโปรไฟล์เรียบร้อย');
 }
 
 // ─── IMAGE VIEWER ─────────────────────────────────────────────
 function viewImage(url) {
-const layer = document.createElement(‘div’);
-layer.style.cssText=‘position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;cursor:pointer;opacity:0;transition:opacity 0.3s;’;
-layer.onclick=()=>{ layer.style.opacity=‘0’; setTimeout(()=>document.body.removeChild(layer),300); };
-layer.innerHTML=`<img src="${url}" style="max-width:100%;max-height:80vh;border-radius:10px;object-fit:contain;" onclick="event.stopPropagation()"><button class="btn btn-primary" style="margin-top:15px;width:auto;padding:0.5rem 2rem;border-radius:20px;" onclick="document.body.removeChild(this.parentElement)">ปิดรูปภาพ</button>`;
-document.body.appendChild(layer);
-setTimeout(()=>layer.style.opacity=‘1’,10);
+    const layer = document.createElement('div');
+    layer.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;cursor:pointer;opacity:0;transition:opacity 0.3s;';
+    layer.onclick=()=>{ layer.style.opacity='0'; setTimeout(()=>document.body.removeChild(layer),300); };
+    layer.innerHTML=`<img src="${url}" style="max-width:100%;max-height:80vh;border-radius:10px;object-fit:contain;" onclick="event.stopPropagation()"><button class="btn btn-primary" style="margin-top:15px;width:auto;padding:0.5rem 2rem;border-radius:20px;" onclick="document.body.removeChild(this.parentElement)">ปิดรูปภาพ</button>`;
+    document.body.appendChild(layer);
+    setTimeout(()=>layer.style.opacity='1',10);
 }
 
 // ─── EXPORT CSV ───────────────────────────────────────────────
 function generateCSVContent(filterUid=null) {
-const rows=[[“วันที่”,“ชื่อลูกค้า”,“เบอร์โทร”,“อีเมล”,“รายการ”,“จำนวนเงิน(บาท)”,“จำนวนทอง(กรัม)”,“มูลค่าทอง(บาท)”,“สถานะ”,“ยอดเงินสะสม(บาท)”,“ยอดทองสะสม(กรัม)”]];
-const txs = filterUid ? db.transactions.filter(t=>t.userId===filterUid) : db.transactions;
-const p = getGoldPrice();
-txs.forEach(t=>{
-const u=Object.values(db.users).find(usr=>usr.uid===t.userId)||{};
-const goldTHBVal = (t.goldWeight||0) * p.sell;
-rows.push([
-`"${new Date(t.timestamp).toLocaleString('th-TH')}"`,
-`"${u.name||'?'}"`, `="${u.phone||''}"`, `"${u.email||''}"`,
-`"${t.note||''}"`, t.amountTHB, t.goldWeight||0,
-goldTHBVal.toFixed(2),
-t.status===‘approved’?‘สำเร็จ’:t.status===‘rejected’?‘ปฏิเสธ’:‘รอยืนยัน’,
-u.balanceTHB||0, u.balanceGold||0
-]);
-});
-return “\ufeff”+rows.map(r=>r.join(”,”)).join(”\n”);
+    const rows=[["วันที่","ชื่อลูกค้า","เบอร์โทร","อีเมล","รายการ","จำนวนเงิน(บาท)","จำนวนทอง(กรัม)","มูลค่าทอง(บาท)","สถานะ","ยอดเงินสะสม(บาท)","ยอดทองสะสม(กรัม)"]];
+    const txs = filterUid ? db.transactions.filter(t=>t.userId===filterUid) : db.transactions;
+    const p = getGoldPrice();
+    txs.forEach(t=>{
+        const u=Object.values(db.users).find(usr=>usr.uid===t.userId)||{};
+        const goldTHBVal = (t.goldWeight||0) * p.sell;
+        rows.push([
+            `"${new Date(t.timestamp).toLocaleString('th-TH')}"`,
+            `"${u.name||'?'}"`, `="${u.phone||''}"`, `"${u.email||''}"`,
+            `"${t.note||''}"`, t.amountTHB, t.goldWeight||0,
+            goldTHBVal.toFixed(2),
+            t.status==='approved'?'สำเร็จ':t.status==='rejected'?'ปฏิเสธ':'รอยืนยัน',
+            u.balanceTHB||0, u.balanceGold||0
+        ]);
+    });
+    return "\ufeff"+rows.map(r=>r.join(",")).join("\n");
 }
 
 function triggerManualBackup() {
-if (currentUser.role!==‘superadmin’) return showNotify(‘คุณไม่มีสิทธิ์’,‘error’);
-downloadCSV(generateCSVContent(), `รายงานออมทองรวม_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`);
+    if (currentUser.role!=='superadmin') return showNotify('คุณไม่มีสิทธิ์','error');
+    downloadCSV(generateCSVContent(), `รายงานออมทองรวม_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`);
 }
 
 function exportUserCSV(uid) {
-if (currentUser.role!==‘superadmin’) return showNotify(‘คุณไม่มีสิทธิ์’,‘error’);
-const user=Object.values(db.users).find(u=>u.uid===uid);
-downloadCSV(generateCSVContent(uid), `ออมทอง_${user.name}_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`);
+    if (currentUser.role!=='superadmin') return showNotify('คุณไม่มีสิทธิ์','error');
+    const user=Object.values(db.users).find(u=>u.uid===uid);
+    downloadCSV(generateCSVContent(uid), `ออมทอง_${user.name}_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`);
 }
 
 function downloadCSV(csvContent, filename) {
-const blob=new Blob([csvContent],{type:‘text/csv;charset=utf-8;’});
-const link=document.createElement(“a”);
-link.href=URL.createObjectURL(blob); link.download=filename; link.click();
-showNotify(‘ดาวน์โหลดสำเร็จ’);
+    const blob=new Blob([csvContent],{type:'text/csv;charset=utf-8;'});
+    const link=document.createElement("a");
+    link.href=URL.createObjectURL(blob); link.download=filename; link.click();
+    showNotify('ดาวน์โหลดสำเร็จ');
 }
 
 function checkWeeklyBackup() {
-if (!currentUser||currentUser.role!==‘superadmin’) return;
-const now=Date.now(); const last=db.settings.lastBackupDate||0;
-if (now-last >= 7*24*60*60*1000 && db.settings.backupEmail) {
-db.settings.lastBackupDate=now; saveDB();
-showNotify(‘กำลังสำรองข้อมูลอัตโนมัติ…’);
-const csv=generateCSVContent();
-const fn=`ออมทอง_Backup_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
-sendTelegramDocument(csv, fn);
-downloadCSV(csv, fn);
-}
+    if (!currentUser||currentUser.role!=='superadmin') return;
+    const now=Date.now(); const last=db.settings.lastBackupDate||0;
+    if (now-last >= 7*24*60*60*1000 && db.settings.backupEmail) {
+        db.settings.lastBackupDate=now; saveDB();
+        showNotify('กำลังสำรองข้อมูลอัตโนมัติ...');
+        const csv=generateCSVContent();
+        const fn=`ออมทอง_Backup_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
+        sendTelegramDocument(csv, fn);
+        downloadCSV(csv, fn);
+    }
 }
 
 // ─── SHOP IDENTITY ────────────────────────────────────────────
 function updateShopIdentity() {
-const s = db.settings;
-document.getElementById(‘shop-nav-name’).innerText        = s.shopName;
-document.getElementById(‘shop-title-display’).innerText   = s.shopName;
-document.getElementById(‘shop-tagline-display’).innerText = s.shopTagline;
-const pinLockEl = document.getElementById(‘pin-lock-shop-name’);
-if (pinLockEl) pinLockEl.innerText = s.shopName;
-if (s.shopLogo) {
-document.getElementById(‘shop-logo-nav-container’).innerHTML   = `<img src="${s.shopLogo}" style="width:100%;height:100%;object-fit:cover;">`;
-document.getElementById(‘shop-logo-login-container’).innerHTML = `<img src="${s.shopLogo}" style="width:100%;height:100%;object-fit:cover;">`;
-}
+    const s = db.settings;
+    document.getElementById('shop-nav-name').innerText        = s.shopName;
+    document.getElementById('shop-title-display').innerText   = s.shopName;
+    document.getElementById('shop-tagline-display').innerText = s.shopTagline;
+    const pinLockEl = document.getElementById('pin-lock-shop-name');
+    if (pinLockEl) pinLockEl.innerText = s.shopName;
+    if (s.shopLogo) {
+        document.getElementById('shop-logo-nav-container').innerHTML   = `<img src="${s.shopLogo}" style="width:100%;height:100%;object-fit:cover;">`;
+        document.getElementById('shop-logo-login-container').innerHTML = `<img src="${s.shopLogo}" style="width:100%;height:100%;object-fit:cover;">`;
+    }
 }
 
-function closeModal() { document.getElementById(‘modal-overlay’).style.display=‘none’; }
+function closeModal() { document.getElementById('modal-overlay').style.display='none'; }
 
 function renderNav() {
-const nav = document.getElementById(‘navigation-bar’);
-const user = getUser();
-const isAdmin = user&&(user.role===‘superadmin’||user.role===‘admin’);
-const pendingCount = db.transactions.filter(t=>t.status===‘pending’).length;
-const items = isAdmin ? [
-{ id:‘home’,     label:‘หน้าหลัก’, icon:‘M3 12l9-9 9 9’ },
-{ id:‘approve’,  label:`อนุมัติ${pendingCount>0?` (${pendingCount})`:''}`, icon:‘M9 12l2 2 4-4’ },
-{ id:‘users’,    label:‘จัดการ’,   icon:‘M17 20H3v-1a6 6 0 0112 0v1M9 7a4 4 0 100 8 4 4 0 000-8z’ },
-{ id:‘settings’, label:‘ตั้งค่า’,  icon:‘M12 15a3 3 0 100-6 3 3 0 000 6z’ }
-] : [
-{ id:‘home’,    label:‘หน้าแรก’, icon:‘M3 12l9-9 9 9’ },
-{ id:‘deposit’, label:‘ฝากออม’,  icon:‘M12 5v14M5 12l7 7 7-7’ },
-{ id:‘history’, label:‘ประวัติ’,  icon:‘M12 8v4l3 3’ },
-{ id:‘profile’, label:‘โปรไฟล์’, icon:‘M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2’ }
-];
-nav.innerHTML = items.map(i=>`<button class="nav-item ${activePage===i.id?'active':''}" onclick="navigate('${i.id}')"><svg class="icon" viewBox="0 0 24 24"><path d="${i.icon}" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-size:0.65rem;">${i.label}</span></button>`).join(’’);
+    const nav = document.getElementById('navigation-bar');
+    const user = getUser();
+    const isAdmin = user&&(user.role==='superadmin'||user.role==='admin');
+    const pendingCount = db.transactions.filter(t=>t.status==='pending').length;
+    const items = isAdmin ? [
+        { id:'home',     label:'หน้าหลัก', icon:'M3 12l9-9 9 9' },
+        { id:'approve',  label:`อนุมัติ${pendingCount>0?` (${pendingCount})`:''}`, icon:'M9 12l2 2 4-4' },
+        { id:'users',    label:'จัดการ',   icon:'M17 20H3v-1a6 6 0 0112 0v1M9 7a4 4 0 100 8 4 4 0 000-8z' },
+        { id:'settings', label:'ตั้งค่า',  icon:'M12 15a3 3 0 100-6 3 3 0 000 6z' }
+    ] : [
+        { id:'home',    label:'หน้าแรก', icon:'M3 12l9-9 9 9' },
+        { id:'deposit', label:'ฝากออม',  icon:'M12 5v14M5 12l7 7 7-7' },
+        { id:'history', label:'ประวัติ',  icon:'M12 8v4l3 3' },
+        { id:'profile', label:'โปรไฟล์', icon:'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2' }
+    ];
+    nav.innerHTML = items.map(i=>`<button class="nav-item ${activePage===i.id?'active':''}" onclick="navigate('${i.id}')"><svg class="icon" viewBox="0 0 24 24"><path d="${i.icon}" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-size:0.65rem;">${i.label}</span></button>`).join('');
 }
 
 // ─── NAVIGATION ──────────────────────────────────────────────
 function navigate(page) {
-activePage = page; historyFilter = ‘all’; userSearchQ = ‘’;
-renderView(); renderNav(); window.scrollTo(0,0);
-resetInactivityTimer();
+    activePage = page; historyFilter = 'all'; userSearchQ = '';
+    renderView(); renderNav(); window.scrollTo(0,0);
+    resetInactivityTimer();
 }
 
 function renderView() {
-const user = getUser();
-if (!user) return handleLogout();
-currentUser = user;
-const container = document.getElementById(‘view-container’);
-const isAdmin = user.role === ‘superadmin’ || user.role === ‘admin’;
-if (isAdmin) {
-switch(activePage) {
-case ‘home’:     container.innerHTML = renderAdminDashboard(); break;
-case ‘approve’:  container.innerHTML = renderAdminApprove(); break;
-case ‘users’:    container.innerHTML = renderAdminUsers(); break;
-case ‘settings’: container.innerHTML = renderAdminSettings(); break;
-}
-} else {
-switch(activePage) {
-case ‘home’:    container.innerHTML = renderCustomerHome(); break;
-case ‘deposit’: container.innerHTML = renderDepositForm(); break;
-case ‘history’: container.innerHTML = renderHistory(); break;
-case ‘profile’: container.innerHTML = renderProfile(); break;
-}
-}
+    const user = getUser();
+    if (!user) return handleLogout();
+    currentUser = user;
+    const container = document.getElementById('view-container');
+    const isAdmin = user.role === 'superadmin' || user.role === 'admin';
+    
+    if (isAdmin) {
+        switch(activePage) {
+            case 'home':     container.innerHTML = renderAdminDashboard(); break;
+            case 'approve':  container.innerHTML = renderAdminApprove(); break;
+            case 'users':    container.innerHTML = renderAdminUsers(); break;
+            case 'settings': container.innerHTML = renderAdminSettings(); break;
+        }
+    } else {
+        switch(activePage) {
+            case 'home':    container.innerHTML = renderCustomerHome(); break;
+            case 'deposit': container.innerHTML = renderDepositForm(); break;
+            case 'history': container.innerHTML = renderHistory(); break;
+            case 'profile': container.innerHTML = renderProfile(); break;
+        }
+    }
 }
 
 // ─── AUTH ────────────────────────────────────────────────────
 function setLoginMode(mode) {
-loginMode = mode;
-document.querySelectorAll(’.login-tab’).forEach(t => {
-t.classList.toggle(‘active’, (mode === ‘login’ && t.innerText.includes(‘เข้า’)) || (mode === ‘register’ && t.innerText.includes(‘สมัคร’)));
-});
-document.getElementById(‘reg-name-group’).style.display       = mode === ‘register’ ? ‘block’ : ‘none’;
-document.getElementById(‘reg-admin-code-group’).style.display = (mode === ‘register’ && !hasSuperAdmin()) ? ‘block’ : ‘none’;
+    loginMode = mode;
+    document.querySelectorAll('.login-tab').forEach(t => {
+        t.classList.toggle('active', (mode === 'login' && t.innerText.includes('เข้า')) || (mode === 'register' && t.innerText.includes('สมัคร')));
+    });
+    document.getElementById('reg-name-group').style.display       = mode === 'register' ? 'block' : 'none';
+    document.getElementById('reg-admin-code-group').style.display = (mode === 'register' && !hasSuperAdmin()) ? 'block' : 'none';
 }
 
 async function handleAuth() {
-const phone = document.getElementById(‘login-phone’).value.trim();
-const pass  = document.getElementById(‘login-pass’).value;
-if (!phone || !pass) return showNotify(‘กรุณากรอกข้อมูลให้ครบ’, ‘error’);
-if (loginMode === ‘login’) {
-const user = db.users[phone];
-if (!user) return showNotify(‘ไม่พบบัญชีนี้ในระบบ’, ‘error’);
-let ok = false;
-if (user.passHash) { ok = await verifyPassword(pass, user.passHash); }
-else { ok = (user.pass === pass); if (ok) { user.passHash = await hashPassword(pass); delete user.pass; saveDB(); } }
-if (!ok) return showNotify(‘รหัสผ่านไม่ถูกต้อง’, ‘error’);
-saveSession(phone); currentUser = user;
-} else {
-const name = document.getElementById(‘reg-name’).value.trim();
-if (!name) return showNotify(‘กรุณากรอกชื่อ-นามสกุล’, ‘error’);
-if (db.users[phone]) return showNotify(‘เบอร์นี้มีในระบบแล้ว’, ‘error’);
-let role = ‘customer’;
-if (!hasSuperAdmin()) {
-const code = document.getElementById(‘reg-admin-code’).value;
-if (code === ‘9999’) { role = ‘superadmin’; }
-else if (code !== ‘’) return showNotify(‘รหัสตั้งต้นระบบไม่ถูกต้อง’, ‘error’);
-}
-const passHash = await hashPassword(pass);
-db.users[phone] = { uid:‘u’+Date.now(), phone, name, role, balanceTHB:0, balanceGold:0, passHash, email:’’, profilePic:null, telegramChatId:null };
-saveDB(); saveSession(phone); currentUser = db.users[phone];
-if (role === ‘superadmin’) showNotify(‘คุณได้รับสิทธิ์ Super Admin แล้ว!’);
-}
-initApp();
+    const phone = document.getElementById('login-phone').value.trim();
+    const pass  = document.getElementById('login-pass').value;
+    if (!phone || !pass) return showNotify('กรุณากรอกข้อมูลให้ครบ', 'error');
+    
+    if (loginMode === 'login') {
+        const user = db.users[phone];
+        if (!user) return showNotify('ไม่พบบัญชีนี้ในระบบ', 'error');
+        
+        let ok = false;
+        if (user.passHash) { 
+            ok = await verifyPassword(pass, user.passHash); 
+        } else { 
+            ok = (user.pass === pass); 
+            if (ok) { 
+                user.passHash = await hashPassword(pass); 
+                delete user.pass; 
+                saveDB(); 
+            } 
+        }
+        
+        if (!ok) return showNotify('รหัสผ่านไม่ถูกต้อง', 'error');
+        saveSession(phone); currentUser = user;
+    } else {
+        const name = document.getElementById('reg-name').value.trim();
+        if (!name) return showNotify('กรุณากรอกชื่อ-นามสกุล', 'error');
+        if (db.users[phone]) return showNotify('เบอร์นี้มีในระบบแล้ว', 'error');
+        let role = 'customer';
+        if (!hasSuperAdmin()) {
+            const code = document.getElementById('reg-admin-code').value;
+            if (code === '9999') { role = 'superadmin'; }
+            else if (code !== '') return showNotify('รหัสตั้งต้นระบบไม่ถูกต้อง', 'error');
+        }
+        const passHash = await hashPassword(pass);
+        db.users[phone] = { uid:'u'+Date.now(), phone, name, role, balanceTHB:0, balanceGold:0, passHash, email:'', profilePic:null, telegramChatId:null };
+        saveDB(); saveSession(phone); currentUser = db.users[phone];
+        if (role === 'superadmin') showNotify('คุณได้รับสิทธิ์ Super Admin แล้ว!');
+    }
+    initApp();
 }
 
-function handleLineLogin() {
-const key = “line_user_001”;
-if (!db.users[key]) {
-hashPassword(“linepass”).then(h => {
-db.users[key] = { uid:‘line_’+Date.now(), phone:key, name:“ผู้ใช้ LINE (Demo)”, role:“customer”, balanceTHB:0, balanceGold:0, passHash:h, email:””, profilePic:“https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg”, telegramChatId:null };
-saveDB();
-});
-}
-saveSession(key); currentUser = db.users[key];
-showNotify(‘เข้าสู่ระบบด้วย LINE สำเร็จ’); initApp();
+async function handleLineLogin() {
+    const key = "line_user_001";
+    if (!db.users[key]) {
+        const h = await hashPassword("linepass");
+        db.users[key] = { uid:'line_'+Date.now(), phone:key, name:"ผู้ใช้ LINE (Demo)", role:"customer", balanceTHB:0, balanceGold:0, passHash:h, email:"", profilePic:"https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg", telegramChatId:null };
+        saveDB();
+    }
+    saveSession(key); currentUser = db.users[key];
+    showNotify('เข้าสู่ระบบด้วย LINE สำเร็จ'); initApp();
 }
 
 function handleLogout() {
-clearTimeout(_inactivityTimer);
-clearSession(); currentUser = null;
-_pinLockActive = false;
-document.getElementById(‘pin-lock-overlay’).style.display = ‘none’;
-document.getElementById(‘app-layout’).style.display = ‘none’;
-document.getElementById(‘login-page’).style.display = ‘flex’;
-document.getElementById(‘login-phone’).value = ‘’;
-document.getElementById(‘login-pass’).value = ‘’;
-setLoginMode(‘login’);
+    clearTimeout(_inactivityTimer);
+    clearSession(); currentUser = null;
+    _pinLockActive = false;
+    document.getElementById('pin-lock-overlay').style.display = 'none';
+    document.getElementById('app-layout').style.display = 'none';
+    document.getElementById('login-page').style.display = 'flex';
+    document.getElementById('login-phone').value = '';
+    document.getElementById('login-pass').value = '';
+    setLoginMode('login');
 }
 
 // ─── INIT ─────────────────────────────────────────────────────
 function initApp() {
-currentUser = getUser();
-if (!currentUser) return handleLogout();
-document.getElementById(‘login-page’).style.display  = ‘none’;
-document.getElementById(‘app-layout’).style.display  = ‘flex’;
-document.getElementById(‘display-user-name’).innerText = currentUser.name;
-document.getElementById(‘display-user-avatar’).innerHTML = currentUser.profilePic
-? `<img src="${currentUser.profilePic}" style="object-fit:cover;width:100%;height:100%;">`
-: currentUser.name[0];
-updateShopIdentity();
-fetchLiveGoldPrice().then(() => navigate(‘home’));
-resetInactivityTimer(); // FEATURE 2: Start inactivity timer
-setTimeout(checkWeeklyBackup, 1500);
+    currentUser = getUser();
+    if (!currentUser) return handleLogout();
+    document.getElementById('login-page').style.display  = 'none';
+    document.getElementById('app-layout').style.display  = 'flex';
+    document.getElementById('display-user-name').innerText = currentUser.name;
+    document.getElementById('display-user-avatar').innerHTML = currentUser.profilePic
+        ? `<img src="${currentUser.profilePic}" style="object-fit:cover;width:100%;height:100%;">`
+        : currentUser.name[0];
+    updateShopIdentity();
+    fetchLiveGoldPrice().then(() => navigate('home'));
+    resetInactivityTimer(); 
+    setTimeout(checkWeeklyBackup, 1500);
 }
 
 window.onload = () => {
-updateShopIdentity();
-if (sessionPhone && db.users[sessionPhone]) {
-initApp();
-} else {
-clearSession();
-}
+    updateShopIdentity();
+    if (sessionPhone && db.users[sessionPhone]) {
+        initApp();
+    } else {
+        clearSession();
+    }
 };
 </script>
-
 </body>
 </html>
