@@ -49,7 +49,7 @@
   .mt-4 { margin-top: 16px; } .mb-4 { margin-bottom: 16px; }
   .text-center { text-align: center; }
   
-  /* Buttons */
+  /* Buttons - Touch Friendly */
   .btn { 
     padding: 14px 20px; 
     border-radius: 14px; 
@@ -649,6 +649,22 @@
   </div>
 </div>
 
+<!-- Modal: Edit Balance -->
+<div id="modal-edit-balance" class="modal-overlay">
+  <div class="modal">
+    <h3 class="serif mb-4">แก้ไขยอดเงินสะสม</h3>
+    <p style="font-size: 14px; color: var(--gray); margin-bottom: 20px;">ชื่อลูกค้า: <b id="meb-name" style="color: var(--black);"></b></p>
+    <div class="form-group">
+      <label>ยอดเงินสุทธิใหม่ (บาท)</label>
+      <input type="number" id="meb-amount" class="form-control" style="font-size: 20px; font-weight: bold; color: var(--gold-dark);">
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button class="btn btn-outline" style="flex:1" onclick="closeModal('modal-edit-balance')">ยกเลิก</button>
+      <button class="btn btn-success" style="flex:1" onclick="confirmEditBalance()">บันทึกยอด</button>
+    </div>
+  </div>
+</div>
+
 <!-- Modal: Edit Withdraw Amount -->
 <div id="modal-edit-withdraw" class="modal-overlay">
   <div class="modal">
@@ -703,7 +719,6 @@
     try { return str ? JSON.parse(str) : fallback; } catch (e) { return fallback; }
   };
   
-  // บังคับใช้ Firebase ของคุณเสมอ ไม่ว่าจะเปิดจากที่ไหน
   const firebaseConfig = myFirebaseConfig;
   const appId = 'gold-savings-app';
 
@@ -725,6 +740,7 @@
   };
 
   let pendingTxId = null;
+  let pendingEditUserId = null; // ตัวแปรสำหรับแก้ไขยอดเงิน
   let isListenersSetup = false;
 
   window.showToast = (msg, isError = false) => {
@@ -790,7 +806,7 @@
       const unsub = onAuthStateChanged(auth, user => {
         if (user) { unsub(); resolve(true); }
       });
-      setTimeout(() => { unsub(); resolve(!!auth.currentUser); }, 5000);
+      setTimeout(() => { unsub(); resolve(!!auth.currentUser); }, 4000);
     });
   };
 
@@ -819,7 +835,7 @@
         await signInAnonymously(auth);
       }
     } catch (e) {
-      console.warn("Offline Mode");
+      console.warn("Offline Mode", e);
     }
 
     setInterval(() => checkAndRunBackup(), 3600000);
@@ -834,14 +850,10 @@
         try { localStorage.setItem('cache_settings', JSON.stringify(window.appState.settings)); } catch(e){}
         updateSettingsUI();
       }
-    }, (err) => console.error("Settings Sync Error:", err));
+    }, (err) => console.warn("Sync paused"));
 
     onSnapshot(getCol('appUsers'), (snap) => {
-      if(snap.empty && window.appState.users && window.appState.users.length > 0) {
-         window.appState.users.forEach(async (u) => {
-            try { await setDoc(getDocRef('appUsers', u.id), u); } catch(e) {}
-         });
-      } else if (!snap.empty) {
+      if (!snap.empty) {
          window.appState.users = snap.docs.map(d => ({id: d.id, ...d.data()}));
          try { localStorage.setItem('cache_users', JSON.stringify(window.appState.users)); } catch(e){}
       }
@@ -856,14 +868,10 @@
       }
       renderAdminUsers();
       updateDashboardStats();
-    }, (err) => console.error("Users Sync Error:", err));
+    }, (err) => console.warn("Sync paused"));
 
     onSnapshot(getCol('transactions'), (snap) => {
-      if(snap.empty && window.appState.transactions && window.appState.transactions.length > 0) {
-         window.appState.transactions.forEach(async (t) => {
-            try { await setDoc(getDocRef('transactions', t.id), t); } catch(e) {}
-         });
-      } else if (!snap.empty) {
+      if (!snap.empty) {
          window.appState.transactions = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => b.date - a.date);
          try { localStorage.setItem('cache_txs', JSON.stringify(window.appState.transactions)); } catch(e){}
       }
@@ -871,7 +879,7 @@
       renderCustomerHistory();
       renderAdminTransactions();
       updateDashboardStats();
-    }, (err) => console.error("Transactions Sync Error:", err));
+    }, (err) => console.warn("Sync paused"));
   };
 
   window.switchAuthTab = (tab) => {
@@ -894,6 +902,7 @@
     }
   };
 
+  // Switch to Customer View
   window.switchToCustomerView = () => {
     hideEl('page-admin');
     showEl('page-customer');
@@ -901,6 +910,7 @@
     navCust('home');
   };
 
+  // Switch to Admin View
   window.switchToAdminView = () => {
     hideEl('page-customer');
     showEl('page-admin');
@@ -980,15 +990,15 @@
     const s = window.appState.settings || {};
     
     if(secret === '9999') {
-       if(!s.hasSuperAdmin) {
-          role = 'superadmin';
-          window.appState.settings.hasSuperAdmin = true;
-          try { await setDoc(getDocRef('settings', 'global'), { hasSuperAdmin: true }, { merge: true }); } catch(e) {}
-       } else {
-          showToast("รหัสลับถูกใช้ไปแล้ว ไม่สามารถเป็น Super Admin ได้อีก", true);
-          showLoading(false);
-          return;
-       }
+      if(!s.hasSuperAdmin) {
+         role = 'superadmin';
+         window.appState.settings.hasSuperAdmin = true;
+         try { await setDoc(getDocRef('settings', 'global'), { hasSuperAdmin: true }, { merge: true }); } catch(e) {}
+      } else {
+         showToast("รหัสลับถูกใช้ไปแล้ว ไม่สามารถเป็น Super Admin ได้อีก", true);
+         showLoading(false);
+         return;
+      }
     } else if (secret !== '') {
        showToast("รหัสลับไม่ถูกต้อง (หากเป็นลูกค้าโปรดเว้นว่าง)", true);
        showLoading(false);
@@ -999,18 +1009,20 @@
     const newUser = { id: docId, phone: phone, password: pass, name: name, role: role, email: '', balance: 0, profilePicBase64: '', createdAt: Date.now() };
     
     try {
-      if(auth.currentUser) await setDoc(getDocRef('appUsers', docId), newUser);
-    } catch(err) {
-      console.warn("Offline Registration");
-    }
+      if(auth.currentUser) {
+         await setDoc(getDocRef('appUsers', docId), newUser);
+      }
+    } catch (err) {
+      console.warn("Saving offline...", err);
+    } 
 
     window.appState.users.push(newUser);
     try {
        localStorage.setItem('cache_users', JSON.stringify(window.appState.users));
        localStorage.setItem('goldAppUser', JSON.stringify(newUser));
     } catch(e){}
-    window.appState.currentUser = newUser;
     
+    window.appState.currentUser = newUser;
     showToast("สมัครสมาชิกสำเร็จ!");
     routeUser();
     setTimeout(() => { showLoading(false); }, 200);
@@ -1089,7 +1101,7 @@
        updateProfileUI();
     } catch(e) {
        console.error(e);
-       showToast("บันทึกเฉพาะในเครื่อง (โหมดออฟไลน์)", true);
+       showToast("❌ บันทึกไม่สำเร็จ (ตรวจสอบสิทธิ์ Firebase)", true);
     }
     showLoading(false);
   };
@@ -1106,7 +1118,7 @@
        showToast("เปลี่ยนรหัสผ่านสำเร็จ");
        setVal('edit-pass', '');
     } catch(e) {
-       showToast("บันทึกเฉพาะในเครื่อง", true);
+       showToast("❌ บันทึกไม่สำเร็จ", true);
     }
     showLoading(false);
   };
@@ -1383,25 +1395,37 @@
       
       let actionBtns = '-';
       if(myRole === 'superadmin' && u.id !== myId) {
-        let toggleRole = u.role === 'customer' 
-            ? `<button class="btn btn-sm btn-outline" style="border-color:var(--green); color:var(--green);" onclick="changeRole('${u.id}', 'subadmin')">ตั้งแอดมินรอง</button>` 
-            : `<button class="btn btn-sm btn-outline" style="border-color:var(--gold-dark); color:var(--gold-dark);" onclick="changeRole('${u.id}', 'customer')">ปลดแอดมิน</button>`;
+        let roleBtns = '';
+        if (u.role === 'customer') {
+            roleBtns = `<button class="btn btn-sm btn-outline" style="border-color:var(--green); color:var(--green); padding: 4px 8px; font-size: 12px;" onclick="changeRole('${u.id}', 'subadmin')">+แอดมินรอง</button>
+                        <button class="btn btn-sm btn-outline" style="border-color:var(--gold-dark); color:var(--gold-dark); padding: 4px 8px; font-size: 12px;" onclick="changeRole('${u.id}', 'superadmin')">+แอดมินหลัก</button>`;
+        } else if (u.role === 'subadmin') {
+            roleBtns = `<button class="btn btn-sm btn-outline" style="border-color:var(--gold-dark); color:var(--gold-dark); padding: 4px 8px; font-size: 12px;" onclick="changeRole('${u.id}', 'superadmin')">เลื่อนเป็นหลัก</button>
+                        <button class="btn btn-sm btn-outline" style="border-color:var(--gray); color:var(--gray); padding: 4px 8px; font-size: 12px;" onclick="changeRole('${u.id}', 'customer')">ปลดแอดมิน</button>`;
+        } else if (u.role === 'superadmin') {
+            roleBtns = `<button class="btn btn-sm btn-outline" style="border-color:var(--green); color:var(--green); padding: 4px 8px; font-size: 12px;" onclick="changeRole('${u.id}', 'subadmin')">ลดเป็นรอง</button>
+                        <button class="btn btn-sm btn-outline" style="border-color:var(--gray); color:var(--gray); padding: 4px 8px; font-size: 12px;" onclick="changeRole('${u.id}', 'customer')">ปลดแอดมิน</button>`;
+        }
         
-        // เพิ่มปุ่ม ลบ แล้ว
-        let deleteBtn = `<button class="btn btn-sm btn-danger" style="padding: 6px 12px;" onclick="deleteUser('${u.id}')">ลบ</button>`;
+        let deleteBtn = `<button class="btn btn-sm btn-danger" style="padding: 4px 10px; font-size: 12px;" onclick="deleteUser('${u.id}')">ลบ</button>`;
         
-        actionBtns = `<div class="flex gap-2">${toggleRole} ${deleteBtn}</div>`;
+        actionBtns = `<div class="flex gap-1" style="flex-wrap: wrap; max-width: 200px;">${roleBtns} ${deleteBtn}</div>`;
       }
       
       let userAvatar = u.profilePicBase64 ? `<img src="${u.profilePicBase64}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">` : `<div style="width:36px; height:36px; border-radius:50%; background:var(--gray-light); display:flex; align-items:center; justify-content:center; font-size:16px;">👤</div>`;
       let bal = u.balance ? u.balance : 0;
+      
+      let balHtml = `฿${bal.toLocaleString()}`;
+      if(myRole === 'superadmin') {
+         balHtml += ` <button class="btn btn-sm btn-outline" style="padding: 2px 6px; font-size: 11px; margin-left: 8px; border-color:var(--gold); color:var(--gold);" onclick="openEditBalance('${u.id}', ${bal}, '${u.name}')">✏️ แก้ไข</button>`;
+      }
 
       tr.innerHTML = `
         <td>${userAvatar}</td>
         <td><b style="font-size:15px;">${u.name}</b></td>
         <td style="color:var(--gray);">${u.phone}</td>
         <td>${rText}</td>
-        <td style="font-weight:bold; color:var(--gold-dark); font-size:15px;">฿${bal.toLocaleString()}</td>
+        <td style="font-weight:bold; color:var(--gold-dark); font-size:15px;">${balHtml}</td>
         <td>${actionBtns}</td>
       `;
       tbody.appendChild(tr);
@@ -1409,8 +1433,11 @@
   };
 
   window.changeRole = async (uid, newRole) => {
-    if(confirm(`ต้องการเปลี่ยนสิทธิ์ผู้ใช้นี้เป็น ${newRole === 'subadmin' ? 'แอดมินรอง' : 'ลูกค้า'} ใช่หรือไม่?`)) {
+    let roleNameTh = newRole === 'superadmin' ? 'แอดมินหลัก' : (newRole === 'subadmin' ? 'แอดมินรอง' : 'ลูกค้า');
+    if(confirm(`ต้องการเปลี่ยนสิทธิ์ผู้ใช้นี้เป็น ${roleNameTh} ใช่หรือไม่?`)) {
       showLoading(true);
+      const isAuthed = await ensureAuth();
+      if(!isAuthed) { showLoading(false); return showToast("ไม่ได้เชื่อมต่อฐานข้อมูล", true); }
       
       let targetUser = null;
       for(let i=0; i<window.appState.users.length; i++){
@@ -1425,13 +1452,12 @@
          showToast("เปลี่ยนสิทธิ์สำเร็จ");
       } catch(e) {
          console.error(e);
-         showToast("❌ เปลี่ยนสิทธิ์เฉพาะในเครื่อง (ออฟไลน์)", true);
+         showToast("❌ เปลี่ยนสิทธิ์ไม่สำเร็จ", true);
       }
       showLoading(false);
     }
   };
 
-  // ฟังก์ชันลบผู้ใช้งาน
   window.deleteUser = async (uid) => {
     if(confirm('ต้องการลบผู้ใช้งานนี้อย่างถาวรใช่หรือไม่? (ข้อมูลจะหายไปทั้งหมด)')) {
       showLoading(true);
@@ -1454,6 +1480,51 @@
       }
       showLoading(false);
     }
+  };
+
+  // ฟังก์ชันสำหรับการแก้ไขยอดเงินโดยแอดมิน
+  window.openEditBalance = (uid, currentBal, userName) => {
+    pendingEditUserId = uid;
+    setText('meb-name', userName);
+    setVal('meb-amount', currentBal);
+    openModal('modal-edit-balance');
+  };
+
+  window.confirmEditBalance = async () => {
+    const el = getEl('meb-amount');
+    const newBal = el ? parseFloat(el.value) : 0;
+    if(isNaN(newBal) || newBal < 0) return showToast("ยอดเงินไม่ถูกต้อง (ต้องมากกว่าหรือเท่ากับ 0)", true);
+
+    showLoading(true);
+    const isAuthed = await ensureAuth();
+    if(!isAuthed) { showLoading(false); return showToast("ออฟไลน์: ไม่สามารถแก้ไขยอดเงินได้", true); }
+
+    try {
+       await updateDoc(getDocRef('appUsers', pendingEditUserId), { balance: newBal });
+
+       // Update local state
+       for(let i=0; i<window.appState.users.length; i++){
+          if(window.appState.users[i].id === pendingEditUserId) {
+              window.appState.users[i].balance = newBal;
+              break;
+          }
+       }
+
+       try { localStorage.setItem('cache_users', JSON.stringify(window.appState.users)); } catch(e){}
+
+       renderAdminUsers();
+       updateDashboardStats();
+
+       closeModal('modal-edit-balance');
+       showToast("อัปเดตยอดเงินเรียบร้อยแล้ว");
+       
+       sendTgMsg(`🔧 <b>แจ้งเตือนแอดมินปรับลดยอดเงิน</b>\nลูกค้า: ${getEl('meb-name').textContent}\nยอดสุทธิใหม่: ฿${newBal.toLocaleString()}`);
+
+    } catch(e) {
+       console.error(e);
+       showToast("❌ อัปเดตไม่สำเร็จ (ตรวจสอบสิทธิ์ Firebase)", true);
+    }
+    showLoading(false);
   };
 
   window.viewSlip = (txId) => {
@@ -1498,6 +1569,8 @@
 
   const processTx = async (txId, status, overrideAmount = null, rejectReason = "") => {
     showLoading(true);
+    const isAuthed = await ensureAuth();
+    if(!isAuthed) { showLoading(false); return showToast("⚠️ ขาดการเชื่อมต่อ ไม่สามารถจัดการข้อมูล", true); }
     
     let tx = null;
     if(window.appState.transactions) {
@@ -1559,7 +1632,7 @@
       showToast("ดำเนินการสำเร็จ");
     } catch(e) {
       console.error(e);
-      showToast("❌ ดำเนินการเฉพาะในเครื่อง (โหมดออฟไลน์)", true);
+      showToast("❌ ดำเนินการไม่สำเร็จ (ตรวจสอบสิทธิ์ Firebase)", true);
     }
     showLoading(false);
   };
@@ -1633,7 +1706,7 @@
   window.saveSettings = async () => {
     showLoading(true);
     const isAuthed = await ensureAuth();
-    if(!isAuthed) { showLoading(false); return showToast("⚠️ ออฟไลน์: ไม่สามารถบันทึกตั้งค่าขึ้นเซิร์ฟเวอร์", true); }
+    if(!isAuthed) { showLoading(false); return showToast("⚠️ ออฟไลน์: ไม่สามารถบันทึกตั้งค่าได้", true); }
     
     const newData = {
       shopName: getVal('set-shopname'),
@@ -1643,7 +1716,7 @@
       bankName: getVal('set-bankname'),
       bankAccName: getVal('set-bankaccname'),
       bankAccNo: getVal('set-bankaccno'),
-      tgToken: "8731749401:AAEmA6wiK5o4NM0CcjJnmgt_827PbyMtPYw", 
+      tgToken: "8731749401:AAEmA6wiK5o4NM0CcjJnmgt_827PbyMtPYw", // FIXED
       tgChatId: getVal('set-tg-chatid')
     };
     
@@ -1658,7 +1731,7 @@
     updateSettingsUI();
 
     try {
-      await setDoc(getDocRef('settings', 'global'), newData, {merge:true});
+      if(auth.currentUser) await setDoc(getDocRef('settings', 'global'), newData, {merge:true});
       showToast("บันทึกการตั้งค่าสำเร็จ");
     } catch(e) {
       console.error(e);
