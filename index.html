@@ -1,1907 +1,1756 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="color-scheme" content="light">
-    <title>ออมทอง - ระบบออมทองออนไลน์พรีเมียม</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700;900&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root { color-scheme: light only; }
-        html { forced-color-adjust: none; }
-        :root {
-            --red: #8B0000; --red-light: #A52020; --red-dark: #5C0000;
-            --red-muted: rgba(139,0,0,0.12);
-            --gold: #C8860A; --gold-light: #F0B429; --gold-bright: #FFD700;
-            --gold-pale: #FFF8E1; --gold-muted: rgba(200,134,10,0.15);
-            --surface: #FFFDF5; --surface2: #FFF8E8; --surface3: #FEF3D4;
-            --text: #1A0A00; --text2: #5A3A1A; --text3: #9A7A5A;
-            --border: rgba(200,134,10,0.2);
-            --shadow: 0 4px 24px rgba(139,0,0,0.08);
-            --shadow-lg: 0 12px 48px rgba(139,0,0,0.14);
-            --radius: 1.5rem; --radius-sm: 0.75rem;
-            --success: #2D7D46; --error: #C0392B;
-            --warning: #D97706; --pending: #92400E; --line: #00B900;
-        }
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Prompt', sans-serif; background: var(--surface) !important; color: var(--text) !important; overflow-x: hidden; min-height: 100vh; -webkit-text-size-adjust: 100%; }
-        .icon { width: 1.2em; height: 1.2em; display: inline-block; vertical-align: middle; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>ออมทองพรีเมียม - ระบบออมเงินเพื่อรับทอง</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #D4AF37;
+    --gold-light: #F4E5B3;
+    --gold-dark: #AA8B2B;
+    --black: #1A1A1A;
+    --gray-dark: #4A4A4A;
+    --gray: #8A8A8A;
+    --gray-light: #F3F4F6;
+    --bg-color: #FAFAFB;
+    --white: #FFFFFF;
+    --red: #EF4444;
+    --green: #10B981;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+    --shadow-md: 0 8px 24px rgba(0,0,0,0.08);
+    --radius: 16px;
+  }
 
-        /* LOGIN */
-        #login-page { min-height: 100vh; background: radial-gradient(ellipse at 20% 20%, var(--red-dark) 0%, #2D0000 40%, #0D0000 100%) !important; display: flex; align-items: center; justify-content: center; padding: 1.5rem; position: relative; overflow: hidden; }
-        .login-bg-pattern { position: absolute; inset: 0; pointer-events: none; opacity: 0.04; background-image: repeating-linear-gradient(45deg, var(--gold-bright) 0, var(--gold-bright) 1px, transparent 0, transparent 50%); background-size: 30px 30px; }
-        .login-card { background: rgba(255,248,232,0.97) !important; border: 1px solid rgba(200,134,10,0.3); border-radius: 2.5rem; padding: 2.5rem 2rem; width: 100%; max-width: 400px; box-shadow: 0 24px 80px rgba(0,0,0,0.5); position: relative; z-index: 1; }
-        .login-logo { text-align: center; margin-bottom: 1.5rem; }
-        .login-logo-icon { width: 80px; height: 80px; background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; border-radius: 1.5rem; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 0.75rem; box-shadow: 0 8px 32px rgba(139,0,0,0.4); overflow: hidden; }
-        .login-logo-icon svg { width: 36px; height: 36px; stroke: var(--gold-bright); }
-        .login-title { font-family: 'Noto Serif Thai', serif; font-size: 1.8rem; font-weight: 900; color: var(--red) !important; }
-        .login-subtitle { font-size: 0.8rem; color: var(--text3) !important; margin-top: 0.2rem; }
-        .login-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; background: var(--surface3) !important; border-radius: var(--radius); padding: 0.25rem; }
-        .login-tab { flex: 1; padding: 0.6rem; border-radius: calc(var(--radius) - 0.25rem); border: none; background: transparent !important; cursor: pointer; font-size: 0.875rem; font-weight: 500; color: var(--text3) !important; font-family: 'Prompt', sans-serif; }
-        .login-tab.active { background: white !important; color: var(--red) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-weight: 600; }
-        .form-group { margin-bottom: 1rem; }
-        .form-label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--text2) !important; margin-bottom: 0.4rem; }
-        .form-input { width: 100%; padding: 0.8rem 1rem; border-radius: var(--radius-sm); border: 1.5px solid var(--border); background: white !important; font-family: 'Prompt', sans-serif; outline: none; transition: 0.2s; color: var(--text) !important; font-size: 0.9rem; }
-        .form-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-muted); }
-        .form-input:disabled { background: #f5f5f5 !important; color: #888 !important; cursor: not-allowed; }
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.85rem 1.5rem; border-radius: var(--radius-sm); border: none; cursor: pointer; font-family: 'Prompt', sans-serif; font-weight: 600; transition: 0.2s; width: 100%; font-size: 0.9rem; }
-        .btn:active { transform: scale(0.98); }
-        .btn-primary { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; color: white !important; }
-        .btn-outline { background: transparent !important; border: 1.5px solid var(--border); color: var(--text2) !important; }
-        .btn-success { background: var(--success) !important; color: white !important; }
-        .btn-danger { background: var(--error) !important; color: white !important; }
-        .btn-warning { background: var(--warning) !important; color: white !important; }
-        .btn-line { background: var(--line) !important; color: white !important; }
-        .btn-sm { padding: 0.4rem 0.8rem; font-size: 0.8rem; width: auto; }
-        .btn-pdf { background: linear-gradient(135deg, #7B1FA2, #4A148C) !important; color: white !important; }
-        .login-divider { display: flex; align-items: center; text-align: center; margin: 1.25rem 0; color: var(--text3) !important; font-size: 0.8rem; }
-        .login-divider::before, .login-divider::after { content: ''; flex: 1; border-bottom: 1px solid var(--border); margin: 0 0.5rem; }
+  * { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Sarabun', sans-serif; 
+    -webkit-tap-highlight-color: transparent; 
+  }
+  
+  body { 
+    background: var(--bg-color); 
+    color: var(--black); 
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+  }
+  h1, h2, h3, .serif { font-family: 'Playfair Display', serif; }
+  
+  .hidden { display: none !important; }
+  .flex { display: flex; }
+  .grid { display: grid; }
+  .items-center { align-items: center; }
+  .justify-between { justify-content: space-between; }
+  .justify-center { justify-content: center; }
+  .gap-2 { gap: 8px; } .gap-4 { gap: 16px; }
+  .mt-4 { margin-top: 16px; } .mb-4 { margin-bottom: 16px; }
+  .text-center { text-align: center; }
+  
+  /* Buttons */
+  .btn { 
+    padding: 14px 20px; 
+    border-radius: 14px; 
+    border: none; 
+    font-weight: 600; 
+    font-size: 15px; 
+    cursor: pointer; 
+    transition: all 0.2s; 
+    display: inline-flex; 
+    align-items: center; 
+    justify-content: center; 
+    gap: 8px;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+  .btn-primary { background: var(--gold); color: white; box-shadow: 0 4px 12px rgba(212,175,55,0.3); }
+  .btn-primary:active { transform: scale(0.96); opacity: 0.9; } 
+  .btn-outline { background: white; border: 1.5px solid var(--gold); color: var(--gold); }
+  .btn-outline:active { transform: scale(0.96); background: var(--gold-light); }
+  .btn-danger { background: var(--red); color: white; }
+  .btn-danger:active { transform: scale(0.96); opacity: 0.9; }
+  .btn-success { background: var(--green); color: white; }
+  .btn-success:active { transform: scale(0.96); opacity: 0.9; }
+  .btn-sm { padding: 10px 16px; font-size: 13px; border-radius: 10px; }
+  
+  /* Inputs */
+  .form-group { margin-bottom: 20px; text-align: left; }
+  .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--gray-dark); margin-bottom: 8px; }
+  .form-control { 
+    width: 100%; 
+    padding: 14px 16px; 
+    border: 1.5px solid #E5E7EB; 
+    border-radius: 14px; 
+    font-size: 16px; 
+    outline: none; 
+    transition: 0.2s; 
+    background: white; 
+    appearance: none;
+  }
+  .form-control:focus { border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-light); }
+  .form-control:disabled, .form-control[readonly] { background: var(--gray-light); color: var(--gray); cursor: not-allowed; }
+  
+  /* Cards */
+  .card { 
+    background: white; 
+    border-radius: var(--radius); 
+    padding: 20px; 
+    box-shadow: var(--shadow-sm); 
+    margin-bottom: 20px; 
+    border: 1px solid #F3F4F6; 
+  }
+  .card-title { font-size: 18px; font-weight: 700; color: var(--black); margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; }
+  
+  /* Badges */
+  .badge { padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+  .bg-green { background: #D1FAE5; color: #065F46; }
+  .bg-red { background: #FEE2E2; color: #991B1B; }
+  .bg-yellow { background: #FEF3C7; color: #92400E; }
+  .bg-gold { background: var(--gold-light); color: var(--gold-dark); }
 
-        /* LAYOUT */
-        #app-layout { display: none; flex-direction: column; min-height: 100vh; background: var(--surface) !important; }
-        .topbar { position: sticky; top: 0; z-index: 100; background: linear-gradient(135deg, var(--red-dark) 0%, var(--red) 100%) !important; padding: 0 1rem; height: 64px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 20px rgba(139,0,0,0.3); color: white !important; }
-        .topbar-brand { display: flex; align-items: center; gap: 0.5rem; }
-        .topbar-name { font-family: 'Noto Serif Thai', serif; font-size: 1.2rem; font-weight: 900; color: var(--gold-bright) !important; }
-        .topbar-user { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
-        .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 700; border: 2px solid rgba(255,215,0,0.5); overflow: hidden; }
-        .avatar img { width: 100%; height: 100%; object-fit: cover; }
-        .main-content { flex: 1; padding: 1.5rem 1rem 5.5rem; max-width: 480px; margin: 0 auto; width: 100%; background: var(--surface) !important; }
+  /* Login Page */
+  #page-login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; background: linear-gradient(135deg, #FAFAFB 0%, var(--gold-light) 100%); }
+  .login-box { width: 100%; max-width: 400px; background: white; padding: 40px 30px; border-radius: 24px; box-shadow: var(--shadow-md); text-align: center; }
+  .login-logo { width: 80px; height: 80px; background: var(--gold-light); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 40px; margin: 0 auto 20px; overflow: hidden; box-shadow: var(--shadow-sm); }
+  
+  /* Customer Nav Elements */
+  .app-header { 
+    background: rgba(255,255,255,0.85); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px); 
+    padding: calc(16px + env(safe-area-inset-top)) 20px 16px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: space-between; 
+    box-shadow: 0 1px 0 rgba(0,0,0,0.05); 
+    position: sticky; 
+    top: 0; 
+    z-index: 50; 
+  }
+  .app-container { padding: 20px; padding-bottom: 140px; max-width: 600px; margin: 0 auto; }
+  
+  /* Shared Bottom Nav Styles */
+  .bottom-nav, .admin-bottom-nav { 
+    position: fixed; 
+    bottom: 0; 
+    left: 0; 
+    right: 0; 
+    background: rgba(255,255,255,0.9); 
+    backdrop-filter: blur(12px); 
+    -webkit-backdrop-filter: blur(12px); 
+    box-shadow: 0 -4px 20px rgba(0,0,0,0.04); 
+    display: flex; 
+    justify-content: space-around; 
+    padding: 12px 10px calc(16px + env(safe-area-inset-bottom)); 
+    border-top-left-radius: 24px; 
+    border-top-right-radius: 24px; 
+    z-index: 100; 
+    max-width: 600px; 
+    margin: 0 auto; 
+    border-top: 1px solid rgba(0,0,0,0.05);
+  }
+  .nav-item { 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    color: var(--gray); 
+    font-size: 11px; 
+    font-weight: 600; 
+    gap: 4px; 
+    cursor: pointer; 
+    transition: 0.2s; 
+    padding: 8px;
+    border-radius: 12px;
+    user-select: none;
+    -webkit-user-select: none;
+    position: relative;
+    flex: 1;
+  }
+  .nav-item:active { transform: scale(0.9); background: rgba(0,0,0,0.03); }
+  .nav-item.active { color: var(--gold); }
+  .nav-icon { font-size: 24px; margin-bottom: 2px; }
 
-        /* PRICE WIDGET */
-        .price-ticker { background: linear-gradient(135deg, var(--red-dark) 0%, #3D0000 100%) !important; border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.25rem; color: white !important; }
-        .price-row { display: flex; gap: 1rem; margin-top: 0.5rem; }
-        .price-item { flex: 1; }
-        .price-val { font-size: 1.4rem; font-weight: 700; color: var(--gold-bright) !important; }
-        .price-loading { color: rgba(255,215,0,0.5) !important; font-size: 1.4rem; font-weight: 700; animation: shimmer 1.2s infinite; }
-        @keyframes shimmer { 0%,100%{opacity:0.4} 50%{opacity:1} }
-        .price-live-link { display: flex; align-items: center; gap: 6px; background: rgba(255,215,0,0.12); border: 1px solid rgba(255,215,0,0.3); border-radius: 20px; padding: 5px 12px; color: var(--gold-bright) !important; text-decoration: none; font-size: 0.72rem; font-weight: 600; margin-top: 10px; width: fit-content; transition: background 0.2s; }
-        .price-refresh-btn { background: rgba(255,255,255,0.08) !important; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px; padding: 4px 8px; color: rgba(255,255,255,0.7) !important; font-size: 0.7rem; cursor: pointer; font-family: 'Prompt'; display: inline-flex; align-items: center; gap: 4px; vertical-align: middle; }
+  /* Device Specific Displays */
+  .desktop-only { display: block; }
+  .mobile-only { display: none !important; }
 
-        /* WALLET */
-        .wallet-card { background: linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%) !important; border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.25rem; color: white !important; box-shadow: 0 8px 32px rgba(139,0,0,0.3); position: relative; overflow: hidden; }
-        .wallet-card::before { content: ''; position: absolute; right: -20px; top: -20px; width: 120px; height: 120px; background: rgba(255,215,0,0.07); border-radius: 50%; }
-        .wallet-card::after { content: ''; position: absolute; right: 20px; bottom: -30px; width: 80px; height: 80px; background: rgba(255,215,0,0.05); border-radius: 50%; }
-        .wallet-label { font-size: 0.7rem; opacity: 0.7; letter-spacing: 0.05em; text-transform: uppercase; }
-        .wallet-name { font-weight: 600; margin-top: 3px; font-size: 0.95rem; opacity: 0.9; }
-        .wallet-balance { font-size: 2rem; font-weight: 800; margin-top: 4px; color: white !important; letter-spacing: -0.02em; font-family: 'Noto Serif Thai', serif; }
-        .wallet-currency { font-size: 0.9rem; opacity: 0.6; margin-left: 4px; }
-        .gold-source-badge { display:inline-flex; align-items:center; gap:4px; font-size:0.65rem; background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.3); border-radius:20px; padding:2px 8px; color:rgba(255,215,0,0.9) !important; margin-left:6px; vertical-align:middle; }
-        .action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
-        .action-btn { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 0.5rem; cursor: pointer; transition: 0.2s; }
-        .action-btn:active { transform: scale(0.97); background: var(--surface2) !important; }
-        .action-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-        .action-icon.green { background: #e8f5e9 !important; color: var(--success) !important; }
-        .action-icon.red { background: #ffebee !important; color: var(--error) !important; }
-        .action-icon.gold { background: #fff8e1 !important; color: var(--gold) !important; }
-        .action-icon.blue { background: #e3f2fd !important; color: #1976d2 !important; }
-        .action-icon.purple { background: #f3e5f5 !important; color: #7b1fa2 !important; }
-        .tx-item { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem; }
-        .tx-info { flex: 1; }
-        .badge { font-size: 0.7rem; padding: 0.2rem 0.5rem; border-radius: 20px; font-weight: 600; display: inline-block; }
-        .badge-pending { background: #fff3e0 !important; color: var(--warning) !important; }
-        .badge-approved { background: #e8f5e9 !important; color: var(--success) !important; }
-        .badge-rejected { background: #ffebee !important; color: var(--error) !important; }
-        .badge-super { background: var(--red) !important; color: white !important; }
-        .badge-sub { background: var(--warning) !important; color: white !important; }
-        .search-bar { display: flex; align-items: center; gap: 0.5rem; background: white !important; border: 1.5px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 1rem; margin-bottom: 1rem; }
-        .search-bar input { border: none; outline: none; flex: 1; font-family: 'Prompt', sans-serif; font-size: 0.9rem; background: transparent !important; color: var(--text) !important; }
-        .filter-chips { display: flex; gap: 0.5rem; margin-bottom: 1rem; overflow-x: auto; padding-bottom: 4px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
-        .filter-chips::-webkit-scrollbar { display: none; }
-        .chip { padding: 0.35rem 0.85rem; border-radius: 20px; border: 1.5px solid var(--border); background: white !important; font-size: 0.78rem; font-weight: 600; cursor: pointer; white-space: nowrap; font-family: 'Prompt', sans-serif; transition: 0.15s; color: var(--text3) !important; flex-shrink: 0; }
-        .chip.active { background: var(--red) !important; border-color: var(--red); color: white !important; }
-        .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; background: white !important; border-top: 1px solid var(--border); display: flex; height: 65px; box-shadow: 0 -4px 20px rgba(0,0,0,0.05); z-index: 100; }
-        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--text3) !important; border: none; background: none !important; cursor: pointer; font-family: 'Prompt', sans-serif; transition: 0.15s; }
-        .nav-item.active { color: var(--red) !important; font-weight: 600; }
-        #notification { position: fixed; top: 75px; left: 50%; transform: translateX(-50%); z-index: 1000; padding: 0.8rem 1.5rem; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); display: none; white-space: nowrap; font-size: 0.875rem; font-weight: 600; }
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 500; display: none; align-items: flex-end; justify-content: center; }
-        .modal { background: white !important; width: 100%; max-width: 480px; padding: 2rem; border-radius: 2rem 2rem 0 0; animation: slideUp 0.3s ease; max-height: 90vh; overflow-y: auto; }
-        @keyframes slideUp { from { transform: translateY(100%); } }
-        .pin-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-top: 1.5rem; }
-        .pin-btn { padding: 1rem; font-size: 1.2rem; font-weight: 700; border: 1.5px solid var(--border); border-radius: 12px; background: white !important; cursor: pointer; font-family: 'Prompt', sans-serif; transition: 0.15s; color: var(--text) !important; }
-        .pin-btn:active { background: var(--surface3) !important; transform: scale(0.95); }
-        .pin-btn.danger { color: var(--error) !important; }
-        .pin-display { display: flex; gap: 1rem; justify-content: center; margin: 1.5rem 0; }
-        .pin-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--red); transition: 0.2s; }
-        .pin-dot.filled { background: var(--red) !important; }
-        .admin-card { background: white !important; border: 1px solid var(--border); border-radius: 15px; padding: 1rem; margin-bottom: 1rem; }
-        .admin-label { font-size: 0.75rem; color: var(--text3) !important; font-weight: 600; margin-bottom: 4px; display: block; }
-        .admin-input { width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 8px; font-family: 'Prompt'; margin-bottom: 10px; font-size: 0.875rem; outline: none; background: white !important; color: var(--text) !important; }
-        .admin-input:focus { border-color: var(--gold); }
-        .file-upload-box { border: 2px dashed var(--border); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; margin-bottom: 15px; background: var(--surface2) !important; }
-        .preview-img-container { width: 100%; max-height: 250px; overflow: hidden; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--border); }
-        .preview-img-container img { width: 100%; height: auto; display: block; }
-        .live-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; display: inline-block; margin-right: 5px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-        .shop-link-btn { background: var(--surface3) !important; border: 1px solid var(--gold); border-radius: 10px; padding: 0.8rem; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--gold) !important; font-weight: 700; text-decoration: none; margin-bottom: 1rem; font-size: 0.875rem; }
-        .chart-wrap { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1rem; }
-        .chart-bars { display: flex; align-items: flex-end; gap: 6px; height: 100px; margin-top: 0.5rem; }
-        .chart-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-        .chart-bar { width: 100%; border-radius: 4px 4px 0 0; background: linear-gradient(180deg, var(--gold-light), var(--gold)); transition: height 0.5s ease; min-height: 4px; }
-        .chart-label { font-size: 0.6rem; color: var(--text3) !important; text-align: center; white-space: nowrap; }
-        .summary-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
-        .summary-card { background: white !important; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 1rem; }
-        .summary-val { font-size: 1.1rem; font-weight: 700; color: var(--red) !important; }
-        .section-title { font-size: 1rem; font-weight: 700; color: var(--red) !important; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.4rem; }
-        .gold-stat-card { background: linear-gradient(135deg, #FFF8E1, #FEF3D4) !important; border: 1px solid rgba(200,134,10,0.3); border-radius: var(--radius-sm); padding: 1rem; display: flex; align-items: center; gap: 12px; }
-        .gold-thb-val { font-size: 0.72rem; color: var(--gold) !important; margin-top: 2px; font-weight: 600; }
+  /* Admin Layout Base */
+  .admin-layout { display: flex; min-height: 100vh; }
+  .admin-sidebar { 
+    width: 280px; 
+    background: white; 
+    border-right: 1px solid #E5E7EB; 
+    display: flex; 
+    flex-direction: column; 
+    position: fixed; 
+    height: 100vh; 
+    z-index: 1001; 
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+  }
+  .admin-content { flex: 1; margin-left: 280px; padding: 32px; max-width: 1200px; padding-bottom: 60px; }
+  .admin-nav-item { 
+    padding: 16px 24px; 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    color: var(--gray-dark); 
+    font-weight: 500; 
+    cursor: pointer; 
+    border-left: 4px solid transparent; 
+    user-select: none;
+  }
+  .admin-nav-item:active { background: var(--gray-light); }
+  .admin-nav-item.active { background: var(--gold-light); color: var(--gold-dark); border-left-color: var(--gold); }
+  
+  /* Tables */
+  .table-responsive { 
+    overflow-x: auto; 
+    -webkit-overflow-scrolling: touch; 
+    width: 100%; 
+    padding-bottom: 10px; 
+  }
+  .table-responsive::-webkit-scrollbar { height: 6px; }
+  .table-responsive::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 8px; }
+  .table-responsive::-webkit-scrollbar-thumb { background: #ddd; border-radius: 8px; }
+  
+  table { width: 100%; border-collapse: collapse; min-width: 650px; }
+  th, td { padding: 16px; text-align: left; border-bottom: 1px solid #E5E7EB; white-space: nowrap; vertical-align: middle; }
+  th { font-size: 13px; color: var(--gray); font-weight: 600; text-transform: uppercase; background: #F9FAFB; position: sticky; top: 0; }
+  td { font-size: 14px; }
+  
+  /* Slips & Images */
+  .img-preview { width: 100%; max-height: 250px; object-fit: contain; border-radius: 16px; border: 1px dashed var(--gray); margin-top: 10px; background: #f9f9f9; }
+  .avatar-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--gold-light); margin-top: 10px; }
+  .qr-box { background: var(--gray-light); padding: 24px; border-radius: 20px; text-align: center; margin-bottom: 24px; }
+  .qr-box img { max-width: 100%; height: auto; max-height: 250px; border-radius: 12px; margin-bottom: 12px; object-fit: contain; }
+  
+  /* Utilities */
+  .balance-card { 
+    background: linear-gradient(135deg, var(--gold), var(--gold-dark)); 
+    color: white; 
+    padding: 36px 24px; 
+    border-radius: 28px; 
+    text-align: center; 
+    margin-bottom: 24px; 
+    box-shadow: 0 12px 32px rgba(212,175,55,0.4); 
+    position: relative; 
+    overflow: hidden; 
+  }
+  .balance-card::after { content: '✨'; position: absolute; right: -10px; top: -10px; font-size: 100px; opacity: 0.1; }
+  .toast { position: fixed; top: env(safe-area-inset-top, 20px); left: 50%; transform: translateX(-50%); background: var(--black); color: white; padding: 14px 28px; border-radius: 30px; font-size: 14px; font-weight: 500; z-index: 9999; display: none; box-shadow: var(--shadow-md); text-align: center; white-space: normal; line-height: 1.5; max-width: 90%; }
 
-        /* ─── FEATURE 1: Telegram Notification Badge ─── */
-        .tg-badge { display:inline-flex; align-items:center; gap:4px; background:#e3f2fd; border:1px solid #90caf9; border-radius:20px; padding:2px 8px; font-size:0.65rem; color:#1565c0; font-weight:600; margin-left:6px; }
+  /* --- MOBILE & IPAD RESPONSIVE OVERRIDES --- */
+  @media (max-width: 1400px) {
+    .desktop-only { display: none !important; }
+    .mobile-only { display: flex !important; } 
 
-        /* ─── FEATURE 2: PIN LOCK OVERLAY ─── */
-        #pin-lock-overlay {
-            position: fixed; inset: 0;
-            background: linear-gradient(135deg, var(--red-dark) 0%, #2D0000 60%, #0D0000 100%) !important;
-            z-index: 9998; display: none; flex-direction: column;
-            align-items: center; justify-content: center; padding: 2rem;
-        }
-        #pin-lock-overlay .pin-lock-logo { font-family: 'Noto Serif Thai', serif; font-size: 1.8rem; font-weight: 900; color: var(--gold-bright) !important; margin-bottom: 0.25rem; letter-spacing: 0.02em; }
-        #pin-lock-overlay .pin-lock-sub { font-size: 0.8rem; color: rgba(255,255,255,0.5) !important; margin-bottom: 2rem; }
-        #pin-lock-overlay .pin-lock-timer { font-size: 0.7rem; color: rgba(255,215,0,0.5) !important; margin-top: 1.5rem; }
-        #pin-lock-overlay .pin-display .pin-dot { border-color: rgba(255,215,0,0.6); }
-        #pin-lock-overlay .pin-display .pin-dot.filled { background: var(--gold-bright) !important; border-color: var(--gold-bright); }
-        #pin-lock-overlay .pin-btn { background: rgba(255,255,255,0.08) !important; border-color: rgba(255,255,255,0.15); color: white !important; }
-        #pin-lock-overlay .pin-btn:active { background: rgba(255,255,255,0.2) !important; }
-        #pin-lock-overlay .pin-btn.danger { color: rgba(255,150,150,0.9) !important; }
-        #pin-lock-overlay .pin-pad { max-width: 280px; width: 100%; }
-        #pin-lock-err { color: rgba(255,150,150,0.9); font-size: 0.8rem; margin-top: 1rem; min-height: 1.2em; text-align:center; }
+    .admin-layout { flex-direction: column; }
+    .admin-sidebar { display: none !important; } 
+    
+    .admin-content { margin-left: 0; padding: 16px; padding-bottom: 120px; max-width: 100%; }
+    
+    .admin-topbar { 
+      position: sticky; 
+      top: 0; 
+      background: rgba(255,255,255,0.95); 
+      backdrop-filter: blur(10px); 
+      -webkit-backdrop-filter: blur(10px); 
+      padding: calc(16px + env(safe-area-inset-top)) 20px 16px; 
+      margin: -16px -16px 20px -16px; 
+      z-index: 900; 
+      border-bottom: 1px solid rgba(0,0,0,0.05); 
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .grid { grid-template-columns: 1fr 1fr; gap: 16px; } 
+    @media (max-width: 600px) {
+      .grid { grid-template-columns: 1fr; } 
+    }
+    .card { padding: 16px; }
+    
+    .tx-item-history { flex-wrap: wrap; }
+    .tx-amount-col { text-align: right; min-width: 90px; }
+  }
 
-        /* ─── FEATURE 3: Gold Value THB ─── */
-        .gold-value-row { display:flex; align-items:center; gap:8px; margin-top:6px; flex-wrap:wrap; }
-        .gold-value-tag { background:rgba(255,215,0,0.15); border:1px solid rgba(255,215,0,0.35); border-radius:20px; padding:3px 10px; font-size:0.72rem; color:var(--gold-bright) !important; font-weight:600; }
-        .gold-mkt-badge { font-size:0.62rem; color:rgba(255,215,0,0.55) !important; }
+  /* Modal */
+  .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+  .modal { background: white; width: 100%; max-width: 400px; border-radius: 28px; padding: 28px; animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 90vh; overflow-y: auto; }
+  @keyframes pop { from { transform: scale(0.85) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
 
-        /* ─── FEATURE 4: PDF Print Styles ─── */
-        @media print {
-            body * { visibility: hidden !important; }
-            #pdf-print-area, #pdf-print-area * { visibility: visible !important; }
-            #pdf-print-area { position: absolute !important; top: 0; left: 0; width: 100%; padding: 20px; background: white !important; }
-            .pdf-page-break { page-break-before: always; }
-        }
-        #pdf-print-area { display: none; }
-
-        /* Gold savings THB display in wallet */
-        .wallet-gold-row { display:flex; align-items:center; gap:10px; margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.15); flex-wrap:wrap; }
-        .wallet-gold-item { display:flex; flex-direction:column; }
-        .wallet-gold-label { font-size:0.62rem; opacity:0.55; }
-        .wallet-gold-val { font-size:0.95rem; font-weight:700; color:var(--gold-bright) !important; }
-    </style>
+</style>
 </head>
 <body>
-<div id="notification"></div>
 
-<!-- ─── FEATURE 2: PIN LOCK OVERLAY ─── -->
-<div id="pin-lock-overlay">
-    <div class="pin-lock-logo" id="pin-lock-shop-name">ออมทอง</div>
-    <div class="pin-lock-sub">🔒 กรุณายืนยันตัวตนเพื่อเข้าใช้งาน</div>
-    <div class="pin-display">
-        <div class="pin-dot" id="plk0"></div>
-        <div class="pin-dot" id="plk1"></div>
-        <div class="pin-dot" id="plk2"></div>
-        <div class="pin-dot" id="plk3"></div>
-    </div>
-    <div id="pin-lock-pad" class="pin-pad" style="max-width:280px;width:100%;"></div>
-    <p id="pin-lock-err"></p>
-    <div class="pin-lock-timer" id="pin-lock-timer-msg"></div>
-    <button onclick="handleLogout()" style="margin-top:1.5rem;background:none;border:none;color:rgba(255,255,255,0.3);cursor:pointer;font-family:'Prompt';font-size:0.75rem;">ออกจากระบบ</button>
-</div>
-
-<!-- ─── FEATURE 4: PDF Print Area ─── -->
-<div id="pdf-print-area"></div>
-
-<!-- Login Page -->
-<div id="login-page">
-    <div class="login-bg-pattern"></div>
-    <div class="login-card">
-        <div class="login-logo">
-            <div class="login-logo-icon" id="shop-logo-login-container">
-                <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div class="login-title" id="shop-title-display">ออมทอง</div>
-            <div class="login-subtitle" id="shop-tagline-display">ออมทองออนไลน์ ปลอดภัย 100%</div>
-        </div>
-        <div class="login-tabs">
-            <button class="login-tab active" onclick="setLoginMode('login')">เข้าสู่ระบบ</button>
-            <button class="login-tab" onclick="setLoginMode('register')">สมัครสมาชิก</button>
-        </div>
-        <div id="login-form">
-            <div class="form-group">
-                <label class="form-label">เบอร์โทรศัพท์ / Username</label>
-                <input type="text" id="login-phone" class="form-input" placeholder="08X-XXX-XXXX หรือ admin" autocomplete="username">
-            </div>
-            <div class="form-group" id="reg-name-group" style="display:none">
-                <label class="form-label">ชื่อ-นามสกุล</label>
-                <input type="text" id="reg-name" class="form-input" placeholder="ชื่อ นามสกุล">
-            </div>
-            <div class="form-group" id="reg-admin-code-group" style="display:none; background:#fff3e0; padding:10px; border-radius:8px; border:1px dashed var(--warning);">
-                <label class="form-label" style="color:var(--warning);">🔑 รหัสตั้งต้นระบบ (สำหรับแอดมินคนแรก)</label>
-                <input type="password" id="reg-admin-code" class="form-input" placeholder="กรอกรหัส (ถ้ามี)">
-                <small style="color:var(--text3); font-size:0.7rem;">(ใส่ 9999 เพื่อรับสิทธิ์ Super Admin ในครั้งแรก)</small>
-            </div>
-            <div class="form-group">
-                <label class="form-label">รหัสผ่าน</label>
-                <input type="password" id="login-pass" class="form-input" placeholder="••••••" autocomplete="current-password">
-            </div>
-            <button class="btn btn-primary" onclick="handleAuth()">เข้าสู่ระบบ</button>
-            <div class="login-divider">หรือ</div>
-            <button class="btn btn-line" onclick="handleLineLogin()">
-                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:20px;height:20px;flex-shrink:0;"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.038 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.57-3.843 2.57-5.992z"/></svg>
-                เข้าสู่ระบบด้วย LINE
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- App Layout -->
-<div id="app-layout">
-    <header class="topbar">
-        <div class="topbar-brand">
-            <div class="avatar" id="shop-logo-nav-container" style="background:rgba(255,215,0,0.2); border:1px solid var(--gold-bright);">
-                <svg class="icon" style="width:16px;height:16px;stroke:var(--gold-bright);" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-            </div>
-            <span class="topbar-name" id="shop-nav-name">ออมทอง</span>
-        </div>
-        <div style="display:flex;gap:10px;align-items:center;">
-            <div class="topbar-user">
-                <span id="display-user-name" style="max-width:80px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:white;"></span>
-                <div class="avatar" id="display-user-avatar"></div>
-            </div>
-            <button onclick="handleLogout()" style="background:none;border:none;color:white;cursor:pointer;" title="ออกจากระบบ">
-                <svg class="icon" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>
-            </button>
-        </div>
-    </header>
-    <main class="main-content" id="view-container"></main>
-    <nav class="bottom-nav" id="navigation-bar"></nav>
-</div>
-
-<!-- Modal -->
-<div id="modal-overlay" class="modal-overlay" onclick="closeModal()">
-    <div class="modal" id="modal-content" onclick="event.stopPropagation()"></div>
-</div>
-
+<!-- Script ตรวจสอบการเปิดไฟล์ผิดวิธี -->
 <script>
-// ─── CONFIG ────────────────────────────────────────────────
-const TG_BOT_TOKEN = "8731749401:AAEmA6wiK5o4NM0CcjJnmgt_827PbyMtPYw";
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      var loader = document.getElementById('loading');
+      if (loader && loader.style.display !== 'none') {
+        loader.innerHTML = '<div style="background:white; padding:24px; border-radius:24px; color:#333; max-width:90%; text-align:center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);"><div style="font-size:50px; margin-bottom:10px;">⚠️</div><h3 style="color:#e74c3c; margin-bottom:10px; font-family:\'Sarabun\', sans-serif;">เกิดข้อผิดพลาดในการโหลด</h3><p style="font-size:15px; color:#666; font-family:\'Sarabun\', sans-serif;">ระบบถูกบล็อก! หากคุณดับเบิลคลิกเปิดไฟล์นี้จากเครื่องโดยตรง เบราว์เซอร์จะไม่อนุญาตให้เชื่อมต่อฐานข้อมูลครับ<br><br><b style="color:var(--black);">วิธีแก้:</b> ให้อัปโหลดไฟล์นี้ขึ้นระบบเซิร์ฟเวอร์ (เช่น GitHub Pages) แล้วเข้าใช้งานผ่านลิงก์เว็บแทนครับ</p></div>';
+      }
+    }, 4000);
+  });
+</script>
 
-async function sendTelegramAlert(text) {
-    const chatId = db.settings.tgChatId;
-    if (!chatId) return;
-    try {
-        await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-            method: 'POST', headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ chat_id: chatId, text, parse_mode: 'HTML' })
-        });
-    } catch(e) { console.warn("TG:", e); }
-}
+<!-- Toast Notification -->
+<div id="toast" class="toast"></div>
 
-async function sendTelegramDocument(csvContent, filename) {
-    const chatId = db.settings.tgChatId;
-    if (!chatId) return;
-    try {
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const fd = new FormData();
-        fd.append('chat_id', chatId);
-        fd.append('document', blob, filename);
-        fd.append('caption', `📊 <b>ไฟล์สำรองข้อมูลออมทอง (รวมลูกค้าทุกคน)</b>`);
-        await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendDocument`, { method:'POST', body:fd });
-    } catch(e) { console.warn("TG Doc:", e); }
-}
+<!-- Loading Overlay -->
+<div id="loading" class="modal-overlay" style="z-index: 9999; flex-direction: column; display: flex;">
+  <div style="font-size: 48px; animation: spin 1s linear infinite;">⏳</div>
+  <div style="color: white; margin-top: 16px; font-weight: 600; letter-spacing: 1px;" id="loading-text">กำลังเชื่อมต่อระบบ...</div>
+</div>
 
-// ─── FEATURE 1: Enhanced Telegram Notifications ─────────────
-async function sendTelegramToCustomer(userId, text) {
-    if (!userId) return;
-    try {
-        await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-            method: 'POST', headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ chat_id: userId, text, parse_mode: 'HTML' })
-        });
-    } catch(e) { console.warn("TG Customer:", e); }
-}
-
-// ฟังก์ชันทดสอบการแจ้งเตือน (เรียกใช้จากปุ่มหน้าตั้งค่า)
-async function testTelegramNotification() {
-    const chatId = document.getElementById('set-tg-chat-id').value;
-    if (!chatId) return showNotify('กรุณากรอก Chat ID ก่อน', 'warning');
+<!-- PAGE: LOGIN / REGISTER -->
+<div id="page-login" class="hidden">
+  <div class="login-box">
+    <!-- โลโก้จะเปลี่ยนตามหน้าร้านอัตโนมัติ -->
+    <div class="login-logo" id="login-logo-container">
+      <img id="login-logo-img" src="" alt="โลโก้ร้าน" style="display:none; width: 100%; height: 100%; object-fit: cover;">
+      <span id="login-logo-fallback">✨</span>
+    </div>
+    <h1 class="serif" style="margin-bottom: 8px;" id="login-shop-name">พรีเมียมออมทอง</h1>
+    <p style="color: var(--gray); margin-bottom: 24px; font-size: 14px;">ระบบสะสมเงินออมเพื่อรับทองคำ</p>
     
-    showNotify('กำลังส่งข้อความทดสอบ...');
-    try {
-        const res = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
-            method: 'POST', headers: {'Content-Type':'application/json'},
-            body: JSON.stringify({ 
-                chat_id: chatId, 
-                text: '🔔 <b>ทดสอบระบบแจ้งเตือนออมทอง</b>\n\n✅ หากคุณเห็นข้อความนี้ แสดงว่าระบบเชื่อมต่อกับ Telegram สำเร็จแล้ว!', 
-                parse_mode: 'HTML' 
-            })
-        });
-        const data = await res.json();
-        if(data.ok) {
-            showNotify('ส่งทดสอบสำเร็จ! โปรดเช็ค Telegram');
-        } else {
-            showNotify('ส่งล้มเหลว: ' + data.description, 'error');
-        }
-    } catch(e) {
-        showNotify('เชื่อมต่อ Telegram API ไม่สำเร็จ', 'error');
-    }
-}
+    <div class="flex gap-2 mb-4" style="background: var(--gray-light); padding: 4px; border-radius: 14px;">
+      <button class="btn btn-sm" style="flex: 1; background: white; box-shadow: var(--shadow-sm); border-radius: 10px;" id="tab-login" onclick="switchAuthTab('login')">เข้าสู่ระบบ</button>
+      <button class="btn btn-sm" style="flex: 1; background: transparent; color: var(--gray); border-radius: 10px;" id="tab-register" onclick="switchAuthTab('register')">สมัครสมาชิก</button>
+    </div>
 
-// ─── PASSWORD HASHING ──────
-async function hashPassword(pass) {
-    if (window.crypto && window.crypto.subtle) {
-        try {
-            const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pass));
-            return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
-        } catch(e) {
-            console.warn("Crypto failed");
-        }
-    }
-    let hash = 0;
-    for (let i = 0; i < pass.length; i++) {
-        const char = pass.charCodeAt(i);
-        hash = ((hash << 5) - hash) + char;
-        hash = hash & hash;
-    }
-    return "fb_" + hash.toString();
-}
+    <!-- Login Form -->
+    <div id="form-login">
+      <div class="form-group">
+        <label>เบอร์โทรศัพท์</label>
+        <input type="tel" id="login-phone" class="form-control" placeholder="08x-xxx-xxxx">
+      </div>
+      <div class="form-group">
+        <label>รหัสผ่าน</label>
+        <input type="password" id="login-pass" class="form-control" placeholder="••••••">
+      </div>
+      <button class="btn btn-primary" style="width: 100%; margin-top: 8px;" onclick="handleLogin()">เข้าสู่ระบบ</button>
+    </div>
 
-async function verifyPassword(pass, hash) {
-    if (hash.startsWith("fb_")) {
-        return await hashPassword(pass) === hash;
-    }
-    if (window.crypto && window.crypto.subtle) {
-        const checkHash = await hashPassword(pass);
-        return checkHash === hash;
-    }
-    if (pass === "123456" && hash === "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92") {
-        return true;
-    }
-    return false;
-}
+    <!-- Register Form -->
+    <div id="form-register" class="hidden">
+      <div class="form-group">
+        <label>ชื่อ - นามสกุล</label>
+        <input type="text" id="reg-name" class="form-control" placeholder="ชื่อ นามสกุล">
+      </div>
+      <div class="form-group">
+        <label>เบอร์โทรศัพท์</label>
+        <input type="tel" id="reg-phone" class="form-control" placeholder="08x-xxx-xxxx">
+      </div>
+      <div class="form-group">
+        <label>รหัสผ่าน</label>
+        <input type="password" id="reg-pass" class="form-control" placeholder="ตั้งรหัสผ่าน">
+      </div>
+      <div class="form-group" id="secret-code-group">
+        <label>รหัสลับ (หากเป็นลูกค้าโปรดเว้นว่างไว้)</label>
+        <input type="text" id="reg-secret" class="form-control" placeholder="ปล่อยว่างหากเป็นลูกค้า">
+      </div>
+      <button class="btn btn-primary" style="width: 100%; margin-top: 8px;" onclick="handleRegister()">ลงทะเบียน</button>
+    </div>
+  </div>
+</div>
 
-// ─── DEFAULT DB ─────────────────────────────────────────────
-const DEFAULT_DB = {
-    users: {
-        "0812345678": {
-            uid: "u001", phone: "0812345678", name: "สมชาย ใจดี",
-            role: "customer", balanceTHB: 15420, balanceGold: 0.3200,
-            email: "somchai@email.com", profilePic: null, telegramChatId: null,
-            passHash: "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92"
-        }
+
+<!-- PAGE: CUSTOMER APP -->
+<div id="page-customer" class="hidden">
+  <div class="app-header">
+    <div class="flex items-center gap-3">
+      <img id="cust-header-logo" src="" alt="โลโก้" style="width: 36px; height: 36px; border-radius: 50%; object-fit: cover; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); box-shadow: var(--shadow-sm); display: none;">
+      <div id="cust-header-logo-fallback" style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, var(--gold), var(--gold-dark)); display:flex; align-items:center; justify-content:center; color:white; font-size:12px; font-weight: bold; box-shadow: var(--shadow-sm);">ร้าน</div>
+      <h3 class="serif" id="cust-header-name" style="font-size: 18px;">ร้านทองพรีเมียม</h3>
+    </div>
+    <div class="flex gap-2 items-center">
+      <button id="btn-switch-admin" class="btn btn-sm btn-primary hidden" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;" onclick="switchToAdminView()">กลับหน้าแอดมิน</button>
+      <button class="btn btn-sm btn-outline" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;" onclick="logout()">ออกจากระบบ</button>
+    </div>
+  </div>
+
+  <!-- Content: Home -->
+  <div class="app-container" id="cust-content-home">
+    <div class="balance-card">
+      <div style="font-size: 15px; opacity: 0.9; font-weight: 500;">ยอดเงินออมสะสมทั้งหมด</div>
+      <div class="serif" style="font-size: 44px; font-weight: 700; margin: 10px 0; letter-spacing: -1px;">฿<span id="cust-balance">0.00</span></div>
+      <div class="badge bg-gold" style="display:inline-block; padding: 6px 14px; font-size: 13px;">พร้อมแลกทอง</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>รายการล่าสุด</span>
+        <span style="font-size: 14px; color: var(--gold); font-weight: 600; cursor: pointer;" onclick="navCust('history')">ดูทั้งหมด</span>
+      </div>
+      <div id="cust-recent-tx">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Content: Deposit -->
+  <div class="app-container hidden" id="cust-content-deposit">
+    <div class="card text-center">
+      <h3 class="serif mb-4" style="color: var(--gold-dark);">ฝากออมเงิน</h3>
+      <div class="qr-box">
+        <img id="cust-qr-img" src="" alt="QR Code" style="display:none; width: 100%;">
+        <div id="cust-qr-placeholder" style="color: var(--gray); font-size: 14px;">ไม่มีข้อมูล QR Code</div>
+        <div class="mt-4" style="text-align: left; background: white; padding: 16px; border-radius: 16px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">
+          <div style="font-size: 12px; color: var(--gray);">ธนาคาร</div>
+          <div class="font-bold" id="cust-bank-name" style="font-size: 15px; margin-bottom: 8px;">-</div>
+          <div style="font-size: 12px; color: var(--gray);">ชื่อบัญชี</div>
+          <div class="font-bold" id="cust-bank-accname" style="font-size: 15px; margin-bottom: 8px;">-</div>
+          <div style="font-size: 12px; color: var(--gray);">เลขบัญชี</div>
+          <div class="font-bold serif" id="cust-bank-accno" style="font-size: 24px; color: var(--gold-dark); letter-spacing: 2px; font-family: 'Sarabun', sans-serif;">-</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label>จำนวนเงินที่โอน (บาท)</label>
+        <input type="number" id="dep-amount" class="form-control" placeholder="0.00">
+      </div>
+      <div class="form-group">
+        <label>หมายเหตุ</label>
+        <input type="text" id="dep-remark" class="form-control" placeholder="เช่น ออมครั้งที่ 1">
+      </div>
+      <div class="form-group">
+        <label>แนบสลิปโอนเงิน</label>
+        <input type="file" id="dep-slip" class="form-control" accept="image/*" onchange="previewImage(this, 'dep-preview')">
+        <img id="dep-preview" class="img-preview hidden">
+      </div>
+      <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="submitDeposit()">ยืนยันการฝากออม</button>
+    </div>
+  </div>
+
+  <!-- Content: Withdraw -->
+  <div class="app-container hidden" id="cust-content-withdraw">
+    <div class="card">
+      <h3 class="serif mb-4" style="color: var(--gold-dark);">ถอนเงินออม / แลกทอง</h3>
+      <div style="background: var(--gold-light); padding: 20px; border-radius: 16px; margin-bottom: 24px; text-align: center;">
+        <div style="font-size: 14px; color: var(--gold-dark); font-weight: 500;">ยอดเงินที่ใช้ถอนได้สูงสุด</div>
+        <div class="serif" style="font-size: 32px; font-weight: 700; color: var(--gold-dark); margin-top: 4px;">฿<span id="cust-withdraw-max">0.00</span></div>
+      </div>
+      <div class="form-group">
+        <label>จำนวนเงินที่ต้องการนำไปแลก (บาท)</label>
+        <input type="number" id="wit-amount" class="form-control" placeholder="0.00">
+      </div>
+      <div class="form-group">
+        <label>หมายเหตุ</label>
+        <input type="text" id="wit-remark" class="form-control" placeholder="เช่น ต้องการทองแท่ง / มารับหน้าร้าน">
+      </div>
+      
+      <!-- แยกส่วนติดต่อร้าน -->
+      <div class="form-group" style="background: #FEF3C7; padding: 20px; border-radius: 16px; margin-top: 24px; text-align:center;">
+        <label style="color: #92400E; font-size: 14px; margin-bottom: 12px; display:block;">📞 ติดต่อร้านทองเพื่อยืนยันการถอน</label>
+        <div id="cust-shop-contact-details" style="font-size: 15px; font-weight: 600; color: #92400E; line-height: 1.8; margin-bottom: 12px;">
+          <!-- ข้อมูลเบอร์ และ ID จะถูกแทรกที่นี่ -->
+        </div>
+        <div id="cust-shop-contact-btn">
+          <!-- ปุ่มลิงก์คลิกเพิ่มเพื่อนจะแทรกที่นี่ -->
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="submitWithdraw()">ส่งคำขอถอนเงินออม</button>
+    </div>
+  </div>
+
+  <!-- Content: History -->
+  <div class="app-container hidden" id="cust-content-history">
+    <h3 class="serif mb-4" style="padding: 0 4px;">ประวัติการทำรายการ</h3>
+    <div class="card" style="padding: 12px 20px;">
+      <div id="cust-all-history"></div>
+    </div>
+  </div>
+
+  <!-- Content: Profile -->
+  <div class="app-container hidden" id="cust-content-profile">
+    <div class="card text-center">
+      <img id="pro-avatar-img" src="" alt="โปรไฟล์" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 0 auto 16px; box-shadow: var(--shadow-sm); display: none;">
+      <div id="pro-avatar-fallback" style="width: 80px; height: 80px; background: var(--gray-light); border-radius: 50%; display: flex; align-items:center; justify-content:center; font-size:36px; margin: 0 auto 16px;">👤</div>
+      <h3 class="serif" id="pro-name" style="font-size: 22px;">ชื่อ นามสกุล</h3>
+      <div class="badge bg-gold mt-4" id="pro-role" style="padding: 6px 16px; font-size: 13px;">ลูกค้า</div>
+    </div>
+    <div class="card">
+      <div class="card-title">ข้อมูลส่วนตัว</div>
+      <div class="form-group">
+        <label>อัปโหลดรูปโปรไฟล์ใหม่</label>
+        <input type="file" id="edit-profile-pic" class="form-control" accept="image/*" style="padding: 10px;" onchange="previewImage(this, 'profile-preview')">
+        <img id="profile-preview" class="avatar-preview hidden">
+      </div>
+      <div class="form-group"><label>ชื่อ-นามสกุล</label><input type="text" id="edit-name" class="form-control"></div>
+      <div class="form-group"><label>เบอร์โทรศัพท์ (ใช้เข้าระบบ)</label><input type="text" id="edit-phone" class="form-control" disabled style="background: var(--gray-light); color: var(--gray);"></div>
+      <div class="form-group"><label>อีเมล (เพิ่มเติม)</label><input type="email" id="edit-email" class="form-control"></div>
+      <button class="btn btn-primary mt-4" style="width:100%" onclick="updateProfile()">บันทึกข้อมูล</button>
+    </div>
+    <div class="card">
+      <div class="card-title">เปลี่ยนรหัสผ่าน</div>
+      <div class="form-group"><label>รหัสผ่านใหม่</label><input type="password" id="edit-pass" class="form-control"></div>
+      <button class="btn btn-outline" style="width:100%" onclick="updatePassword()">อัปเดตรหัสผ่าน</button>
+    </div>
+  </div>
+
+  <!-- Bottom App Navigation (Customer) -->
+  <div class="bottom-nav">
+    <div class="nav-item active" onclick="navCust('home')"><span class="nav-icon">🏠</span>หน้าแรก</div>
+    <div class="nav-item" onclick="navCust('deposit')"><span class="nav-icon">📥</span>ฝาก</div>
+    <div class="nav-item" onclick="navCust('withdraw')"><span class="nav-icon">📤</span>ถอน</div>
+    <div class="nav-item" onclick="navCust('history')"><span class="nav-icon">📋</span>ประวัติ</div>
+    <div class="nav-item" onclick="navCust('profile')"><span class="nav-icon">👤</span>โปรไฟล์</div>
+  </div>
+</div>
+
+
+<!-- PAGE: ADMIN APP -->
+<div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()"></div>
+<div id="page-admin" class="hidden admin-layout">
+  
+  <!-- Sidebar for Desktop (> 1400px) -->
+  <div class="admin-sidebar desktop-only" id="admin-sidebar">
+    <div style="padding: calc(24px + env(safe-area-inset-top)) 24px 24px; border-bottom: 1px solid #E5E7EB;">
+      <h2 class="serif" style="color: var(--gold-dark); font-size: 20px;">Admin Panel</h2>
+      <div style="font-size: 13px; color: var(--gray); margin-top: 4px;" id="admin-shop-name-sidebar">ร้านทองพรีเมียม</div>
+    </div>
+    <div style="padding: 16px 0; flex: 1; overflow-y: auto;">
+      <div class="admin-nav-item active nav-dashboard" onclick="navAdmin('dashboard')"><span style="font-size: 20px; width: 24px;">📊</span> ภาพรวม</div>
+      <div class="admin-nav-item nav-tx" onclick="navAdmin('transactions')"><span style="font-size: 20px; width: 24px;">📋</span> ธุรกรรม & อนุมัติ <span id="admin-badge-tx" class="badge bg-red hidden" style="margin-left:auto; font-size: 11px;">0</span></div>
+      <div class="admin-nav-item nav-users" onclick="navAdmin('users')"><span style="font-size: 20px; width: 24px;">👥</span> จัดการลูกค้า</div>
+      <div class="admin-nav-item nav-settings" id="nav-settings" onclick="navAdmin('settings')"><span style="font-size: 20px; width: 24px;">⚙️</span> ตั้งค่าร้านค้า</div>
+      <div class="admin-nav-item" onclick="switchToCustomerView()"><span style="font-size: 20px; width: 24px;">📱</span> มุมมองลูกค้า</div>
+    </div>
+    <div style="padding: 24px calc(24px + env(safe-area-inset-bottom)); border-top: 1px solid #E5E7EB;">
+      <button class="btn btn-outline" style="width: 100%; border-color: #E5E7EB; color: var(--gray-dark);" onclick="logout()">ออกจากระบบ</button>
+    </div>
+  </div>
+
+  <div class="admin-content" id="admin-content-area">
+    <!-- Topbar for iPad & Mobile (<= 1400px) -->
+    <div class="admin-topbar mobile-only">
+      <h2 class="serif" id="admin-page-title-mobile" style="font-size: 20px; margin: 0; color: var(--gold-dark);">ภาพรวมระบบ</h2>
+      <button class="btn btn-sm btn-outline" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;" onclick="logout()">ออกจากระบบ</button>
+    </div>
+
+    <!-- Title for Desktop -->
+    <div class="flex items-center gap-3 mb-4 desktop-only" style="margin-bottom: 24px;">
+      <h2 class="serif" id="admin-page-title" style="font-size: 22px;">ภาพรวมระบบ</h2>
+    </div>
+
+    <!-- Admin Dashboard -->
+    <div id="admin-sec-dashboard" class="nav-dashboard">
+      <div class="grid">
+        <div class="card" style="border-left: 4px solid var(--gold);">
+          <div style="font-size: 14px; color: var(--gray); font-weight: 500;">ยอดเงินออมรวมในระบบ</div>
+          <div class="serif" style="font-size: 36px; font-weight: 700; margin-top: 8px;">฿<span id="stat-total-balance">0</span></div>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--black);">
+          <div style="font-size: 14px; color: var(--gray); font-weight: 500;">จำนวนสมาชิกทั้งหมด</div>
+          <div class="serif" style="font-size: 36px; font-weight: 700; margin-top: 8px;"><span id="stat-total-users">0</span> <span style="font-size: 16px; color: var(--gray); font-weight: 400; font-family: 'Sarabun', sans-serif;">คน</span></div>
+        </div>
+        <div class="card" style="border-left: 4px solid var(--red);">
+          <div style="font-size: 14px; color: var(--gray); font-weight: 500;">รายการรออนุมัติ</div>
+          <div class="serif" style="font-size: 36px; font-weight: 700; margin-top: 8px; color: var(--red);"><span id="stat-pending">0</span> <span style="font-size: 16px; color: var(--gray); font-weight: 400; font-family: 'Sarabun', sans-serif;">รายการ</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Transactions -->
+    <div id="admin-sec-transactions" class="hidden nav-tx">
+      <div class="card" style="padding: 0;">
+        <div class="card-title" style="padding: 20px 20px 0;">
+          รายการฝาก-ถอน
+          <button class="btn btn-sm btn-outline" style="font-size: 12px; padding: 6px 12px;" onclick="exportData('transactions')">📥 Export Excel</button>
+        </div>
+        <div class="table-responsive" style="padding: 0 20px 20px;">
+          <table id="table-tx">
+            <thead>
+              <tr><th>วันที่</th><th>ลูกค้า</th><th>ประเภท</th><th>ยอดเงิน</th><th>หมายเหตุ</th><th>สถานะ</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Users -->
+    <div id="admin-sec-users" class="hidden nav-users">
+      <div class="card" style="padding: 0;">
+        <div class="card-title" style="padding: 20px 20px 0;">
+          รายชื่อผู้ใช้งาน
+          <button class="btn btn-sm btn-outline" style="font-size: 12px; padding: 6px 12px;" onclick="exportData('users')">📥 Export Excel</button>
+        </div>
+        <div class="table-responsive" style="padding: 0 20px 20px;">
+          <table id="table-users">
+            <thead>
+              <tr><th>โปรไฟล์</th><th>ชื่อ-นามสกุล</th><th>เบอร์โทร</th><th>สิทธิ์</th><th>ยอดสะสม</th><th>จัดการ</th></tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Settings -->
+    <div id="admin-sec-settings" class="hidden nav-settings">
+      <div class="card" style="max-width: 600px;">
+        <div class="card-title">ข้อมูลร้านค้า และ บัญชีรับโอน</div>
+        
+        <div class="form-group">
+          <label>อัปโหลดรูปร้านค้า (โลโก้)</label>
+          <input type="file" class="form-control" accept="image/*" style="padding: 10px;" id="set-shop-logo" onchange="previewImage(this, 'set-logo-preview')">
+          <img id="set-logo-preview" class="avatar-preview hidden">
+        </div>
+
+        <div class="form-group"><label>ชื่อร้าน</label><input type="text" id="set-shopname" class="form-control"></div>
+        <div class="form-group"><label>เบอร์โทรติดต่อ</label><input type="text" id="set-phone" class="form-control"></div>
+        
+        <div class="form-group"><label>Line ID (ไอดีไลน์ - แสดงเฉยๆ ไม่คลิก)</label><input type="text" id="set-line-id" class="form-control" placeholder="เช่น @goldshop"></div>
+        <div class="form-group"><label>ลิงก์เพิ่มเพื่อน Line (URL - สำหรับทำปุ่มคลิก)</label><input type="text" id="set-line-link" class="form-control" placeholder="เช่น https://line.me/ti/p/..."></div>
+        
+        <h4 class="mt-6 mb-4" style="color: var(--gold-dark); border-bottom: 1px solid #eee; padding-bottom: 8px;">บัญชีธนาคารรับฝากออม</h4>
+        <div class="form-group"><label>ชื่อธนาคาร</label><input type="text" id="set-bankname" class="form-control"></div>
+        <div class="form-group"><label>ชื่อบัญชี</label><input type="text" id="set-bankaccname" class="form-control"></div>
+        <div class="form-group"><label>เลขบัญชี</label><input type="text" id="set-bankaccno" class="form-control"></div>
+        
+        <div class="form-group">
+          <label>อัปโหลดรูป QR Code รับเงิน</label>
+          <input type="file" class="form-control" accept="image/*" style="padding: 10px;" id="set-qr-code" onchange="previewImage(this, 'set-qr-preview')">
+          <img id="set-qr-preview" class="img-preview hidden">
+        </div>
+
+        <h4 class="mt-6 mb-4" style="color: var(--gold-dark); border-bottom: 1px solid #eee; padding-bottom: 8px;">Telegram Backup & Notifications</h4>
+        <div class="form-group">
+          <label>Bot Token (ล็อกอัตโนมัติ ห้ามเปลี่ยน)</label>
+          <input type="text" id="set-tg-token" class="form-control" value="8731749401:AAEmA6wiK5o4NM0CcjJnmgt_827PbyMtPYw" readonly disabled style="opacity: 0.7;">
+        </div>
+        <div class="form-group"><label>Chat ID</label><input type="text" id="set-tg-chatid" class="form-control" value="-1003963635991"></div>
+        
+        <div class="grid gap-3 mt-6">
+          <button class="btn btn-primary" style="width: 100%;" onclick="saveSettings()">💾 บันทึกตั้งค่า</button>
+          <button class="btn btn-outline" style="width: 100%;" onclick="testTelegram()">ทดสอบแจ้งเตือน</button>
+          <button class="btn btn-outline" style="width: 100%; border-color:var(--green); color:var(--green);" onclick="backupToTelegram()">Backup ข้อมูลเดี๋ยวนี้</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Nav for Admin (iPad & Mobile Only) -->
+  <div class="admin-bottom-nav mobile-only">
+    <div class="nav-item active nav-dashboard" onclick="navAdmin('dashboard')"><span class="nav-icon">📊</span>หน้าแรก</div>
+    <div class="nav-item nav-tx" onclick="navAdmin('transactions')">
+      <span class="nav-icon">📋</span>ธุรกรรม
+      <span id="admin-badge-tx-mobile" class="badge bg-red hidden" style="position: absolute; top: 0; right: 0; padding: 2px 6px; font-size: 9px; transform: translate(20%, -20%);">0</span>
+    </div>
+    <div class="nav-item nav-users" onclick="navAdmin('users')"><span class="nav-icon">👥</span>ลูกค้า</div>
+    <div class="nav-item nav-settings" id="nav-settings-mobile" onclick="navAdmin('settings')"><span class="nav-icon">⚙️</span>ตั้งค่า</div>
+    <div class="nav-item" onclick="switchToCustomerView()"><span class="nav-icon">📱</span>หน้าลูกค้า</div>
+  </div>
+</div>
+
+<!-- Modal: Edit Withdraw Amount -->
+<div id="modal-edit-withdraw" class="modal-overlay">
+  <div class="modal">
+    <h3 class="serif mb-4">ตรวจสอบและแก้ไขยอดถอน</h3>
+    <p style="font-size: 14px; color: var(--gray); margin-bottom: 20px;">ยอดที่ลูกค้าขอถอน: <b id="mw-req-amt" style="color: var(--black); font-size: 16px;">0</b> บาท</p>
+    <div class="form-group">
+      <label>ยอดเงินสุทธิที่อนุมัติให้หัก (บาท)</label>
+      <input type="number" id="mw-app-amt" class="form-control" style="font-size: 20px; font-weight: bold; color: var(--gold-dark);">
+    </div>
+    <div class="flex gap-2 mt-6">
+      <button class="btn btn-outline" style="flex:1" onclick="closeModal('modal-edit-withdraw')">ยกเลิก</button>
+      <button class="btn btn-success" style="flex:1" onclick="confirmApproveWithdraw()">อนุมัติยอดนี้</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: View Slip -->
+<div id="modal-view-slip" class="modal-overlay">
+  <div class="modal text-center" style="padding: 16px; background: transparent; box-shadow: none;">
+    <h3 class="serif mb-4" style="color: white; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">หลักฐานการโอนเงิน</h3>
+    <img id="slip-image-full" src="" style="width: 100%; border-radius: 16px; margin-bottom: 16px; box-shadow: var(--shadow-md);">
+    <button class="btn btn-primary" style="width: 100%; background: white; color: var(--black);" onclick="closeModal('modal-view-slip')">ปิดรูปภาพ</button>
+  </div>
+</div>
+
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, collection, doc, setDoc, getDoc, updateDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  // System Helpers
+  const getEl = (id) => document.getElementById(id);
+  const hideEl = (id) => { const el = getEl(id); if(el) el.classList.add('hidden'); };
+  const showEl = (id) => { const el = getEl(id); if(el) el.classList.remove('hidden'); };
+  const getVal = (id) => { const el = getEl(id); return el ? el.value : ''; };
+  const setVal = (id, val) => { const el = getEl(id); if(el) el.value = val; };
+  const setText = (id, txt) => { const el = getEl(id); if(el) el.textContent = txt; };
+
+  // ของคุณแบบ 100% ไม่เปลี่ยน
+  const myFirebaseConfig = {
+    apiKey: "AIzaSyD1GnYInbXZHxjX91E25ki2WP-R0a9pWTU",
+    authDomain: "gold-savings-517d2.firebaseapp.com",
+    projectId: "gold-savings-517d2",
+    storageBucket: "gold-savings-517d2.firebasestorage.app",
+    messagingSenderId: "1039204885436",
+    appId: "1:1039204885436:web:046afe73cf7c98f556c1b9",
+    measurementId: "G-H6H6GL3NW6"
+  };
+  
+  const safeParseJSON = (str, fallback) => {
+    try { return str ? JSON.parse(str) : fallback; } catch (e) { return fallback; }
+  };
+  
+  // บังคับใช้ Firebase ของคุณเสมอ ไม่ว่าจะเปิดจากที่ไหน
+  const firebaseConfig = myFirebaseConfig;
+  const appId = 'gold-savings-app';
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+  
+  const getCol = (name) => collection(db, name);
+  const getDocRef = (colName, docId) => doc(db, colName, docId);
+
+  window.appState = {
+    currentUser: null,
+    users: safeParseJSON(localStorage.getItem('cache_users'), []) || [],
+    transactions: safeParseJSON(localStorage.getItem('cache_txs'), []) || [],
+    settings: safeParseJSON(localStorage.getItem('cache_settings'), null) || {
+      shopName: 'ร้านทองพรีเมียม', phone: '', lineId: '', lineLink: '', bankName: '', bankAccName: '', bankAccNo: '', qrBase64: '', shopLogoBase64: '', 
+      tgToken: '8731749401:AAEmA6wiK5o4NM0CcjJnmgt_827PbyMtPYw', tgChatId: '-1003963635991', hasSuperAdmin: false
     },
-    transactions: [
-        { id:"t001", userId:"u001", type:"deposit", amountTHB:1000, goldWeight:0.02,
-          status:"approved", note:"ออมทองครั้งแรก",
-          timestamp: new Date(Date.now()-86400000).toISOString(), slipImage:null }
-    ],
-    settings: {
-        buyPrice: 48200, sellPrice: 47800,
-        bankName: "กสิกรไทย", accountName: "หจก. ออมทองคำแท้", accountNumber: "123-4-56789-0",
-        shopName: "ออมทองออนไลน์", shopTagline: "ออมทองออนไลน์ ปลอดภัย เชื่อถือได้ 100%",
-        shopLink: "https://www.facebook.com", lineContact: "https://line.me/ti/p/~@aumthong",
-        phoneContact: "02-123-4567", qrUrl: null, shopLogo: null,
-        tgChatId: "-1003963635991",
-        backupEmail: "", lastBackupDate: 0,
-        pinLockEnabled: true, pinLockTimeout: 5
+  };
+
+  let pendingTxId = null;
+  let isListenersSetup = false;
+
+  window.showToast = (msg, isError = false) => {
+    const t = getEl('toast');
+    if(!t) return;
+    t.textContent = msg;
+    t.style.background = isError ? "var(--red)" : "var(--black)";
+    t.style.display = 'block';
+    setTimeout(() => { t.style.display = 'none'; }, 4000);
+  };
+  
+  window.showLoading = (show) => {
+    const el = getEl('loading');
+    if(el) {
+       el.style.display = show ? 'flex' : 'none';
+       const txt = getEl('loading-text');
+       if(txt) txt.textContent = "กำลังเชื่อมต่อระบบ...";
     }
-};
+  };
+  
+  window.closeModal = (id) => {
+    const el = getEl(id);
+    if(el) el.style.display = 'none';
+  };
+  
+  window.openModal = (id) => {
+    const el = getEl(id);
+    if(el) el.style.display = 'flex';
+  };
+  
+  const genId = () => Date.now().toString(36) + Math.random().toString(36).substr(2);
 
-// ─── STATE ──────────────────────────────────────────────────
-let db = JSON.parse(localStorage.getItem('aumthong_v6_db')) || DEFAULT_DB;
-if (!db.settings.backupEmail)    db.settings.backupEmail   = "";
-if (!db.settings.lastBackupDate) db.settings.lastBackupDate = 0;
-if (!db.settings.buyPrice)       db.settings.buyPrice      = 48200;
-if (!db.settings.sellPrice)      db.settings.sellPrice     = 47800;
-if (!db.settings.tgChatId)       db.settings.tgChatId      = "-1003963635991";
-if (!db.settings.bankName)       db.settings.bankName      = "กสิกรไทย";
-if (db.settings.pinLockEnabled === undefined) db.settings.pinLockEnabled = true;
-if (!db.settings.pinLockTimeout) db.settings.pinLockTimeout = 5;
-Object.values(db.users).forEach(u => { if (!u.telegramChatId) u.telegramChatId = null; });
-
-// FEATURE: 6-Hour Session Expiration & Persistent Login
-let sessionPhone = localStorage.getItem('aumthong_v6_phone') || null;
-let lastActive   = localStorage.getItem('aumthong_last_active') || 0;
-
-if (sessionPhone) {
-    const SIX_HOURS = 6 * 60 * 60 * 1000;
-    if (Date.now() - parseInt(lastActive) > SIX_HOURS) {
-        localStorage.removeItem('aumthong_v6_phone');
-        localStorage.removeItem('aumthong_last_active');
-        sessionPhone = null;
-    } else {
-        localStorage.setItem('aumthong_last_active', Date.now());
-    }
-}
-
-let currentUser   = sessionPhone ? db.users[sessionPhone] : null;
-let activePage    = 'home';
-let loginMode     = 'login';
-let tempFile      = null;
-let historyFilter = 'all';
-let userSearchQ   = '';
-
-const fmt = {
-    thb:  n => Number(n).toLocaleString('th-TH', { minimumFractionDigits: 2 }),
-    gold: n => Number(n).toFixed(4),
-    date: d => new Date(d).toLocaleDateString('th-TH', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' })
-};
-
-function saveDB()   { localStorage.setItem('aumthong_v6_db', JSON.stringify(db)); }
-function saveSession(phone) { 
-    localStorage.setItem('aumthong_v6_phone', phone); 
-    localStorage.setItem('aumthong_last_active', Date.now());
-    sessionPhone = phone; 
-}
-function clearSession() { 
-    localStorage.removeItem('aumthong_v6_phone'); 
-    localStorage.removeItem('aumthong_last_active');
-    sessionPhone = null; 
-}
-function getUser()  { return sessionPhone ? db.users[sessionPhone] : null; }
-function hasSuperAdmin() { return Object.values(db.users).some(u => u.role === 'superadmin'); }
-
-function showNotify(msg, type='success') {
-    const el = document.getElementById('notification');
-    el.innerText = msg; el.style.display = 'block';
-    el.style.background = type === 'success' ? '#e8f5e9' : type === 'warning' ? '#fff3e0' : '#ffebee';
-    el.style.color = type === 'success' ? 'var(--success)' : type === 'warning' ? 'var(--warning)' : 'var(--error)';
-    el.style.border = `1px solid ${type === 'success' ? '#c8e6c9' : type === 'warning' ? '#ffe0b2' : '#ffcdd2'}`;
-    clearTimeout(el._t);
-    el._t = setTimeout(() => { el.style.display = 'none'; }, 3000);
-}
-
-function handleFileSelect(event, callback) {
-    const file = event.target.files[0]; if (!file) return;
-    if (file.size > 1024 * 800) return showNotify('ไฟล์ใหญ่เกินไป (จำกัด 800KB)', 'error');
-    const reader = new FileReader();
-    reader.onload = e => callback(e.target.result);
-    reader.readAsDataURL(file);
-}
-
-// ─── FEATURE 2: PIN LOCK SYSTEM ─────────────────────────────
-let _pinLockValue  = '';
-let _pinLockActive = false;
-let _inactivityTimer = null;
-const PIN_CODE = '1234'; 
-
-function resetInactivityTimer() {
-    if (currentUser) {
-        localStorage.setItem('aumthong_last_active', Date.now());
-    }
-    if (!db.settings.pinLockEnabled) return;
-    clearTimeout(_inactivityTimer);
-    
-    if (!currentUser) return;
-    
-    // FEATURE: PIN Lock ONLY for Admins
-    if (currentUser.role === 'customer') return;
-    
-    const timeout = (db.settings.pinLockTimeout || 5) * 60 * 1000;
-    _inactivityTimer = setTimeout(activatePinLock, timeout);
-}
-
-function activatePinLock() {
-    if (!currentUser || _pinLockActive) return;
-    if (currentUser.role === 'customer') return; // Double check
-    
-    _pinLockActive = true;
-    _pinLockValue = '';
-    const overlay = document.getElementById('pin-lock-overlay');
-    document.getElementById('pin-lock-shop-name').innerText = db.settings.shopName || 'ออมทอง';
-    overlay.style.display = 'flex';
-    document.getElementById('pin-lock-err').innerText = '';
-    document.getElementById('pin-lock-timer-msg').innerText =
-        `ล็อกอัตโนมัติหลังไม่ใช้งาน ${db.settings.pinLockTimeout} นาที`;
-    renderPinLockPad();
-    updatePinLockDots();
-}
-
-function renderPinLockPad() {
-    const pad = document.getElementById('pin-lock-pad');
-    pad.innerHTML = [1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k => `
-        <button class="pin-btn ${k==='⌫'?'danger':''}"
-            onclick="pinLockPress('${k}')"
-            ${k===''?'style="visibility:hidden"':''}>
-            ${k}
-        </button>`).join('');
-}
-
-function updatePinLockDots() {
-    for (let i=0; i<4; i++) {
-        const dot = document.getElementById('plk'+i);
-        if (dot) dot.classList.toggle('filled', i < _pinLockValue.length);
-    }
-}
-
-function pinLockPress(k) {
-    if (k === '') return;
-    const errEl = document.getElementById('pin-lock-err');
-    if (k === '⌫') {
-        _pinLockValue = _pinLockValue.slice(0, -1);
-    } else if (_pinLockValue.length < 4) {
-        _pinLockValue += k;
-    }
-    updatePinLockDots();
-    if (_pinLockValue.length === 4) {
-        if (_pinLockValue === PIN_CODE) {
-            document.getElementById('pin-lock-overlay').style.display = 'none';
-            _pinLockActive = false;
-            _pinLockValue = '';
-            resetInactivityTimer();
-            errEl.innerText = '';
-        } else {
-            errEl.innerText = '❌ PIN ไม่ถูกต้อง กรุณาลองใหม่';
-            _pinLockValue = '';
-            updatePinLockDots();
-            const overlay = document.getElementById('pin-lock-overlay');
-            overlay.style.animation = 'none';
-            overlay.offsetHeight;
-            overlay.style.animation = 'lockShake 0.4s ease';
-        }
-    }
-}
-
-['click','touchstart','keydown','scroll','mousemove'].forEach(ev => {
-    document.addEventListener(ev, resetInactivityTimer, { passive: true });
-});
-
-// ─── FEATURE 3: Gold THB Value Calculator ─────────────────
-function getGoldPrice() {
-    const lp = window._liveGold;
-    if (lp && lp.source === 'live') return { buy: lp.buyTHB, sell: lp.sellTHB, isLive: true, updated: lp.updated };
-    return { buy: db.settings.buyPrice, sell: db.settings.sellPrice, isLive: false, updated: null };
-}
-
-function calcGoldTHB(grams, useBuyPrice = false) {
-    const p = getGoldPrice();
-    return grams * (useBuyPrice ? p.buy : p.sell);
-}
-
-function goldValueLabel(grams) {
-    const thb = calcGoldTHB(grams);
-    const p = getGoldPrice();
-    const tag = p.isLive
-        ? `<span class="live-dot"></span>ราคาสด`
-        : `⚙️ ราคา fallback`;
-    return `≈ ฿${fmt.thb(thb)} <span class="gold-mkt-badge">(${tag})</span>`;
-}
-
-// ─── LIVE GOLD PRICE ─────────────────────────────────────────
-async function fetchLiveGoldPrice() {
-    const CACHE_KEY = 'aumthong_goldcache_v3';
-    const CACHE_MIN = 15;
-    const cached = JSON.parse(sessionStorage.getItem(CACHE_KEY) || 'null');
-    if (cached && (Date.now() - cached.ts) < CACHE_MIN * 60 * 1000) {
-        window._liveGold = cached; return;
-    }
-    try {
-        const [goldRes, fxRes] = await Promise.all([
-            fetch('https://gold-api.com/price/XAU', { signal: AbortSignal.timeout(6000) }),
-            fetch('https://open.er-api.com/v6/latest/USD', { signal: AbortSignal.timeout(6000) })
-        ]);
-        const goldData = await goldRes.json();
-        const fxData   = await fxRes.json();
-        const priceUSD = goldData.price_gram_24k;
-        const usdThb   = fxData.rates?.THB;
-        if (!priceUSD || !usdThb) throw new Error('incomplete data');
-        const spotTHB = priceUSD * usdThb;
-        const s = db.settings;
-        let buyRatio = 1.0, sellRatio = 0.99;
-        if (s.buyPrice && s.sellPrice) {
-            const adminMid = (s.buyPrice + s.sellPrice) / 2;
-            buyRatio  = s.buyPrice  / adminMid;
-            sellRatio = s.sellPrice / adminMid;
-        }
-        const result = {
-            source: 'live',
-            spotTHB: Math.round(spotTHB),
-            buyTHB:  Math.round(spotTHB * buyRatio),
-            sellTHB: Math.round(spotTHB * sellRatio),
-            usdThb:  usdThb.toFixed(2),
-            updated: new Date().toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit' }),
-            ts: Date.now()
+  window.previewImage = (input, imgId) => {
+    if (input.files && input.files[0]) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          const MAX_WIDTH = 800;
+          let width = img.width; let height = img.height;
+          if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+          canvas.width = width; canvas.height = height;
+          ctx.drawImage(img, 0, 0, width, height);
+          const dataUrl = canvas.toDataURL('image/jpeg', 0.6);
+          const el = getEl(imgId);
+          if(el) {
+             el.src = dataUrl;
+             el.classList.remove('hidden');
+          }
+          input.dataset.base64 = dataUrl;
         };
-        sessionStorage.setItem(CACHE_KEY, JSON.stringify(result));
-        window._liveGold = result;
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
+
+  const ensureAuth = async () => {
+    if (auth.currentUser) return true;
+    return new Promise(resolve => {
+      const unsub = onAuthStateChanged(auth, user => {
+        if (user) { unsub(); resolve(true); }
+      });
+      setTimeout(() => { unsub(); resolve(!!auth.currentUser); }, 5000);
+    });
+  };
+
+  const initApp = async () => {
+    try {
+      const savedUserStr = localStorage.getItem('goldAppUser');
+      if (savedUserStr) {
+         window.appState.currentUser = JSON.parse(savedUserStr);
+      }
+    } catch(e) {}
+    
+    updateSettingsUI();
+    routeUser(); 
+
+    onAuthStateChanged(auth, (user) => {
+      if (user && !isListenersSetup) {
+        isListenersSetup = true;
+        setupListeners();
+      }
+    });
+
+    try {
+      if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+        await signInWithCustomToken(auth, __initial_auth_token);
+      } else {
+        await signInAnonymously(auth);
+      }
+    } catch (e) {
+      console.warn("Offline Mode");
+    }
+
+    setInterval(() => checkAndRunBackup(), 3600000);
+  };
+
+  const setupListeners = () => {
+    if(!auth.currentUser) return;
+    
+    onSnapshot(getDocRef('settings', 'global'), (doc) => {
+      if(doc.exists()) {
+        window.appState.settings = {...window.appState.settings, ...doc.data()};
+        try { localStorage.setItem('cache_settings', JSON.stringify(window.appState.settings)); } catch(e){}
+        updateSettingsUI();
+      }
+    }, (err) => console.error("Settings Sync Error:", err));
+
+    onSnapshot(getCol('appUsers'), (snap) => {
+      if(snap.empty && window.appState.users && window.appState.users.length > 0) {
+         window.appState.users.forEach(async (u) => {
+            try { await setDoc(getDocRef('appUsers', u.id), u); } catch(e) {}
+         });
+      } else if (!snap.empty) {
+         window.appState.users = snap.docs.map(d => ({id: d.id, ...d.data()}));
+         try { localStorage.setItem('cache_users', JSON.stringify(window.appState.users)); } catch(e){}
+      }
+      
+      if(window.appState.currentUser) {
+        const updatedMe = window.appState.users.find(u => u.id === window.appState.currentUser.id);
+        if(updatedMe) {
+          window.appState.currentUser = updatedMe;
+          try { localStorage.setItem('goldAppUser', JSON.stringify(updatedMe)); } catch(e){}
+          updateProfileUI();
+        }
+      }
+      renderAdminUsers();
+      updateDashboardStats();
+    }, (err) => console.error("Users Sync Error:", err));
+
+    onSnapshot(getCol('transactions'), (snap) => {
+      if(snap.empty && window.appState.transactions && window.appState.transactions.length > 0) {
+         window.appState.transactions.forEach(async (t) => {
+            try { await setDoc(getDocRef('transactions', t.id), t); } catch(e) {}
+         });
+      } else if (!snap.empty) {
+         window.appState.transactions = snap.docs.map(d => ({id: d.id, ...d.data()})).sort((a,b) => b.date - a.date);
+         try { localStorage.setItem('cache_txs', JSON.stringify(window.appState.transactions)); } catch(e){}
+      }
+      
+      renderCustomerHistory();
+      renderAdminTransactions();
+      updateDashboardStats();
+    }, (err) => console.error("Transactions Sync Error:", err));
+  };
+
+  window.switchAuthTab = (tab) => {
+    const formLogin = getEl('form-login');
+    if(formLogin) formLogin.classList.toggle('hidden', tab !== 'login');
+    
+    const formReg = getEl('form-register');
+    if(formReg) formReg.classList.toggle('hidden', tab !== 'register');
+    
+    const tabLog = getEl('tab-login');
+    if(tabLog) tabLog.style.background = tab === 'login' ? 'white' : 'transparent';
+    
+    const tabReg = getEl('tab-register');
+    if(tabReg) tabReg.style.background = tab === 'register' ? 'white' : 'transparent';
+    
+    if(tab === 'register') {
+      const secGroup = getEl('secret-code-group');
+      const s = window.appState.settings || {};
+      if(secGroup) secGroup.classList.toggle('hidden', s.hasSuperAdmin);
+    }
+  };
+
+  window.switchToCustomerView = () => {
+    hideEl('page-admin');
+    showEl('page-customer');
+    showEl('btn-switch-admin');
+    navCust('home');
+  };
+
+  window.switchToAdminView = () => {
+    hideEl('page-customer');
+    showEl('page-admin');
+    const role = window.appState.currentUser?.role;
+    if(role === 'superadmin') {
+       navAdmin('dashboard');
+    } else {
+       navAdmin('transactions');
+    }
+  };
+
+  const routeUser = () => {
+    hideEl('page-login');
+    hideEl('page-customer');
+    hideEl('page-admin');
+    
+    showLoading(false);
+
+    if(!window.appState.currentUser) {
+      showEl('page-login');
+      return;
+    }
+
+    const role = window.appState.currentUser.role;
+    updateProfileUI();
+
+    if(role === 'superadmin' || role === 'subadmin') {
+      showEl('page-admin');
+      
+      const isSuper = role === 'superadmin';
+      
+      // ซ่อนเมนูที่แอดมินรองไม่มีสิทธิ์เข้าถึง (Dashboard, Users, Settings)
+      document.querySelectorAll('.nav-dashboard, .nav-users, .nav-settings').forEach(el => {
+          if(el) el.classList.toggle('hidden', !isSuper);
+      });
+      
+      showEl('btn-switch-admin');
+      
+      if (isSuper) {
+         navAdmin('dashboard');
+      } else {
+         navAdmin('transactions');
+      }
+      
+    } else {
+      showEl('page-customer');
+      hideEl('btn-switch-admin');
+      navCust('home');
+    }
+  };
+
+  window.logout = () => {
+    window.appState.currentUser = null;
+    try { localStorage.removeItem('goldAppUser'); } catch(e){}
+    routeUser();
+  };
+
+  window.handleRegister = async () => {
+    const name = getVal('reg-name').trim();
+    const phone = getVal('reg-phone').trim();
+    const pass = getVal('reg-pass');
+    const secret = getVal('reg-secret').trim();
+
+    if(!name || !phone || !pass) return showToast("กรุณากรอกข้อมูลให้ครบถ้วน", true);
+    
+    let isUsed = false;
+    if(window.appState.users && window.appState.users.length > 0) {
+       for(let i=0; i<window.appState.users.length; i++) {
+          if(window.appState.users[i].phone === phone) isUsed = true;
+       }
+    }
+    if(isUsed) return showToast("เบอร์โทรนี้ถูกใช้งานแล้ว", true);
+
+    showLoading(true);
+    
+    let role = 'customer';
+    const s = window.appState.settings || {};
+    
+    if(secret === '9999') {
+       if(!s.hasSuperAdmin) {
+          role = 'superadmin';
+          window.appState.settings.hasSuperAdmin = true;
+          try { await setDoc(getDocRef('settings', 'global'), { hasSuperAdmin: true }, { merge: true }); } catch(e) {}
+       } else {
+          showToast("รหัสลับถูกใช้ไปแล้ว ไม่สามารถเป็น Super Admin ได้อีก", true);
+          showLoading(false);
+          return;
+       }
+    } else if (secret !== '') {
+       showToast("รหัสลับไม่ถูกต้อง (หากเป็นลูกค้าโปรดเว้นว่าง)", true);
+       showLoading(false);
+       return;
+    }
+
+    const docId = genId();
+    const newUser = { id: docId, phone: phone, password: pass, name: name, role: role, email: '', balance: 0, profilePicBase64: '', createdAt: Date.now() };
+    
+    try {
+      if(auth.currentUser) await setDoc(getDocRef('appUsers', docId), newUser);
+    } catch(err) {
+      console.warn("Offline Registration");
+    }
+
+    window.appState.users.push(newUser);
+    try {
+       localStorage.setItem('cache_users', JSON.stringify(window.appState.users));
+       localStorage.setItem('goldAppUser', JSON.stringify(newUser));
+    } catch(e){}
+    window.appState.currentUser = newUser;
+    
+    showToast("สมัครสมาชิกสำเร็จ!");
+    routeUser();
+    setTimeout(() => { showLoading(false); }, 200);
+  };
+
+  window.handleLogin = () => {
+    const phone = getVal('login-phone').trim();
+    const pass = getVal('login-pass');
+    
+    let user = null;
+    if(window.appState.users && window.appState.users.length > 0) {
+       for(let i=0; i<window.appState.users.length; i++) {
+          if(window.appState.users[i].phone === phone && window.appState.users[i].password === pass) {
+             user = window.appState.users[i];
+             break;
+          }
+       }
+    }
+    
+    if(user) {
+      window.appState.currentUser = user;
+      try { localStorage.setItem('goldAppUser', JSON.stringify(user)); } catch(e){}
+      showToast("เข้าสู่ระบบสำเร็จ");
+      routeUser();
+    } else {
+      showToast("เบอร์โทรหรือรหัสผ่านไม่ถูกต้อง", true);
+    }
+  };
+
+  const updateProfileUI = () => {
+    const u = window.appState.currentUser;
+    if(!u) return;
+    
+    const bal = u.balance || 0;
+    setText('pro-name', u.name);
+    setVal('edit-name', u.name);
+    setVal('edit-phone', u.phone);
+    setVal('edit-email', u.email || '');
+    
+    let rText = u.role === 'superadmin' ? 'ผู้ดูแลระบบหลัก' : (u.role === 'subadmin' ? 'แอดมินรอง' : 'ลูกค้า');
+    setText('pro-role', rText);
+    setText('cust-balance', bal.toLocaleString());
+    setText('cust-withdraw-max', bal.toLocaleString());
+
+    if(u.profilePicBase64) {
+      const img1 = getEl('pro-avatar-img');
+      if(img1) { img1.src = u.profilePicBase64; img1.style.display = 'block'; }
+      
+      const imgFallback = getEl('pro-avatar-fallback');
+      if(imgFallback) imgFallback.style.display = 'none';
+      
+      const imgPrev = getEl('profile-preview');
+      if(imgPrev) { imgPrev.src = u.profilePicBase64; imgPrev.classList.remove('hidden'); }
+    }
+  };
+
+  window.updateProfile = async () => {
+    const name = getVal('edit-name');
+    const email = getVal('edit-email');
+    const picInput = getEl('edit-profile-pic');
+    
+    showLoading(true);
+    
+    let updateData = { name: name, email: email };
+    if(picInput && picInput.dataset && picInput.dataset.base64) {
+      updateData.profilePicBase64 = picInput.dataset.base64;
+      window.appState.currentUser.profilePicBase64 = picInput.dataset.base64;
+    }
+    
+    window.appState.currentUser.name = name;
+    window.appState.currentUser.email = email;
+    
+    try {
+       if(auth.currentUser) await updateDoc(getDocRef('appUsers', window.appState.currentUser.id), updateData);
+       showToast("บันทึกโปรไฟล์สำเร็จ");
+       updateProfileUI();
     } catch(e) {
-        console.warn('Gold price fetch failed, using admin price:', e.message);
-        window._liveGold = null;
+       console.error(e);
+       showToast("บันทึกเฉพาะในเครื่อง (โหมดออฟไลน์)", true);
     }
-}
+    showLoading(false);
+  };
 
-async function refreshGoldPrice() {
-    sessionStorage.removeItem('aumthong_goldcache_v3');
-    const buyEl = document.getElementById('price-buy');
-    const sellEl = document.getElementById('price-sell');
-    if (buyEl) buyEl.innerHTML = '<span class="price-loading">กำลังโหลด...</span>';
-    if (sellEl) sellEl.innerHTML = '<span class="price-loading">กำลังโหลด...</span>';
-    await fetchLiveGoldPrice();
-    renderView();
-    showNotify('อัปเดตราคาทองแล้ว ✓');
-}
-
-function buildPriceTicker() {
-    const s  = db.settings;
-    const lp = window._liveGold || null;
-    const isLive = lp && lp.source === 'live';
-    const buyDisp  = isLive ? lp.buyTHB  : s.buyPrice;
-    const sellDisp = isLive ? lp.sellTHB : s.sellPrice;
-    const statusLine = isLive
-        ? `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:4px;">
-               <span style="font-size:0.7rem;color:rgba(255,215,0,0.8);display:flex;align-items:center;gap:4px;">
-                   <span class="live-dot"></span>ราคาสด XAU/THB
-                   <span class="gold-source-badge">ทองคำแท้ 24K</span>
-               </span>
-               <button class="price-refresh-btn" onclick="refreshGoldPrice()">
-                   <svg style="width:12px;height:12px;stroke:currentColor;fill:none;" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-                   อัปเดต
-               </button>
-           </div>`
-        : `<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:4px;">
-               <span style="font-size:0.7rem;color:rgba(255,200,100,0.7);">⚙️ ราคาที่แอดมินตั้ง</span>
-               <button class="price-refresh-btn" onclick="refreshGoldPrice()">
-                   <svg style="width:12px;height:12px;stroke:currentColor;fill:none;" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-                   โหลดราคาสด
-               </button>
-           </div>`;
-    const updateInfo = isLive
-        ? `<div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px;flex-wrap:wrap;gap:6px;">
-               <span style="font-size:0.65rem;color:rgba(255,255,255,0.4);">อัปเดต ${lp.updated} · $1=฿${lp.usdThb}</span>
-               <a href="https://goldpricez.com/th/baht" target="_blank" class="price-live-link">
-                   <span class="live-dot"></span>ดูราคาตลาดโลก ↗
-               </a>
-           </div>`
-        : `<div style="margin-top:10px;"><a href="https://goldpricez.com/th/baht" target="_blank" class="price-live-link">🌐 ดูราคาทองตลาดโลก ↗</a></div>`;
-
-    return `
-        <div class="price-ticker">
-            ${statusLine}
-            <div class="price-row">
-                <div class="price-item">
-                    <small style="opacity:0.6;font-size:0.7rem;">รับซื้อ (ต่อกรัม)</small>
-                    <div class="price-val" id="price-buy">฿${fmt.thb(buyDisp)}</div>
-                </div>
-                <div class="price-item">
-                    <small style="opacity:0.6;font-size:0.7rem;">ขายออก (ต่อกรัม)</small>
-                    <div class="price-val" id="price-sell">฿${fmt.thb(sellDisp)}</div>
-                </div>
-            </div>
-            ${updateInfo}
-        </div>`;
-}
-
-// ─── CUSTOMER VIEWS ──────────────────────────────────────────
-function renderCustomerHome() {
-    const user = getUser();
-    const s = db.settings;
-    const chartData = buildSavingsChart(user.uid);
-    const maxVal = Math.max(...chartData.map(d=>d.v), 1);
-    const chartBars = chartData.map(d=>`
-        <div class="chart-bar-col">
-            <div class="chart-bar" style="height:${Math.max(8,(d.v/maxVal)*90)}px;" title="฿${fmt.thb(d.v)}"></div>
-            <div class="chart-label">${d.label}</div>
-        </div>`).join('');
-
-    const goldTHB = calcGoldTHB(user.balanceGold);
-    const priceInfo = getGoldPrice();
-    const goldValueLine = user.balanceGold > 0 ? `
-        <div class="wallet-gold-row">
-            <div class="wallet-gold-item">
-                <span class="wallet-gold-label">ทองสะสม</span>
-                <span class="wallet-gold-val">${fmt.gold(user.balanceGold)} กรัม</span>
-            </div>
-            <div class="wallet-gold-item" style="margin-left:8px;">
-                <span class="wallet-gold-label">มูลค่าทอง ${priceInfo.isLive ? '(ราคาสด)' : '(ราคา admin)'}</span>
-                <span class="wallet-gold-val">≈ ฿${fmt.thb(goldTHB)}</span>
-            </div>
-        </div>` : '';
-
-    return `
-        ${s.shopLink ? `<a href="${s.shopLink}" target="_blank" class="shop-link-btn"><svg class="icon" viewBox="0 0 24 24"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> เยี่ยมชมเว็บไซต์ร้านค้า</a>` : ''}
-        ${buildPriceTicker()}
-        <div class="wallet-card">
-            <div class="wallet-label">เงินสะสมคงเหลือ</div>
-            <div class="wallet-name">${user.name}</div>
-            <div class="wallet-balance">฿${fmt.thb(user.balanceTHB)}<span class="wallet-currency">THB</span></div>
-            ${goldValueLine}
-        </div>
-        <div class="chart-wrap">
-            <div style="font-size:0.8rem;font-weight:600;color:var(--text2);">📈 ยอดออมรายเดือน (6 เดือน)</div>
-            <div class="chart-bars">${chartBars}</div>
-        </div>
-        <div class="action-grid">
-            <div class="action-btn" onclick="navigate('deposit')">
-                <div class="action-icon green"><svg class="icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div>
-                <div style="font-size:0.85rem;font-weight:600">แจ้งโอนเงิน</div>
-            </div>
-            <div class="action-btn" onclick="openWithdrawModal()">
-                <div class="action-icon red"><svg class="icon" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
-                <div style="font-size:0.85rem;font-weight:600">ถอนทอง</div>
-            </div>
-            <div class="action-btn" onclick="navigate('history')">
-                <div class="action-icon gold"><svg class="icon" viewBox="0 0 24 24"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-                <div style="font-size:0.85rem;font-weight:600">ประวัติออม</div>
-            </div>
-            <div class="action-btn" onclick="navigate('profile')">
-                <div class="action-icon blue"><svg class="icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-                <div style="font-size:0.85rem;font-weight:600">โปรไฟล์</div>
-            </div>
-        </div>
-    `;
-}
-
-function buildSavingsChart(uid) {
-    const months = [];
-    for (let i=5; i>=0; i--) {
-        const d = new Date(); d.setMonth(d.getMonth()-i);
-        months.push({ label: d.toLocaleDateString('th-TH',{month:'short'}), month: d.getMonth(), year: d.getFullYear(), v: 0 });
+  window.updatePassword = async () => {
+    const pass = getVal('edit-pass');
+    if(!pass) return showToast("กรุณากรอกรหัสผ่านใหม่", true);
+    
+    showLoading(true);
+    
+    window.appState.currentUser.password = pass;
+    try {
+       if(auth.currentUser) await updateDoc(getDocRef('appUsers', window.appState.currentUser.id), { password: pass });
+       showToast("เปลี่ยนรหัสผ่านสำเร็จ");
+       setVal('edit-pass', '');
+    } catch(e) {
+       showToast("บันทึกเฉพาะในเครื่อง", true);
     }
-    db.transactions.filter(t=>t.userId===uid && t.status==='approved' && t.type==='deposit').forEach(t => {
-        const d = new Date(t.timestamp);
-        const m = months.find(x=>x.month===d.getMonth()&&x.year===d.getFullYear());
-        if (m) m.v += t.amountTHB;
-    });
-    return months;
-}
+    showLoading(false);
+  };
 
-function renderDepositForm() {
-    tempFile = null;
-    const s = db.settings;
-    return `
-        <h2 style="font-family:'Noto Serif Thai';color:var(--red);margin-bottom:15px">แจ้งโอนเงินออม</h2>
-        <div style="background:var(--surface2);padding:2rem 1.5rem;border-radius:20px;border:1.5px solid var(--gold);margin-bottom:20px;text-align:center;box-shadow: 0 4px 15px rgba(200,134,10,0.1);">
-            <div style="font-size:1rem;color:var(--text3);font-weight:600;">ธนาคาร ${s.bankName}</div>
-            <div style="font-size:1.6rem;font-weight:700;color:var(--red);letter-spacing:1px;margin:5px 0;">${s.accountNumber}</div>
-            <div style="font-weight:600;font-size:1.1rem;margin-bottom:10px;">${s.accountName}</div>
-            ${s.qrUrl ? `<img src="${s.qrUrl}" style="width:250px;max-width:100%;margin-top:15px;border-radius:15px;box-shadow: 0 8px 24px rgba(0,0,0,0.15);">` : ''}
-        </div>
-        <div class="form-group"><label class="form-label">จำนวนเงินที่โอน (บาท)</label><input type="number" id="dep-amount" class="form-input" placeholder="0.00" inputmode="decimal"></div>
-        <div class="form-group">
-            <label class="form-label">แนบสลิปหลักฐานการโอน <span style="color:red">*จำเป็น</span></label>
-            <input type="file" id="slip-file" style="display:none" accept="image/*" onchange="previewSlip(event)">
-            <div class="file-upload-box" onclick="document.getElementById('slip-file').click()" id="slip-preview-box">
-                <svg class="icon" style="width:30px;height:30px;margin-bottom:10px" viewBox="0 0 24 24"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <br>คลิกเพื่อแนบรูปสลิป
-            </div>
-        </div>
-        <div class="form-group"><label class="form-label">หมายเหตุ</label><input type="text" id="dep-note" class="form-input" placeholder="โอนครั้งที่..."></div>
-        <button class="btn btn-primary" onclick="submitDeposit()">ส่งข้อมูลการออม</button>
-    `;
-}
+  window.navCust = (tab) => {
+    document.querySelectorAll('#page-customer .app-container').forEach(e => e.classList.add('hidden'));
+    document.querySelectorAll('#page-customer .bottom-nav .nav-item').forEach(e => e.classList.remove('active'));
+    
+    showEl(`cust-content-${tab}`);
+    const navItem = document.querySelector(`#page-customer .bottom-nav .nav-item[onclick="navCust('${tab}')"]`);
+    if(navItem) navItem.classList.add('active');
+    window.scrollTo(0, 0); 
+  };
 
-function renderHistory() {
-    const user = getUser();
-    let txs = db.transactions.filter(t => t.userId === user.uid).reverse();
-    if (historyFilter !== 'all') txs = txs.filter(t => t.status === historyFilter);
-    const pending  = db.transactions.filter(t=>t.userId===user.uid&&t.status==='pending').length;
-    const approved = db.transactions.filter(t=>t.userId===user.uid&&t.status==='approved').length;
-    const totalSaved = db.transactions.filter(t=>t.userId===user.uid&&t.status==='approved'&&t.type==='deposit').reduce((s,t)=>s+t.amountTHB,0);
+  window.submitDeposit = async () => {
+    const amtEl = getEl('dep-amount');
+    const amount = amtEl ? parseFloat(amtEl.value) : 0;
+    const remark = getVal('dep-remark');
+    const slipInput = getEl('dep-slip');
+    const slipBase64 = (slipInput && slipInput.dataset) ? slipInput.dataset.base64 : '';
 
-    return `
-        <h2 style="font-family:'Noto Serif Thai';color:var(--red);margin-bottom:12px">ประวัติธุรกรรม</h2>
-        <div class="summary-row" style="margin-bottom:12px;">
-            <div class="summary-card"><div style="font-size:0.75rem;color:var(--text3);">ยอดออมสำเร็จ</div><div class="summary-val">฿${fmt.thb(totalSaved)}</div></div>
-            <div class="summary-card"><div style="font-size:0.75rem;color:var(--text3);">สำเร็จ / รอ</div><div class="summary-val">${approved} / ${pending}</div></div>
-        </div>
-        <button class="btn btn-pdf btn-sm" style="margin-bottom:12px;" onclick="exportCustomerPDF('${user.uid}')">
-            <svg class="icon" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-            ส่งออก PDF สรุปรายการ
-        </button>
-        <div class="filter-chips">
-            <div class="chip ${historyFilter==='all'?'active':''}" onclick="setHistFilter('all')">ทั้งหมด</div>
-            <div class="chip ${historyFilter==='approved'?'active':''}" onclick="setHistFilter('approved')">✅ สำเร็จ</div>
-            <div class="chip ${historyFilter==='pending'?'active':''}" onclick="setHistFilter('pending')">⏳ รอยืนยัน</div>
-            <div class="chip ${historyFilter==='rejected'?'active':''}" onclick="setHistFilter('rejected')">❌ ปฏิเสธ</div>
-        </div>
-        ${txs.map(t => `
-            <div class="tx-item" style="flex-direction:column;align-items:flex-start;border-left:3px solid ${t.status==='approved'?'var(--success)':t.status==='rejected'?'var(--error)':'var(--warning)'}">
-                <div style="display:flex;justify-content:space-between;width:100%">
-                    <div><b>${t.note}</b><br><small style="color:var(--text3)">${fmt.date(t.timestamp)}</small></div>
-                    <div style="text-align:right">
-                        <b>฿${fmt.thb(t.amountTHB)}</b>
-                        ${t.goldWeight > 0 ? `<br><span style="font-size:0.75rem;color:var(--gold);">🥇 ${fmt.gold(t.goldWeight)} ก. · ฿${fmt.thb(calcGoldTHB(t.goldWeight))}</span>` : ''}
-                        <br><span class="badge badge-${t.status}">${t.status==='approved'?'สำเร็จ':t.status==='rejected'?'ปฏิเสธ':'รอยืนยัน'}</span>
-                    </div>
-                </div>
-                ${t.slipImage?`<button class="btn btn-outline btn-sm" style="margin-top:8px" onclick="viewImage('${t.slipImage}')">ดูสลิป</button>`:''}
-            </div>
-        `).join('')||'<p style="text-align:center;padding:50px;color:var(--text3);">ไม่มีรายการ</p>'}
-    `;
-}
+    if(!amount || amount <= 0) return showToast("กรุณาระบุยอดเงินที่ถูกต้อง", true);
+    if(!slipBase64) return showToast("กรุณาแนบสลิปโอนเงิน", true);
 
-function setHistFilter(f) { historyFilter=f; renderView(); }
+    showLoading(true);
 
-function renderProfile() {
-    const user = getUser();
-    const goldTHB = calcGoldTHB(user.balanceGold);
-    const priceInfo = getGoldPrice();
-    const priceLabel = priceInfo.isLive
-        ? `<span class="live-dot" style="width:6px;height:6px;margin-right:2px;"></span>ราคาสด`
-        : '⚙️ admin';
-
-    return `
-        <div style="text-align:center;padding:20px 0">
-            <div class="avatar" style="width:80px;height:80px;font-size:2rem;margin:0 auto 10px;background:white;color:var(--red);border:2px solid var(--border);">
-                ${user.profilePic?`<img src="${user.profilePic}" style="object-fit:cover;width:100%;height:100%;">`:user.name[0]}
-            </div>
-            <h3 style="color:var(--text);">${user.name}</h3>
-            <p style="color:var(--text3);font-size:0.9rem;">${user.phone==='line_user_001'?'บัญชี LINE':user.phone}${user.email?`<br>${user.email}`:''}</p>
-            <button class="btn btn-outline btn-sm" style="margin-top:15px" onclick="openEditProfileModal()">แก้ไขโปรไฟล์</button>
-        </div>
-        <div class="summary-row">
-            <div class="summary-card">
-                <div style="font-size:0.75rem;color:var(--text3);">เงินสะสม</div>
-                <div style="color:var(--success);font-weight:700;font-size:1.1rem;">฿${fmt.thb(user.balanceTHB)}</div>
-            </div>
-            <div class="summary-card">
-                <div style="font-size:0.75rem;color:var(--text3);">ทองสะสม</div>
-                <div style="color:var(--gold);font-weight:700;font-size:1.1rem;">${fmt.gold(user.balanceGold)} ก.</div>
-                <div class="gold-thb-val">≈ ฿${fmt.thb(goldTHB)}</div>
-                <div style="font-size:0.62rem;color:var(--text3);margin-top:1px;">${priceLabel}</div>
-            </div>
-        </div>
-        <div style="display:flex;gap:10px;margin-bottom:1rem;flex-wrap:wrap;">
-            <button class="btn btn-pdf btn-sm" style="flex:1;" onclick="exportCustomerPDF('${user.uid}')">
-                <svg class="icon" style="width:14px;height:14px;" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14,2 14,8 20,8"/></svg>
-                Export PDF สรุปรายบุคคล
-            </button>
-        </div>
-        <div style="text-align:center;margin-top:10px;">
-            <button class="btn btn-danger btn-sm" style="width:auto;padding:0.5rem 1.5rem;opacity:0.75" onclick="handleLogout()">ออกจากระบบ</button>
-        </div>
-    `;
-}
-
-// ─── ADMIN VIEWS ─────────────────────────────────────────────
-function renderAdminDashboard() {
-    const customers = Object.values(db.users).filter(u=>u.role==='customer');
-    const totalTHB  = customers.reduce((s,u)=>s+u.balanceTHB,0);
-    const totalGold = customers.reduce((s,u)=>s+(u.balanceGold||0),0);
-    const pendingCount = db.transactions.filter(t=>t.status==='pending').length;
-    const isSuper = currentUser.role==='superadmin';
-
-    const lp = window._liveGold || null;
-    const buyDisp  = lp && lp.source==='live' ? lp.buyTHB  : db.settings.buyPrice;
-    const sellDisp = lp && lp.source==='live' ? lp.sellTHB : db.settings.sellPrice;
-    const priceTag = lp && lp.source==='live'
-        ? `<span style="font-size:0.68rem;color:rgba(255,215,0,0.8);display:flex;align-items:center;gap:4px;flex-wrap:wrap;">
-               <span class="live-dot"></span>XAU/THB สด · อัปเดต ${lp.updated} · $1=฿${lp.usdThb}
-               <a href="https://goldpricez.com/th/baht" target="_blank" style="color:var(--gold-bright);">ดูตลาดโลก ↗</a>
-           </span>`
-        : `<span style="font-size:0.68rem;color:rgba(255,200,100,0.6);">⚙️ ราคาที่แอดมินตั้ง · <a href="https://goldpricez.com/th/baht" target="_blank" style="color:var(--gold);">ดูราคาสากล ↗</a></span>`;
-
-    const totalGoldTHB = calcGoldTHB(totalGold);
-
-    const chartData = buildAllSavingsChart();
-    const maxVal = Math.max(...chartData.map(d=>d.v),1);
-    const chartBars = chartData.map(d=>`
-        <div class="chart-bar-col">
-            <div class="chart-bar" style="height:${Math.max(8,(d.v/maxVal)*90)}px;" title="฿${fmt.thb(d.v)}"></div>
-            <div class="chart-label">${d.label}</div>
-        </div>`).join('');
-
-    const recentTxs = [...db.transactions].reverse().slice(0,5);
-
-    return `
-        <div style="background:var(--red-dark);color:white;padding:1.5rem;border-radius:20px;margin-bottom:15px">
-            <div style="font-size:0.75rem;opacity:0.6;letter-spacing:0.05em;">เงินสะสมรวมทั้งหมด</div>
-            <div style="font-size:2rem;font-weight:900;color:var(--gold-bright);font-family:'Noto Serif Thai',serif;">฿${fmt.thb(totalTHB)}</div>
-            <div style="display:flex;gap:20px;margin-top:8px;flex-wrap:wrap;">
-                <div>
-                    <small style="opacity:0.7;">ทองรวม</small><br>
-                    <b style="color:var(--gold-bright);">${fmt.gold(totalGold)} ก.</b>
-                    <div style="font-size:0.65rem;color:rgba(255,215,0,0.8);">≈ ฿${fmt.thb(totalGoldTHB)}</div>
-                </div>
-                <div><small style="opacity:0.7;">ลูกค้า</small><br><b>${customers.length} คน</b></div>
-                <div><small style="opacity:0.7;">รออนุมัติ</small><br><b style="color:#ffd700;">${pendingCount}</b></div>
-            </div>
-            <hr style="margin:12px 0;border:none;border-top:1px solid rgba(255,255,255,0.1);">
-            <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap;">
-                <div><small style="opacity:0.6;font-size:0.7rem;">รับซื้อ/ก.</small><br><b style="color:var(--gold-bright);">฿${fmt.thb(buyDisp)}</b></div>
-                <div><small style="opacity:0.6;font-size:0.7rem;">ขายออก/ก.</small><br><b style="color:var(--gold-bright);">฿${fmt.thb(sellDisp)}</b></div>
-                <button class="price-refresh-btn" style="margin-left:auto;" onclick="refreshGoldPrice()">
-                    <svg style="width:12px;height:12px;stroke:currentColor;fill:none;" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
-                    อัปเดตราคา
-                </button>
-            </div>
-            <div style="margin-top:6px;">${priceTag}</div>
-        </div>
-
-        <div class="chart-wrap">
-            <div style="font-size:0.8rem;font-weight:600;color:var(--text2);">📈 ยอดฝากรวมทั้งระบบรายเดือน</div>
-            <div class="chart-bars">${chartBars}</div>
-        </div>
-
-        <div class="action-grid">
-            <div class="action-btn" onclick="navigate('approve')">
-                <div class="action-icon green"><svg class="icon" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
-                <div><b>อนุมัติ</b><br><small style="color:${pendingCount>0?'var(--error)':'var(--text3)'};">${pendingCount} ค้างอยู่</small></div>
-            </div>
-            <div class="action-btn" onclick="navigate('users')">
-                <div class="action-icon blue"><svg class="icon" viewBox="0 0 24 24"><path d="M17 20H3v-1a6 6 0 0112 0v1M9 7a4 4 0 100 8 4 4 0 000-8zM23 20v-1a6 6 0 00-4-5.66M17 7a4 4 0 010 7.93"/></svg></div>
-                <b>จัดการลูกค้า</b>
-            </div>
-            <div class="action-btn" onclick="navigate('settings')">
-                <div class="action-icon red"><svg class="icon" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
-                <b>ตั้งค่า</b>
-            </div>
-            ${isSuper ? `
-            <div class="action-btn" onclick="triggerManualBackup()">
-                <div class="action-icon gold"><svg class="icon" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg></div>
-                <b>ดาวน์โหลด Excel (รวมลูกค้า)</b>
-            </div>` : `<div></div>`}
-        </div>
-
-        <div class="section-title">🕒 รายการล่าสุด</div>
-        ${recentTxs.map(t=>{
-            const u=Object.values(db.users).find(usr=>usr.uid===t.userId);
-            return `<div class="tx-item" style="border-left:3px solid ${t.status==='approved'?'var(--success)':t.status==='rejected'?'var(--error)':'var(--warning)'}">
-                <div style="flex:1"><b style="font-size:0.9rem;">${u?.name||'?'}</b><br><small>${t.note}</small><br><small style="color:var(--text3);font-size:0.7rem;">${fmt.date(t.timestamp)}</small></div>
-                <div style="text-align:right"><b>฿${fmt.thb(t.amountTHB)}</b><br><span class="badge badge-${t.status}">${t.status==='approved'?'✅':t.status==='rejected'?'❌':'⏳'}</span></div>
-            </div>`;
-        }).join('')||'<p style="text-align:center;padding:20px;color:var(--text3);font-size:0.85rem;">ยังไม่มีรายการ</p>'}
-    `;
-}
-
-function buildAllSavingsChart() {
-    const months = [];
-    for (let i=5;i>=0;i--) {
-        const d=new Date(); d.setMonth(d.getMonth()-i);
-        months.push({label:d.toLocaleDateString('th-TH',{month:'short'}),month:d.getMonth(),year:d.getFullYear(),v:0});
+    const tx = {
+      id: genId(), 
+      userId: window.appState.currentUser ? window.appState.currentUser.id : '', 
+      userName: window.appState.currentUser ? window.appState.currentUser.name : '',
+      type: 'deposit', 
+      amount: amount, 
+      remark: remark, 
+      slipBase64: slipBase64, 
+      status: 'pending', 
+      date: Date.now()
+    };
+    
+    try {
+      if(auth.currentUser) await setDoc(getDocRef('transactions', tx.id), tx);
+      
+      if(!window.appState.transactions) window.appState.transactions = [];
+      window.appState.transactions.unshift(tx);
+      try { localStorage.setItem('cache_txs', JSON.stringify(window.appState.transactions)); } catch(e){}
+      
+      sendTgMsg(`📥 <b>แจ้งเตือนฝากออม</b>\nจาก: ${tx.userName}\nยอดเงิน: ฿${amount.toLocaleString()}\nสถานะ: รอตรวจสอบ`);
+      
+      setVal('dep-amount', '');
+      setVal('dep-remark', '');
+      const prev = getEl('dep-preview');
+      if(prev) prev.classList.add('hidden');
+      if(slipInput) { slipInput.value = ''; slipInput.dataset.base64 = ''; }
+      
+      showToast("ส่งคำขอฝากออมสำเร็จ รอตรวจสอบ");
+      renderCustomerHistory();
+      navCust('history');
+    } catch(e) {
+      console.error(e);
+      showToast("ส่งคำขอเฉพาะในเครื่อง (โหมดออฟไลน์)", true);
     }
-    db.transactions.filter(t=>t.status==='approved'&&t.type==='deposit').forEach(t=>{
-        const d=new Date(t.timestamp);
-        const m=months.find(x=>x.month===d.getMonth()&&x.year===d.getFullYear());
-        if(m) m.v+=t.amountTHB;
-    });
-    return months;
-}
+    showLoading(false);
+  };
 
-function renderAdminApprove() {
-    const pending = db.transactions.filter(t=>t.status==='pending');
-    return `
-        <h2 style="margin-bottom:15px;color:var(--text);">ตรวจสอบรายการฝาก</h2>
-        ${pending.map(t=>{
-            const u=Object.values(db.users).find(usr=>usr.uid===t.userId);
-            const est=(t.amountTHB/db.settings.buyPrice).toFixed(4);
-            return `
-            <div class="tx-item" style="flex-direction:column;align-items:flex-start">
-                <div style="display:flex;justify-content:space-between;width:100%">
-                    <div>
-                        <b>${u?.name||'?'}</b>
-                        ${u?.telegramChatId ? `<span class="tg-badge">📨 TG</span>` : ''}
-                        <br><small style="color:var(--text3);">${t.note}</small>
-                        <br><small style="color:var(--text3);font-size:0.7rem;">${fmt.date(t.timestamp)}</small>
-                    </div>
-                    <b style="color:var(--red);font-size:1.1rem">฿${fmt.thb(t.amountTHB)}</b>
-                </div>
-                <div style="width:100%;margin:10px 0">
-                    ${t.slipImage?`<div class="preview-img-container"><img src="${t.slipImage}" onclick="viewImage('${t.slipImage}')" style="cursor:zoom-in"></div>`:'<p style="color:red;font-size:0.85rem;">⚠️ ไม่มีสลิป!</p>'}
-                    <label class="admin-label">ยอดทองที่จะให้ลูกค้า (แก้ไขได้)</label>
-                    <input type="number" id="gold-${t.id}" class="admin-input" value="${est}" step="0.0001">
-                </div>
-                <div style="display:flex;gap:10px;width:100%">
-                    <button class="btn btn-success btn-sm" style="flex:2" onclick="approveTx('${t.id}')">✅ อนุมัติ</button>
-                    <button class="btn btn-outline btn-sm" style="flex:1;border-color:var(--error);color:var(--error);" onclick="rejectTx('${t.id}')">❌ ปฏิเสธ</button>
-                </div>
-            </div>`;
-        }).join('')||'<p style="text-align:center;padding:50px;color:var(--text3);">ไม่มีรายการรออนุมัติ 🎉</p>'}
-    `;
-}
+  window.submitWithdraw = async () => {
+    const amtEl = getEl('wit-amount');
+    const amount = amtEl ? parseFloat(amtEl.value) : 0;
+    const remark = getVal('wit-remark');
+    const max = (window.appState.currentUser && window.appState.currentUser.balance) ? window.appState.currentUser.balance : 0;
 
-function renderAdminUsers() {
-    const allUsers = Object.values(db.users);
-    const filtered = userSearchQ ? allUsers.filter(u=>u.name.includes(userSearchQ)||u.phone.includes(userSearchQ)) : allUsers;
-    return `
-        <h2 style="margin-bottom:12px;color:var(--text);">ข้อมูลผู้ใช้งาน (${allUsers.length})</h2>
-        <div class="search-bar">
-            <svg class="icon" style="width:18px;height:18px;color:var(--text3);" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-            <input type="text" placeholder="ค้นหาชื่อ หรือ เบอร์โทร..." value="${userSearchQ}" oninput="userSearchQ=this.value;renderView()">
-        </div>
-        ${filtered.map(u=>{
-            const goldTHB = calcGoldTHB(u.balanceGold||0);
-            return `
-            <div class="admin-card">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                    <div>
-                        <b style="font-size:1rem;color:var(--text);">${u.name}</b>
-                        ${u.role==='superadmin'?'<span class="badge badge-super" style="margin-left:5px;">แอดมินหลัก</span>':''}
-                        ${u.role==='admin'?'<span class="badge badge-sub" style="margin-left:5px;">แอดมินรอง</span>':''}
-                        ${u.telegramChatId?'<span class="tg-badge">📨 TG</span>':''}
-                        <div style="font-size:0.8rem;color:var(--text3);margin-top:4px;">📱 ${u.phone} ${u.email?`<br>📧 ${u.email}`:''}</div>
-                    </div>
-                    <button class="btn btn-sm btn-outline" onclick="openEditUserAdminModal('${u.phone}')">จัดการ</button>
-                </div>
-                <hr style="margin:10px 0;opacity:0.1">
-                <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
-                    <div><small style="color:var(--text3);">เงิน</small><br><b style="color:var(--success);">฿${fmt.thb(u.balanceTHB)}</b></div>
-                    <div>
-                        <small style="color:var(--text3);">ทอง</small><br>
-                        <b style="color:var(--gold);">${fmt.gold(u.balanceGold||0)} ก.</b>
-                        <div class="gold-thb-val">≈ ฿${fmt.thb(goldTHB)}</div>
-                    </div>
-                    <div style="margin-left:auto;display:flex;gap:6px;flex-wrap:wrap;">
-                        <button class="btn btn-outline btn-sm" style="border-color:var(--gold);color:var(--gold);" onclick="openUserHistoryModal('${u.uid}')">ดูประวัติ</button>
-                        ${currentUser.role==='superadmin'?`
-                        <button class="btn btn-outline btn-sm" style="border-color:var(--success);color:var(--success);" onclick="exportUserCSV('${u.uid}')">CSV</button>
-                        <button class="btn btn-pdf btn-sm" onclick="exportCustomerPDF('${u.uid}')">PDF</button>
-                        `:''}
-                    </div>
-                </div>
-            </div>`}).join('')||'<p style="text-align:center;padding:30px;color:var(--text3);">ไม่พบผู้ใช้</p>'}
-    `;
-}
+    if(!amount || amount <= 0) return showToast("กรุณาระบุยอดเงินที่ถูกต้อง", true);
+    if(amount > max) return showToast("ยอดเงินออมไม่เพียงพอ", true);
 
-function renderAdminSettings() {
-    const s = db.settings;
-    const isSuper = currentUser.role==='superadmin';
-    return `
-        <h2 style="margin-bottom:15px;color:var(--text);">ตั้งค่าระบบ</h2>
+    showLoading(true);
 
-        <!-- FEATURE 2: Admin Edit Profile Block -->
-        <div class="admin-card" style="border-color:#1976d2;">
-            <h4 style="margin-bottom:10px;color:#1976d2;">👤 ข้อมูลโปรไฟล์แอดมิน</h4>
-            <div style="display:flex; align-items:center; gap: 15px; margin-bottom: 15px;">
-                <div class="avatar" style="width:50px;height:50px;font-size:1.5rem;border:2px solid var(--border);">
-                    ${currentUser.profilePic ? `<img src="${currentUser.profilePic}" style="object-fit:cover;width:100%;height:100%;">` : currentUser.name[0]}
-                </div>
-                <div style="flex:1;">
-                    <b style="font-size:1.1rem;color:var(--text);">${currentUser.name}</b>
-                    <div style="font-size:0.8rem;color:var(--text3);">${currentUser.phone} ${currentUser.email ? ` | ${currentUser.email}` : ''}</div>
-                </div>
-            </div>
-            <button class="btn btn-outline" style="width:100%;border-color:#1976d2;color:#1976d2;" onclick="openEditProfileModal()">แก้ไขโปรไฟล์ / เปลี่ยนรหัสผ่าน</button>
-        </div>
+    const tx = {
+      id: genId(), 
+      userId: window.appState.currentUser ? window.appState.currentUser.id : '', 
+      userName: window.appState.currentUser ? window.appState.currentUser.name : '',
+      type: 'withdraw', 
+      amount: amount, 
+      remark: remark, 
+      status: 'pending', 
+      date: Date.now()
+    };
+    
+    try {
+      if(auth.currentUser) await setDoc(getDocRef('transactions', tx.id), tx);
+      
+      if(!window.appState.transactions) window.appState.transactions = [];
+      window.appState.transactions.unshift(tx);
+      try { localStorage.setItem('cache_txs', JSON.stringify(window.appState.transactions)); } catch(e){}
+      
+      sendTgMsg(`📤 <b>แจ้งเตือนขอถอนเงิน/แลกทอง</b>\nจาก: ${tx.userName}\nยอดเงิน: ฿${amount.toLocaleString()}\nหมายเหตุ: ${remark}\nสถานะ: รอตรวจสอบ`);
+      
+      setVal('wit-amount', '');
+      setVal('wit-remark', '');
+      
+      showToast("ส่งคำขอถอนสำเร็จ รอร้านยืนยัน");
+      renderCustomerHistory();
+      navCust('history');
+    } catch(e) {
+      console.error(e);
+      showToast("ส่งคำขอเฉพาะในเครื่อง (โหมดออฟไลน์)", true);
+    }
+    showLoading(false);
+  };
 
-        ${isSuper?`
-        <div class="admin-card" style="border-color:var(--gold);">
-            <h4 style="margin-bottom:10px;color:var(--gold);">💰 ราคาทอง (fallback เมื่อ API ขัดข้อง)</h4>
-            <div style="font-size:0.75rem;color:var(--text3);margin-bottom:10px;background:var(--surface2);padding:8px;border-radius:8px;">
-                💡 ระบบดึงราคาสดจาก gold-api.com + อัตราแลกเปลี่ยน USD/THB อัตโนมัติ
-            </div>
-            <label class="admin-label">ราคารับซื้อ Fallback (฿/กรัม)</label>
-            <input type="number" id="set-buy" class="admin-input" value="${s.buyPrice}">
-            <label class="admin-label">ราคาขายออก Fallback (฿/กรัม)</label>
-            <input type="number" id="set-sell" class="admin-input" value="${s.sellPrice}">
-        </div>
-        <div class="admin-card" style="border-color:#1565c0;">
-            <h4 style="margin-bottom:10px;color:#1565c0;">📨 การแจ้งเตือน Telegram</h4>
-            <div style="font-size:0.75rem;color:var(--text3);margin-bottom:10px;background:#e3f2fd;padding:8px;border-radius:8px;">
-                💡 ระบบส่งแจ้งเตือนทุกความเคลื่อนไหวไปยังกลุ่ม Telegram แอดมิน<br>
-                และส่งตรงถึงลูกค้าหากมีการบันทึก Telegram Chat ID ในโปรไฟล์
-            </div>
-            <label class="admin-label">Telegram Bot Token (ฝังในระบบ)</label>
-            <input type="text" class="admin-input" value="*******" disabled>
-            <label class="admin-label">Admin Group Chat ID (แก้ไขได้)</label>
-            <input type="text" id="set-tg-chat-id" class="admin-input" value="${s.tgChatId || ''}" placeholder="เช่น -100123456789">
-            <div style="display:flex;gap:10px;margin-top:10px;">
-                <button class="btn btn-outline btn-sm" style="flex:1;border-color:#1565c0;color:#1565c0;" onclick="testTelegramNotification()">🔔 ทดสอบแจ้งเตือน</button>
-            </div>
-        </div>
-        <div class="admin-card" style="border-color:var(--red);">
-            <h4 style="margin-bottom:10px;color:var(--red);">🔒 ตั้งค่า PIN Lock (สำหรับแอดมิน)</h4>
-            <label class="admin-label">เปิดใช้งาน PIN Lock</label>
-            <select id="set-pin-lock" class="admin-input">
-                <option value="true" ${s.pinLockEnabled?'selected':''}>เปิด (แนะนำ)</option>
-                <option value="false" ${!s.pinLockEnabled?'selected':''}>ปิด</option>
-            </select>
-            <label class="admin-label">ล็อกหน้าจอหลังไม่ใช้งาน (นาที)</label>
-            <input type="number" id="set-pin-timeout" class="admin-input" value="${s.pinLockTimeout}" min="1" max="60">
-            <div style="font-size:0.72rem;color:var(--text3);background:var(--surface2);padding:8px;border-radius:8px;">
-                🔑 PIN ปัจจุบัน: <b>1234</b> (แก้ไขในโค้ด ตัวแปร PIN_CODE)
-            </div>
-        </div>
-        <div class="admin-card" style="border-color:var(--gold);">
-            <h4 style="margin-bottom:10px;color:var(--gold);">📦 สำรองข้อมูลและดาวน์โหลด</h4>
-            <label class="admin-label">อีเมลสำหรับส่งไฟล์สำรอง (จำลอง)</label>
-            <input type="email" id="set-backup-email" class="admin-input" value="${s.backupEmail||''}" placeholder="admin@example.com">
-            <button class="btn btn-outline" style="width:100%; border-color:var(--success); color:var(--success); margin-top:10px;" onclick="downloadExcelAll()">
-                📊 ดาวน์โหลดข้อมูลทั้งหมดเป็น Excel (CSV)
-            </button>
-        </div>`:''}
+  const renderCustomerHistory = () => {
+    let txs = [];
+    const myId = window.appState.currentUser ? window.appState.currentUser.id : null;
+    
+    if(window.appState.transactions) {
+       for(let i=0; i<window.appState.transactions.length; i++) {
+          if(window.appState.transactions[i].userId === myId) txs.push(window.appState.transactions[i]);
+       }
+    }
+
+    const renderList = (containerId, limit = 0) => {
+      const el = getEl(containerId);
+      if(!el) return;
+      el.innerHTML = '';
+      
+      let list = txs;
+      if(limit > 0 && txs.length > limit) {
+         list = txs.slice(0, limit);
+      }
+      
+      if(list.length === 0) { el.innerHTML = '<div style="text-align:center; padding:20px; color:gray;">ยังไม่มีรายการธุรกรรม</div>'; return; }
+
+      list.forEach(t => {
+        let icon = t.type==='deposit' ? '📥' : '📤';
+        let color = t.type==='deposit' ? 'var(--green)' : 'var(--red)';
+        let statusBadge = t.status==='approved' ? '<span class="badge bg-green">สำเร็จ</span>' : (t.status==='rejected' ? '<span class="badge bg-red">ถูกปฏิเสธ</span>' : '<span class="badge bg-yellow">รออนุมัติ</span>');
+        let d = new Date(t.date).toLocaleString('th-TH');
         
-        <div class="admin-card">
-            <label class="admin-label">โลโก้ร้าน</label>
-            <input type="file" id="logo-file" style="display:none" accept="image/*" onchange="handleFileSelect(event, val=>{ db.settings.shopLogo=val; renderView(); })">
-            <div class="file-upload-box" onclick="document.getElementById('logo-file').click()">
-                ${s.shopLogo?`<img src="${s.shopLogo}" style="width:60px;height:60px;object-fit:cover;border-radius:10px">`:'เลือกรูปโลโก้'}
-            </div>
-            <label class="admin-label">ชื่อร้าน</label><input type="text" id="set-name" class="admin-input" value="${s.shopName}">
-            <label class="admin-label">คำโปรย</label><input type="text" id="set-tag" class="admin-input" value="${s.shopTagline}">
-            <label class="admin-label">ลิงก์หน้าร้าน</label><input type="text" id="set-link" class="admin-input" value="${s.shopLink}">
-        </div>
-        <div class="admin-card">
-            <label class="admin-label">ชื่อธนาคาร (เช่น กสิกรไทย, ไทยพาณิชย์)</label>
-            <input type="text" id="set-bank-name" class="admin-input" value="${s.bankName}">
-            <label class="admin-label">ชื่อบัญชีธนาคาร</label>
-            <input type="text" id="set-acc-name" class="admin-input" value="${s.accountName}">
-            <label class="admin-label">เลขที่บัญชี</label>
-            <input type="text" id="set-acc-num" class="admin-input" value="${s.accountNumber}">
-            <label class="admin-label">QR Code รับเงิน</label>
-            <input type="file" id="qr-file" style="display:none" accept="image/*" onchange="handleFileSelect(event, val=>{ db.settings.qrUrl=val; renderView(); })">
-            <div class="file-upload-box" onclick="document.getElementById('qr-file').click()">
-                ${s.qrUrl?`<img src="${s.qrUrl}" style="width:60px;height:60px;object-fit:cover;border-radius:10px">`:'เลือกรูป QR'}
-            </div>
-        </div>
-        <div class="admin-card">
-            <h4 style="margin-bottom:10px;color:var(--red);">ข้อมูลติดต่อ (สำหรับถอนทอง)</h4>
-            <label class="admin-label">เบอร์โทรศัพท์</label><input type="text" id="set-phone" class="admin-input" value="${s.phoneContact||''}">
-            <label class="admin-label">ลิงก์เพิ่มเพื่อน LINE</label><input type="text" id="set-line" class="admin-input" value="${s.lineContact||''}">
-        </div>
-        <button class="btn btn-primary" onclick="saveAdminSettings()" style="margin-bottom:20px;">💾 บันทึกการตั้งค่า</button>
-    `;
-}
-
-// ─── ACTIONS ─────────────────────────────────────────────────
-function previewSlip(event) {
-    handleFileSelect(event, val => {
-        tempFile = val;
-        document.getElementById('slip-preview-box').innerHTML = `<img src="${val}" style="width:100%;height:140px;object-fit:cover;border-radius:10px">`;
-    });
-}
-
-function submitDeposit() {
-    const user = getUser();
-    const amt = Number(document.getElementById('dep-amount').value);
-    const note = document.getElementById('dep-note').value || 'แจ้งออมทอง';
-    if (!amt||amt<=0) return showNotify('กรุณาระบุจำนวนเงิน', 'error');
-    if (!tempFile)    return showNotify('กรุณาแนบสลิปหลักฐานการโอน', 'error');
-    db.transactions.push({ id:'t'+Date.now(), userId:user.uid, type:'deposit', amountTHB:amt, goldWeight:0, status:'pending', note, timestamp:new Date().toISOString(), slipImage:tempFile });
-    saveDB();
-    sendTelegramAlert(`📢 <b>แจ้งโอนเงินใหม่ (รอตรวจสอบ)</b>\n👤 ${user.name}\n📱 ${user.phone}\n💰 ฿${fmt.thb(amt)}\n📝 ${note}\n⏰ ${new Date().toLocaleString('th-TH')}`);
-    showNotify('ส่งหลักฐานเรียบร้อย'); navigate('home');
-}
-
-function approveTx(id) {
-    const tx = db.transactions.find(t=>t.id===id);
-    const u  = Object.values(db.users).find(usr=>usr.uid===tx.userId);
-    const weight = Number(document.getElementById('gold-'+id).value);
-    const goldTHBVal = calcGoldTHB(weight);
-    tx.status='approved'; tx.goldWeight=weight;
-    u.balanceTHB  += tx.amountTHB;
-    u.balanceGold += weight;
-    saveDB();
-
-    sendTelegramAlert(
-        `✅ <b>อนุมัติรายการฝากเงิน</b>\n` +
-        `👤 ลูกค้า: ${u.name} (${u.phone})\n` +
-        `💰 จำนวนเงิน: ฿${fmt.thb(tx.amountTHB)}\n` +
-        `🥇 ทอง: ${fmt.gold(weight)} กรัม (≈ ฿${fmt.thb(goldTHBVal)})\n` +
-        `📊 ยอดคงเหลือ: ฿${fmt.thb(u.balanceTHB)} · ${fmt.gold(u.balanceGold)} ก.\n` +
-        `⏰ ${new Date().toLocaleString('th-TH')}\n` +
-        `✍️ อนุมัติโดย: ${currentUser.name}`
-    );
-
-    if (u.telegramChatId) {
-        sendTelegramToCustomer(
-            u.telegramChatId,
-            `🎉 <b>ออมทอง: การฝากเงินของคุณได้รับการอนุมัติแล้ว!</b>\n\n` +
-            `💰 จำนวน: ฿${fmt.thb(tx.amountTHB)}\n` +
-            `🥇 ทอง: ${fmt.gold(weight)} กรัม\n` +
-            `📈 มูลค่าทอง: ≈ ฿${fmt.thb(goldTHBVal)}\n\n` +
-            `💼 ยอดสะสมทั้งหมด:\n` +
-            `   เงิน: ฿${fmt.thb(u.balanceTHB)}\n` +
-            `   ทอง: ${fmt.gold(u.balanceGold)} กรัม\n\n` +
-            `ขอบคุณที่ไว้วางใจ ${db.settings.shopName} 🙏`
-        );
-    }
-
-    showNotify('อนุมัติสำเร็จ ✓ แจ้งเตือนส่งแล้ว'); renderView();
-}
-
-function rejectTx(id) {
-    const tx=db.transactions.find(t=>t.id===id);
-    const u=Object.values(db.users).find(usr=>usr.uid===tx.userId);
-    tx.status='rejected'; saveDB();
-
-    sendTelegramAlert(
-        `❌ <b>ปฏิเสธรายการฝากเงิน</b>\n` +
-        `👤 ${u.name} (${u.phone})\n` +
-        `💰 ฿${fmt.thb(tx.amountTHB)}\n` +
-        `📝 ${tx.note}\n` +
-        `✍️ ปฏิเสธโดย: ${currentUser.name}\n` +
-        `⏰ ${new Date().toLocaleString('th-TH')}`
-    );
-
-    if (u.telegramChatId) {
-        sendTelegramToCustomer(
-            u.telegramChatId,
-            `⚠️ <b>ออมทอง: รายการฝากเงินถูกปฏิเสธ</b>\n\n` +
-            `💰 จำนวน: ฿${fmt.thb(tx.amountTHB)}\n` +
-            `📝 หมายเหตุ: ${tx.note}\n\n` +
-            `กรุณาตรวจสอบหลักฐานการโอนและส่งใหม่อีกครั้ง\n` +
-            `หรือติดต่อแอดมินที่ ${db.settings.phoneContact || 'เบอร์ร้าน'}`
-        );
-    }
-
-    showNotify('ปฏิเสธรายการแล้ว', 'warning'); renderView();
-}
-
-function saveAdminSettings() {
-    const s = db.settings;
-    s.shopName      = document.getElementById('set-name').value;
-    s.shopTagline   = document.getElementById('set-tag').value;
-    s.shopLink      = document.getElementById('set-link').value;
-    s.bankName      = document.getElementById('set-bank-name').value;
-    s.accountName   = document.getElementById('set-acc-name').value;
-    s.accountNumber = document.getElementById('set-acc-num').value;
-    s.phoneContact  = document.getElementById('set-phone').value;
-    s.lineContact   = document.getElementById('set-line').value;
-    
-    if (currentUser.role==='superadmin') {
-        s.tgChatId       = document.getElementById('set-tg-chat-id').value;
-        s.backupEmail    = document.getElementById('set-backup-email').value;
-        s.buyPrice       = Number(document.getElementById('set-buy').value);
-        s.sellPrice      = Number(document.getElementById('set-sell').value);
-        s.pinLockEnabled = document.getElementById('set-pin-lock').value === 'true';
-        s.pinLockTimeout = Number(document.getElementById('set-pin-timeout').value) || 5;
-        sessionStorage.removeItem('aumthong_goldcache_v3');
-    }
-    
-    saveDB(); 
-    updateShopIdentity(); 
-    
-    // FEATURE: Notify when settings changed
-    sendTelegramAlert(
-        `⚙️ <b>มีการตั้งค่าระบบใหม่</b>\n` +
-        `👨‍💻 แก้ไขโดย: ${currentUser.name}\n` +
-        `🏪 ชื่อร้าน: ${s.shopName}\n` +
-        `💰 รับซื้อ fallback: ฿${fmt.thb(s.buyPrice)}\n` +
-        `💰 ขายออก fallback: ฿${fmt.thb(s.sellPrice)}`
-    );
-
-    showNotify('บันทึกสำเร็จ'); 
-    navigate('home');
-}
-
-// ─── USER MANAGEMENT ─────────────────────────────────────────
-function openEditUserAdminModal(phone) {
-    const u = db.users[phone];
-    const isSelf  = u.uid === currentUser.uid;
-    const isSuper = currentUser.role === 'superadmin';
-    if (!isSuper && !isSelf && (u.role==='superadmin'||u.role==='admin'))
-        return showNotify('คุณไม่มีสิทธิ์แก้ไขแอดมินด้วยกัน','error');
-
-    const modal = document.getElementById('modal-content');
-    modal.innerHTML = `
-        <h3 style="margin-bottom:15px;color:var(--text);">จัดการผู้ใช้งาน</h3>
-        <div class="form-group"><label class="admin-label">ชื่อ</label><input type="text" id="ed-name" class="admin-input" value="${u.name}"></div>
-        <div class="form-group"><label class="admin-label">อีเมล</label><input type="email" id="ed-email" class="admin-input" value="${u.email||''}"></div>
-        <div class="form-group"><label class="admin-label">ยอดเงินสะสม (฿)</label><input type="number" id="ed-thb" class="admin-input" value="${u.balanceTHB}"></div>
-        <div class="form-group"><label class="admin-label">ยอดทองสะสม (กรัม)</label><input type="number" id="ed-gold" class="admin-input" value="${u.balanceGold||0}" step="0.0001"></div>
-        <div class="form-group" style="background:#e3f2fd;padding:10px;border-radius:8px;border:1px dashed #90caf9;">
-            <label class="admin-label" style="color:#1565c0;">📨 Telegram Chat ID (สำหรับแจ้งเตือนส่วนตัว)</label>
-            <input type="text" id="ed-tg-id" class="admin-input" value="${u.telegramChatId||''}" placeholder="เช่น 123456789 (ได้จาก @userinfobot)">
-            <small style="color:var(--text3);font-size:0.7rem;">ให้ลูกค้า start chat กับ bot แล้วส่ง /start เพื่อรับ Chat ID</small>
-        </div>
-        <div class="form-group">
-            <label class="admin-label">สิทธิ์ (Role)</label>
-            <select id="ed-role" class="admin-input" ${(!isSuper||isSelf)?'disabled':''}>
-                <option value="customer" ${u.role==='customer'?'selected':''}>ลูกค้า</option>
-                <option value="admin"    ${u.role==='admin'?'selected':''}>แอดมินรอง</option>
-                <option value="superadmin" ${u.role==='superadmin'?'selected':''}>แอดมินหลัก</option>
-            </select>
-        </div>
-        <button class="btn btn-primary" onclick="saveUserEditAdmin('${phone}')">บันทึก</button>
-        ${(isSuper&&!isSelf)?`<button class="btn btn-outline" style="margin-top:10px;border-color:var(--error);color:var(--error);" onclick="confirmDeleteUser('${phone}')">ลบผู้ใช้งาน</button>`:''}
-    `;
-    document.getElementById('modal-overlay').style.display='flex';
-}
-
-function saveUserEditAdmin(phone) {
-    const u = db.users[phone];
-    const roleEl = document.getElementById('ed-role');
-    const newRole = (roleEl && !roleEl.disabled) ? roleEl.value : u.role;
-
-    // FEATURE 2: PIN Validation for Role Escalation
-    if ((newRole === 'admin' || newRole === 'superadmin') && u.role !== newRole) {
-        openPinModal(`ยืนยันการให้สิทธิ์ผู้ดูแลระบบ`, (pin) => {
-            if (pin !== '1234') return showNotify('PIN ไม่ถูกต้อง (ใช้ 1234)', 'error');
-            proceedSaveUserEditAdmin(phone, newRole);
-        });
-    } else {
-        proceedSaveUserEditAdmin(phone, newRole);
-    }
-}
-
-function proceedSaveUserEditAdmin(phone, newRole) {
-    const u = db.users[phone];
-    u.name          = document.getElementById('ed-name').value;
-    u.email         = document.getElementById('ed-email').value;
-    u.balanceTHB    = Number(document.getElementById('ed-thb').value);
-    u.balanceGold   = Number(document.getElementById('ed-gold').value);
-    u.telegramChatId = document.getElementById('ed-tg-id').value.trim() || null;
-    u.role          = newRole;
-    saveDB(); 
-
-    // FEATURE: Notify when admin edits user
-    sendTelegramAlert(
-        `⚙️ <b>ข้อมูลผู้ใช้ถูกแก้ไข</b>\n` +
-        `👤 ลูกค้า: ${u.name} (${u.phone})\n` +
-        `👨‍💻 แก้ไขโดย: ${currentUser.name}\n` +
-        `💰 เงินสะสมปัจจุบัน: ฿${fmt.thb(u.balanceTHB)}\n` +
-        `🥇 ทองสะสมปัจจุบัน: ${fmt.gold(u.balanceGold)} ก.\n` +
-        `🔰 สิทธิ์ผู้ใช้: ${u.role}`
-    );
-
-    showNotify('อัปเดตข้อมูลเรียบร้อย'); 
-    closeModal(); 
-    renderView();
-}
-
-function confirmDeleteUser(phone) {
-    if (currentUser.role!=='superadmin') return showNotify('เฉพาะแอดมินหลักเท่านั้น','error');
-    const target = db.users[phone];
-    openPinModal(`ยืนยันลบ "${target.name}"`, (pin) => {
-        if (pin !== '1234') return showNotify('PIN ไม่ถูกต้อง (ใช้ 1234)', 'error');
-        executeDeleteUser(phone);
-    });
-}
-
-function executeDeleteUser(phone) {
-    const target = db.users[phone];
-    db.transactions = db.transactions.filter(t=>t.userId!==target.uid);
-    delete db.users[phone];
-    saveDB();
-    sendTelegramAlert(`🗑 <b>ผู้ใช้ถูกลบออกจากระบบ</b>\nชื่อ: ${target.name}\nเบอร์: ${target.phone}\nลบโดย: ${currentUser.name}`);
-    showNotify('ลบผู้ใช้งานเรียบร้อย');
-    closeModal(); renderView();
-}
-
-function openUserHistoryModal(uid) {
-    const user = Object.values(db.users).find(u=>u.uid===uid);
-    const txs  = db.transactions.filter(t=>t.userId===uid).reverse();
-    const total= txs.filter(t=>t.status==='approved'&&t.type==='deposit').reduce((s,t)=>s+t.amountTHB,0);
-    const goldTHBVal = calcGoldTHB(user.balanceGold||0);
-    const modal = document.getElementById('modal-content');
-    modal.innerHTML = `
-        <h3 style="margin-bottom:5px;color:var(--text);">ประวัติ: <span style="color:var(--red);">${user.name}</span></h3>
-        <div style="font-size:0.85rem;color:var(--success);margin-bottom:5px;">ยอดออมสำเร็จรวม: <b>฿${fmt.thb(total)}</b></div>
-        <div style="font-size:0.8rem;color:var(--gold);margin-bottom:15px;">🥇 ทองสะสม: <b>${fmt.gold(user.balanceGold||0)} ก.</b> ≈ ฿${fmt.thb(goldTHBVal)}</div>
-        <div style="max-height:50vh;overflow-y:auto;padding-right:5px;margin-bottom:15px;">
-            ${txs.map(t=>`
-                <div class="tx-item" style="flex-direction:column;align-items:flex-start;background:var(--surface2);border-left:3px solid ${t.status==='approved'?'var(--success)':t.status==='rejected'?'var(--error)':'var(--warning)'}">
-                    <div style="display:flex;justify-content:space-between;width:100%">
-                        <div><b style="font-size:0.9rem;">${t.note}</b><br><small>${fmt.date(t.timestamp)}</small></div>
-                        <div style="text-align:right">
-                            <b>฿${fmt.thb(t.amountTHB)}</b>
-                            ${t.goldWeight>0?`<br><span style="font-size:0.7rem;color:var(--gold);">🥇 ${fmt.gold(t.goldWeight)} ก.</span>`:''}
-                            <br><span class="badge badge-${t.status}">${t.status==='approved'?'✅':t.status==='rejected'?'❌':'⏳'}</span>
-                        </div>
-                    </div>
-                    ${t.slipImage?`<button class="btn btn-outline btn-sm" style="margin-top:8px;font-size:0.7rem;" onclick="viewImage('${t.slipImage}')">ดูสลิป</button>`:''}
-                </div>`).join('')||'<p style="text-align:center;padding:20px;color:var(--text3);">ไม่มีประวัติ</p>'}
-        </div>
-        <div style="display:flex;gap:8px;">
-            <button class="btn btn-pdf btn-sm" style="flex:1;" onclick="closeModal();exportCustomerPDF('${uid}')">
-                📄 Export PDF
-            </button>
-            <button class="btn btn-primary" style="flex:1;" onclick="closeModal()">ปิด</button>
-        </div>
-    `;
-    document.getElementById('modal-overlay').style.display='flex';
-}
-
-// ─── FEATURE 4: PDF Export ────────────────────────────────────
-function exportCustomerPDF(uid) {
-    const user = Object.values(db.users).find(u=>u.uid===uid);
-    if (!user) return showNotify('ไม่พบข้อมูลผู้ใช้','error');
-
-    const txs = db.transactions.filter(t=>t.userId===uid).reverse();
-    const approvedTxs = txs.filter(t=>t.status==='approved'&&t.type==='deposit');
-    const totalSaved = approvedTxs.reduce((s,t)=>s+t.amountTHB,0);
-    const totalGold  = approvedTxs.reduce((s,t)=>s+(t.goldWeight||0),0);
-    const goldTHBVal = calcGoldTHB(user.balanceGold||0);
-    const priceInfo  = getGoldPrice();
-    const priceLabel = priceInfo.isLive
-        ? `ราคาสด (อัปเดต ${priceInfo.updated})`
-        : 'ราคาที่แอดมินกำหนด';
-    const nowStr = new Date().toLocaleString('th-TH');
-
-    const txRows = txs.map(t=>`
-        <tr style="border-bottom:1px solid #eee;">
-            <td style="padding:6px 8px;font-size:11px;color:#555;">${new Date(t.timestamp).toLocaleDateString('th-TH',{day:'2-digit',month:'short',year:'numeric'})}</td>
-            <td style="padding:6px 8px;font-size:11px;">${t.note}</td>
-            <td style="padding:6px 8px;font-size:11px;text-align:right;font-weight:600;">฿${fmt.thb(t.amountTHB)}</td>
-            <td style="padding:6px 8px;font-size:11px;text-align:right;">${t.goldWeight>0?fmt.gold(t.goldWeight)+' ก.':'-'}</td>
-            <td style="padding:6px 8px;font-size:11px;text-align:center;">
-                <span style="background:${t.status==='approved'?'#e8f5e9':t.status==='rejected'?'#ffebee':'#fff3e0'};color:${t.status==='approved'?'#2D7D46':t.status==='rejected'?'#C0392B':'#D97706'};padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;">
-                    ${t.status==='approved'?'✅ สำเร็จ':t.status==='rejected'?'❌ ปฏิเสธ':'⏳ รอยืนยัน'}
-                </span>
-            </td>
-        </tr>`).join('');
-
-    const printHTML = `
-        <style>
-            @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
-            body { font-family: 'Prompt', sans-serif; color: #1A0A00; }
-            .pdf-header { background: linear-gradient(135deg, #5C0000, #8B0000); color: white; padding: 24px; border-radius: 12px; margin-bottom: 20px; }
-            .pdf-title { font-size: 22px; font-weight: 900; color: #FFD700; margin-bottom: 4px; }
-            .pdf-subtitle { font-size: 12px; opacity: 0.7; }
-            .pdf-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 16px 0; }
-            .pdf-meta-item { background: rgba(255,255,255,0.1); border-radius: 8px; padding: 10px 14px; }
-            .pdf-meta-label { font-size: 10px; opacity: 0.65; text-transform: uppercase; letter-spacing: 0.05em; }
-            .pdf-meta-val { font-size: 16px; font-weight: 700; color: #FFD700; }
-            .pdf-meta-sub { font-size: 10px; opacity: 0.6; margin-top: 2px; }
-            .pdf-section { margin-bottom: 20px; }
-            .pdf-section-title { font-size: 13px; font-weight: 700; color: #8B0000; border-bottom: 2px solid #C8860A; padding-bottom: 6px; margin-bottom: 10px; }
-            table { width: 100%; border-collapse: collapse; }
-            th { background: #FFF8E1; padding: 8px; font-size: 11px; text-align: left; color: #5A3A1A; font-weight: 600; }
-            th:nth-child(3), th:nth-child(4) { text-align: right; }
-            th:last-child { text-align: center; }
-            .pdf-footer { margin-top: 24px; padding-top: 12px; border-top: 1px solid #eee; font-size: 10px; color: #9A7A5A; text-align: center; }
-            .pdf-summary-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-            .pdf-sum-card { border: 1px solid #e0c87a; border-radius: 8px; padding: 12px; background: #FFFDF5; }
-            .pdf-sum-label { font-size: 10px; color: #9A7A5A; }
-            .pdf-sum-val { font-size: 16px; font-weight: 700; color: #8B0000; margin-top: 2px; }
-        </style>
-        <div class="pdf-header">
-            <div class="pdf-title">📄 ${db.settings.shopName}</div>
-            <div class="pdf-subtitle">รายงานสรุปบัญชีออมทอง | พิมพ์เมื่อ ${nowStr}</div>
-            <div class="pdf-meta">
-                <div class="pdf-meta-item">
-                    <div class="pdf-meta-label">ชื่อสมาชิก</div>
-                    <div class="pdf-meta-val" style="font-size:14px;">${user.name}</div>
-                    <div class="pdf-meta-sub">${user.phone === 'line_user_001' ? 'LINE Account' : user.phone}</div>
-                </div>
-                <div class="pdf-meta-item">
-                    <div class="pdf-meta-label">ยอดเงินสะสม</div>
-                    <div class="pdf-meta-val">฿${fmt.thb(user.balanceTHB)}</div>
-                </div>
-                <div class="pdf-meta-item">
-                    <div class="pdf-meta-label">ทองสะสม</div>
-                    <div class="pdf-meta-val">${fmt.gold(user.balanceGold||0)} ก.</div>
-                    <div class="pdf-meta-sub">≈ ฿${fmt.thb(goldTHBVal)} (${priceLabel})</div>
-                </div>
-                <div class="pdf-meta-item">
-                    <div class="pdf-meta-label">ราคาทองอ้างอิง</div>
-                    <div class="pdf-meta-val" style="font-size:12px;">รับ ฿${fmt.thb(priceInfo.buy)}/ก.</div>
-                    <div class="pdf-meta-sub">ขาย ฿${fmt.thb(priceInfo.sell)}/ก.</div>
-                </div>
-            </div>
-        </div>
-        <div class="pdf-summary-grid">
-            <div class="pdf-sum-card">
-                <div class="pdf-sum-label">ยอดออมสำเร็จทั้งหมด</div>
-                <div class="pdf-sum-val">฿${fmt.thb(totalSaved)}</div>
-            </div>
-            <div class="pdf-sum-card">
-                <div class="pdf-sum-label">ทองที่ได้รับทั้งหมด</div>
-                <div class="pdf-sum-val">${fmt.gold(totalGold)} ก.</div>
-            </div>
-            <div class="pdf-sum-card">
-                <div class="pdf-sum-label">จำนวนรายการสำเร็จ</div>
-                <div class="pdf-sum-val">${approvedTxs.length} ครั้ง</div>
-            </div>
-        </div>
-        <div class="pdf-section">
-            <div class="pdf-section-title">📋 ประวัติธุรกรรมทั้งหมด</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>วันที่</th>
-                        <th>หมายเหตุ</th>
-                        <th style="text-align:right;">จำนวนเงิน</th>
-                        <th style="text-align:right;">ทอง</th>
-                        <th style="text-align:center;">สถานะ</th>
-                    </tr>
-                </thead>
-                <tbody>${txRows || '<tr><td colspan="5" style="text-align:center;padding:20px;color:#9A7A5A;">ไม่มีประวัติ</td></tr>'}</tbody>
-            </table>
-        </div>
-        <div class="pdf-footer">
-            รายงานนี้ออกโดย ${db.settings.shopName} · ${nowStr}<br>
-            ราคาทองอ้างอิงเท่านั้น ไม่ใช่เอกสารทางการเงินอย่างเป็นทางการ
-        </div>
-    `;
-
-    const printArea = document.getElementById('pdf-print-area');
-    printArea.innerHTML = printHTML;
-    printArea.style.display = 'block';
-
-    setTimeout(() => {
-        window.print();
-        setTimeout(() => {
-            printArea.style.display = 'none';
-        }, 500);
-    }, 200);
-
-    showNotify('กำลังเปิดหน้าต่างพิมพ์ PDF...');
-}
-
-// ─── PIN MODAL (for admin confirmation) ──────────────────────
-let _pinCallback = null;
-let _pinValue    = '';
-
-function openPinModal(title, callback) {
-    _pinCallback = callback; _pinValue = '';
-    const modal = document.getElementById('modal-content');
-    modal.innerHTML = ` 
-        <h3 style="text-align:center;margin-bottom:5px;color:var(--text);">${title}</h3> 
-        <p style="text-align:center;font-size:0.8rem;color:var(--text3);margin-bottom:5px;">กรอก PIN เพื่อยืนยัน</p> 
-        <div class="pin-display"> 
-            <div class="pin-dot" id="pd0"></div> 
-            <div class="pin-dot" id="pd1"></div> 
-            <div class="pin-dot" id="pd2"></div> 
-            <div class="pin-dot" id="pd3"></div> 
-        </div> 
-        <div class="pin-pad"> 
-            ${[1,2,3,4,5,6,7,8,9,'',0,'⌫'].map(k=>`
-            <button class="pin-btn ${k==='⌫'?'danger':''}"
-            onclick="pinPress('${k}')" ${k===''?'style="visibility:hidden"':''}>
-            ${k}
-            </button>`).join('')} 
-        </div> 
-        <button class="btn btn-outline" style="margin-top:15px;" onclick="closeModal()">ยกเลิก</button> 
-    `;
-    document.getElementById('modal-overlay').style.display='flex';
-}
-
-function pinPress(k) {
-    if (k==='') return;
-    if (k==='⌫') { _pinValue=_pinValue.slice(0,-1); }
-    else if (_pinValue.length<4) { _pinValue+=k; }
-    for(let i=0;i<4;i++) {
-        const dot=document.getElementById('pd'+i);
-        if(dot) dot.classList.toggle('filled', i<_pinValue.length);
-    }
-    if (_pinValue.length===4) {
-        setTimeout(()=>{ _pinCallback && _pinCallback(_pinValue); }, 200);
-    }
-}
-
-// ─── WITHDRAW MODAL ───────────────────────────────────────────
-function openWithdrawModal() {
-    const s = db.settings;
-    let lineLink = s.lineContact||'';
-    if (lineLink && !lineLink.startsWith('http')) lineLink=`https://line.me/ti/p/~${lineLink.replace('@','')}`;
-    const user = getUser();
-    const goldTHBVal = calcGoldTHB(user.balanceGold||0);
-    const modal = document.getElementById('modal-content');
-    modal.innerHTML = ` 
-        <div style="text-align:center"> 
-            <h3 style="margin-bottom:10px;color:var(--red)">แจ้งถอนทอง</h3> 
-            <div style="background:var(--gold-pale);border:1px solid rgba(200,134,10,0.3);border-radius:12px;padding:12px;margin-bottom:16px;"> 
-                <div style="font-size:0.8rem;color:var(--text3);">ทองสะสมของคุณ</div> 
-                <div style="font-size:1.3rem;font-weight:700;color:var(--gold);">${fmt.gold(user.balanceGold||0)} กรัม</div> 
-                <div class="gold-thb-val" style="font-size:0.85rem;">≈ ฿${fmt.thb(goldTHBVal)}</div> 
-            </div> 
-            <p style="margin-bottom:20px;font-size:0.85rem;color:var(--text3)">กรุณาติดต่อเจ้าหน้าที่เพื่อยืนยันตัวตนและแจ้งที่อยู่จัดส่ง</p> 
-            ${s.phoneContact?`<a href="tel:${s.phoneContact}" class="btn btn-outline" style="margin-bottom:10px;text-decoration:none;">📞 ${s.phoneContact}</a>`:''} 
-            ${lineLink?`<a href="${lineLink}" target="_blank" class="btn btn-line" style="text-decoration:none;margin-bottom:10px;">
-            <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:20px;height:20px;flex-shrink:0;"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.038 9.608.391.084.922.258 1.057.592.122.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.57-3.843 2.57-5.992z"/></svg>
-            แอดไลน์ติดต่อแอดมิน
-            </a>`:''} 
-            <button class="btn btn-outline" style="margin-top:10px;" onclick="closeModal()">ปิด</button> 
-        </div> 
-    `;
-    document.getElementById('modal-overlay').style.display='flex';
-}
-
-// ─── PROFILE ─────────────────────────────────────────────────
-function openEditProfileModal() {
-    const user = getUser();
-    const modal = document.getElementById('modal-content');
-    modal.innerHTML = ` 
-        <h3 style="margin-bottom:15px;color:var(--text);">แก้ไขโปรไฟล์</h3> 
-        <div class="form-group"> 
-            <label class="admin-label">รูปโปรไฟล์</label> 
-            <input type="file" id="p-file" style="display:none" accept="image/*" onchange="handleFileSelect(event, val=>{ document.getElementById('p-preview').src=val; window._tempP=val; })"> 
-            <div style="width:70px;height:70px;border-radius:50%;margin:0 auto 10px;overflow:hidden;border:2px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;background:white;" onclick="document.getElementById('p-file').click()"> 
-                ${user.profilePic?`<img id="p-preview" src="${user.profilePic}" style="width:100%;height:100%;object-fit:cover;">`:`<span id="p-preview-text">${user.name[0]}</span>`} 
-            </div> 
-        </div> 
-        <div class="form-group"><label class="admin-label">ชื่อ</label><input type="text" id="p-name" class="admin-input" value="${user.name}"></div> 
-        <div class="form-group"><label class="admin-label">อีเมล</label><input type="email" id="p-email" class="admin-input" value="${user.email||''}"></div> 
-        <div class="form-group" style="background:#e3f2fd;padding:10px;border-radius:8px;border:1px dashed #90caf9;"> 
-            <label class="admin-label" style="color:#1565c0;">📨 Telegram Chat ID (รับแจ้งเตือนส่วนตัว)</label> 
-            <input type="text" id="p-tg-id" class="admin-input" value="${user.telegramChatId||''}" placeholder="กด /start ใน @AumthongBot แล้วกรอก ID"> 
-            <small style="color:var(--text3);font-size:0.7rem;">เปิด Telegram → ค้นหา @userinfobot → กด Start → คัดลอก ID</small> 
-        </div> 
-        <div class="form-group"><label class="admin-label">รหัสผ่านใหม่ (ปล่อยว่างถ้าไม่เปลี่ยน)</label><input type="password" id="p-pass" class="admin-input" placeholder="••••••"></div> 
-        <button class="btn btn-primary" onclick="saveProfile()">บันทึกข้อมูล</button> 
-    `;
-    document.getElementById('modal-overlay').style.display='flex';
-}
-
-async function saveProfile() {
-    const user = getUser();
-    user.name  = document.getElementById('p-name').value;
-    user.email = document.getElementById('p-email').value;
-    user.telegramChatId = document.getElementById('p-tg-id').value.trim() || null;
-    const newPass = document.getElementById('p-pass').value;
-    if (newPass) user.passHash = await hashPassword(newPass);
-    if (window._tempP) { user.profilePic = window._tempP; window._tempP=null; }
-    saveDB(); 
-
-    // FEATURE: Notify on Profile Update
-    sendTelegramAlert(`📝 <b>มีการอัปเดตโปรไฟล์ผู้ใช้</b>\n👤 ผู้ใช้: ${user.name}\n📱 เบอร์โทร: ${user.phone}`);
-
-    currentUser=user; 
-    closeModal(); 
-    initApp();
-    showNotify('บันทึกโปรไฟล์เรียบร้อย');
-}
-
-// ─── IMAGE VIEWER ─────────────────────────────────────────────
-function viewImage(url) {
-    const layer = document.createElement('div');
-    layer.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.9);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem;cursor:pointer;opacity:0;transition:opacity 0.3s;';
-    layer.onclick=()=>{ layer.style.opacity='0'; setTimeout(()=>document.body.removeChild(layer),300); };
-    layer.innerHTML=`<img src="${url}" style="max-width:100%;max-height:80vh;border-radius:10px;object-fit:contain;" onclick="event.stopPropagation()"><button class="btn btn-primary" style="margin-top:15px;width:auto;padding:0.5rem 2rem;border-radius:20px;" onclick="document.body.removeChild(this.parentElement)">ปิดรูปภาพ</button>`;
-    document.body.appendChild(layer);
-    setTimeout(()=>layer.style.opacity='1',10);
-}
-
-// ─── EXPORT CSV (EXCEL) ───────────────────────────────────────
-function generateCSVContent(filterUid=null) {
-    const rows=[["วันที่","ชื่อลูกค้า","เบอร์โทร","อีเมล","รายการ","จำนวนเงิน(บาท)","จำนวนทอง(กรัม)","มูลค่าทอง(บาท)","สถานะ","ยอดเงินสะสม(บาท)","ยอดทองสะสม(กรัม)"]];
-    const txs = filterUid ? db.transactions.filter(t=>t.userId===filterUid) : db.transactions;
-    const p = getGoldPrice();
-    txs.forEach(t=>{
-        const u=Object.values(db.users).find(usr=>usr.uid===t.userId)||{};
-        const goldTHBVal = (t.goldWeight||0) * p.sell;
-        rows.push([
-            `"${new Date(t.timestamp).toLocaleString('th-TH')}"`,
-            `"${u.name||'?'}"`, `="${u.phone||''}"`, `"${u.email||''}"`,
-            `"${t.note||''}"`, t.amountTHB, t.goldWeight||0,
-            goldTHBVal.toFixed(2),
-            t.status==='approved'?'สำเร็จ':t.status==='rejected'?'ปฏิเสธ':'รอยืนยัน',
-            u.balanceTHB||0, u.balanceGold||0
-        ]);
-    });
-    return "\ufeff"+rows.map(r=>r.join(",")).join("\n");
-}
-
-function triggerManualBackup() {
-    if (currentUser.role!=='superadmin') return showNotify('คุณไม่มีสิทธิ์','error');
-    
-    // FEATURE 3: Download full data and send to Telegram (simulating email flow)
-    const csv = generateCSVContent();
-    const fn = `รายงานออมทองรวม_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
-    
-    // ดาวน์โหลดลงเครื่อง
-    downloadCSV(csv, fn);
-    
-    // ส่งเข้า Telegram กลุ่มหากมีการตั้งค่าไว้
-    if (db.settings.tgChatId) {
-        sendTelegramDocument(csv, fn);
-        showNotify('ดาวน์โหลดและส่งไฟล์รวมเข้า Telegram สำเร็จ');
-    } else {
-        showNotify('ดาวน์โหลดสำเร็จ (ไม่ได้ส่ง TG เพราะไม่ได้ตั้งค่า Chat ID)');
-    }
-}
-
-// ฟังก์ชันสำหรับปุ่มดาวน์โหลดข้อมูลทั้งหมดแบบไม่ส่งเข้า TG
-function downloadExcelAll() {
-    if (currentUser.role!=='superadmin') return showNotify('คุณไม่มีสิทธิ์','error');
-    const csv = generateCSVContent();
-    const fn = `ฐานข้อมูลออมทองทั้งหมด_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
-    downloadCSV(csv, fn);
-    showNotify('ดาวน์โหลด Excel สำเร็จ');
-}
-
-function exportUserCSV(uid) {
-    if (currentUser.role!=='superadmin') return showNotify('คุณไม่มีสิทธิ์','error');
-    const user=Object.values(db.users).find(u=>u.uid===uid);
-    downloadCSV(generateCSVContent(uid), `ออมทอง_${user.name}_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`);
-}
-
-function downloadCSV(csvContent, filename) {
-    const blob=new Blob([csvContent],{type:'text/csv;charset=utf-8;'});
-    const link=document.createElement("a");
-    link.href=URL.createObjectURL(blob); link.download=filename; link.click();
-}
-
-function checkWeeklyBackup() {
-    if (!currentUser||currentUser.role!=='superadmin') return;
-    const now=Date.now(); const last=db.settings.lastBackupDate||0;
-    // หากเกิน 7 วัน (7 * 24 * 60 * 60 * 1000 มิลลิวินาที) จะทำการแบคอัป
-    if (now-last >= 7*24*60*60*1000) {
-        db.settings.lastBackupDate=now; saveDB();
-        showNotify('กำลังสร้างไฟล์สำรองข้อมูลรายสัปดาห์อัตโนมัติ...');
-        const csv=generateCSVContent();
-        const fn=`ออมทอง_Backup_Weekly_${new Date().toLocaleDateString('th-TH').replace(/\//g,'-')}.csv`;
+        let amt = t.amount ? t.amount : 0;
         
-        if (db.settings.tgChatId) {
-            sendTelegramDocument(csv, fn);
-        }
-        downloadCSV(csv, fn);
+        el.innerHTML += `
+          <div class="flex justify-between items-center tx-item-history" style="padding: 14px 0; border-bottom: 1px solid #eee;">
+            <div class="flex items-center gap-3">
+              <div style="font-size: 20px; background:var(--gray-light); padding:12px; border-radius:14px; flex-shrink:0;">${icon}</div>
+              <div style="min-width: 0;">
+                <div style="font-weight:600; font-size:15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${t.type==='deposit' ? 'ฝากออม' : 'ถอนแลกทอง'}</div>
+                <div style="font-size:12px; color:var(--gray);">${d}</div>
+              </div>
+            </div>
+            <div class="tx-amount-col">
+              <div style="font-weight:700; color:${color}; font-size:15px;">฿${amt.toLocaleString()}</div>
+              <div style="margin-top:4px;">${statusBadge}</div>
+            </div>
+          </div>
+        `;
+      });
+    };
+    renderList('cust-recent-tx', 3);
+    renderList('cust-all-history', 0);
+  };
+
+  window.navAdmin = (sec) => {
+    // ระบบกันแอดมินรอง (Sub admin ไม่ให้เข้าหน้าอื่นนอกจาก ธุรกรรม)
+    const role = window.appState.currentUser?.role;
+    if (role !== 'superadmin' && (sec === 'dashboard' || sec === 'users' || sec === 'settings')) {
+        return; 
     }
-}
 
-// ─── SHOP IDENTITY ────────────────────────────────────────────
-function updateShopIdentity() {
-    const s = db.settings;
-    document.getElementById('shop-nav-name').innerText        = s.shopName;
-    document.getElementById('shop-title-display').innerText   = s.shopName;
-    document.getElementById('shop-tagline-display').innerText = s.shopTagline;
-    const pinLockEl = document.getElementById('pin-lock-shop-name');
-    if (pinLockEl) pinLockEl.innerText = s.shopName;
-    if (s.shopLogo) {
-        document.getElementById('shop-logo-nav-container').innerHTML   = `<img src="${s.shopLogo}" style="width:100%;height:100%;object-fit:cover;">`;
-        document.getElementById('shop-logo-login-container').innerHTML = `<img src="${s.shopLogo}" style="width:100%;height:100%;object-fit:cover;">`;
-    }
-}
-
-function closeModal() { document.getElementById('modal-overlay').style.display='none'; }
-
-function renderNav() {
-    const nav = document.getElementById('navigation-bar');
-    const user = getUser();
-    const isAdmin = user&&(user.role==='superadmin'||user.role==='admin');
-    const pendingCount = db.transactions.filter(t=>t.status==='pending').length;
-    const items = isAdmin ? [
-        { id:'home',     label:'หน้าหลัก', icon:'M3 12l9-9 9 9' },
-        { id:'approve',  label:`อนุมัติ${pendingCount>0?` (${pendingCount})`:''}`, icon:'M9 12l2 2 4-4' },
-        { id:'users',    label:'จัดการ',   icon:'M17 20H3v-1a6 6 0 0112 0v1M9 7a4 4 0 100 8 4 4 0 000-8z' },
-        { id:'settings', label:'ตั้งค่า',  icon:'M12 15a3 3 0 100-6 3 3 0 000 6z' }
-    ] : [
-        { id:'home',    label:'หน้าแรก', icon:'M3 12l9-9 9 9' },
-        { id:'deposit', label:'ฝากออม',  icon:'M12 5v14M5 12l7 7 7-7' },
-        { id:'history', label:'ประวัติ',  icon:'M12 8v4l3 3' },
-        { id:'profile', label:'โปรไฟล์', icon:'M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2' }
-    ];
-    nav.innerHTML = items.map(i=>`<button class="nav-item ${activePage===i.id?'active':''}" onclick="navigate('${i.id}')"><svg class="icon" viewBox="0 0 24 24"><path d="${i.icon}" stroke-linecap="round" stroke-linejoin="round"/></svg><span style="font-size:0.65rem;">${i.label}</span></button>`).join('');
-}
-
-// ─── NAVIGATION ──────────────────────────────────────────────
-function navigate(page) {
-    activePage = page; historyFilter = 'all'; userSearchQ = '';
-    renderView(); renderNav(); window.scrollTo(0,0);
-    resetInactivityTimer();
-}
-
-function renderView() {
-    const user = getUser();
-    if (!user) return handleLogout();
-    currentUser = user;
-    const container = document.getElementById('view-container');
-    const isAdmin = user.role === 'superadmin' || user.role === 'admin';
+    document.querySelectorAll('#admin-content-area > div').forEach(e => {
+       if(e.id !== 'admin-page-title' && e.id.indexOf('title') === -1 && !e.classList.contains('admin-topbar')) e.classList.add('hidden');
+    });
     
-    if (isAdmin) {
-        switch(activePage) {
-            case 'home':     container.innerHTML = renderAdminDashboard(); break;
-            case 'approve':  container.innerHTML = renderAdminApprove(); break;
-            case 'users':    container.innerHTML = renderAdminUsers(); break;
-            case 'settings': container.innerHTML = renderAdminSettings(); break;
+    document.querySelectorAll('.admin-nav-item, .admin-bottom-nav .nav-item').forEach(e => e.classList.remove('active'));
+    
+    showEl(`admin-sec-${sec}`);
+    
+    const elDesktop = document.querySelector(`.admin-sidebar .admin-nav-item[onclick="navAdmin('${sec}')"]`);
+    if(elDesktop) elDesktop.classList.add('active');
+
+    const elMobile = document.querySelector(`.admin-bottom-nav .nav-item[onclick="navAdmin('${sec}')"]`);
+    if(elMobile) elMobile.classList.add('active');
+    
+    const titles = { dashboard: 'ภาพรวมระบบ', transactions: 'รายการธุรกรรม', users: 'จัดการผู้ใช้งาน', settings: 'ตั้งค่าร้านค้า' };
+    const titleText = titles[sec] || sec;
+    setText('admin-page-title', titleText);
+    setText('admin-page-title-mobile', titleText);
+    
+    window.scrollTo(0, 0);
+  };
+
+  window.toggleAdminSidebar = () => {};
+
+  const updateDashboardStats = () => {
+    let bal = 0;
+    let usersCount = 0;
+    
+    if(window.appState.users) {
+       for(let i=0; i<window.appState.users.length; i++) {
+          bal += (window.appState.users[i].balance || 0);
+          if(window.appState.users[i].role !== 'superadmin') usersCount++;
+       }
+    }
+    
+    let pending = 0;
+    if(window.appState.transactions) {
+       for(let i=0; i<window.appState.transactions.length; i++) {
+          if(window.appState.transactions[i].status === 'pending') pending++;
+       }
+    }
+    
+    setText('stat-total-balance', bal.toLocaleString());
+    setText('stat-total-users', usersCount);
+    setText('stat-pending', pending);
+    
+    const badgeDesktop = getEl('admin-badge-tx');
+    if(badgeDesktop) {
+        badgeDesktop.textContent = pending;
+        badgeDesktop.classList.toggle('hidden', pending === 0);
+    }
+    const badgeMobile = getEl('admin-badge-tx-mobile');
+    if(badgeMobile) {
+        badgeMobile.textContent = pending;
+        badgeMobile.classList.toggle('hidden', pending === 0);
+    }
+  };
+
+  const renderAdminTransactions = () => {
+    const tbody = document.querySelector('#table-tx tbody');
+    if(!tbody) return;
+    tbody.innerHTML = '';
+
+    if(!window.appState.transactions) return;
+
+    window.appState.transactions.forEach(t => {
+      let tr = document.createElement('tr');
+      let statusStr = t.status==='approved' ? '<span class="badge bg-green">สำเร็จ</span>' : (t.status==='rejected' ? '<span class="badge bg-red">ปฏิเสธ</span>' : '<span class="badge bg-yellow">รอตรวจสอบ</span>');
+      let d = new Date(t.date).toLocaleString('th-TH');
+      let slipBtn = t.slipBase64 ? `<button class="btn btn-sm btn-outline" style="padding:6px 10px; font-size:12px;" onclick="viewSlip('${t.id}')">รูปสลิป</button>` : '-';
+      
+      let actionBtns = '-';
+      let amt = t.amount ? t.amount : 0;
+      let rm = t.remark ? t.remark : '-';
+
+      if(t.status === 'pending') {
+        if(t.type === 'deposit') {
+          actionBtns = `<button class="btn btn-sm btn-success" onclick="approveTx('${t.id}')">✓ อนุมัติ</button> <button class="btn btn-sm btn-danger" onclick="rejectTx('${t.id}')">✗ ปฏิเสธ</button>`;
+        } else {
+          actionBtns = `<button class="btn btn-sm btn-success" onclick="openEditWithdraw('${t.id}', ${amt})">พิจารณาถอน</button> <button class="btn btn-sm btn-danger" onclick="rejectTx('${t.id}')">ปฏิเสธ</button>`;
         }
-    } else {
-        switch(activePage) {
-            case 'home':    container.innerHTML = renderCustomerHome(); break;
-            case 'deposit': container.innerHTML = renderDepositForm(); break;
-            case 'history': container.innerHTML = renderHistory(); break;
-            case 'profile': container.innerHTML = renderProfile(); break;
+      }
+
+      tr.innerHTML = `
+        <td style="color:var(--gray); font-size:13px;">${d}</td>
+        <td><b>${t.userName}</b></td>
+        <td><span class="badge ${t.type==='deposit'?'bg-green':'bg-red'}">${t.type==='deposit'?'ฝากออม':'ถอนทอง'}</span></td>
+        <td style="font-weight:bold; color:${t.type==='deposit'?'var(--green)':'var(--red)'}; font-size:15px;">฿${amt.toLocaleString()}</td>
+        <td><div style="font-size:13px; max-width: 150px; overflow:hidden; text-overflow:ellipsis;" title="${rm}">${rm}</div>${slipBtn}</td>
+        <td>${statusStr}</td>
+        <td><div class="flex gap-2">${actionBtns}</div></td>
+      `;
+      tbody.appendChild(tr);
+    });
+  };
+
+  const renderAdminUsers = () => {
+    const tbody = document.querySelector('#table-users tbody');
+    if(!tbody) return;
+    tbody.innerHTML = '';
+    const myRole = window.appState.currentUser ? window.appState.currentUser.role : '';
+    const myId = window.appState.currentUser ? window.appState.currentUser.id : '';
+
+    if(!window.appState.users) return;
+
+    window.appState.users.forEach(u => {
+      let tr = document.createElement('tr');
+      let rText = u.role === 'superadmin' ? '<span class="badge bg-gold">แอดมินหลัก</span>' : (u.role === 'subadmin' ? '<span class="badge bg-green">แอดมินรอง</span>' : '<span class="badge" style="background:#eee; color:var(--black)">ลูกค้า</span>');
+      
+      let actionBtns = '-';
+      if(myRole === 'superadmin' && u.id !== myId) {
+        let toggleRole = u.role === 'customer' 
+            ? `<button class="btn btn-sm btn-outline" style="border-color:var(--green); color:var(--green);" onclick="changeRole('${u.id}', 'subadmin')">ตั้งแอดมินรอง</button>` 
+            : `<button class="btn btn-sm btn-outline" style="border-color:var(--gold-dark); color:var(--gold-dark);" onclick="changeRole('${u.id}', 'customer')">ปลดแอดมิน</button>`;
+        
+        // เพิ่มปุ่ม ลบ แล้ว
+        let deleteBtn = `<button class="btn btn-sm btn-danger" style="padding: 6px 12px;" onclick="deleteUser('${u.id}')">ลบ</button>`;
+        
+        actionBtns = `<div class="flex gap-2">${toggleRole} ${deleteBtn}</div>`;
+      }
+      
+      let userAvatar = u.profilePicBase64 ? `<img src="${u.profilePicBase64}" style="width:36px; height:36px; border-radius:50%; object-fit:cover;">` : `<div style="width:36px; height:36px; border-radius:50%; background:var(--gray-light); display:flex; align-items:center; justify-content:center; font-size:16px;">👤</div>`;
+      let bal = u.balance ? u.balance : 0;
+
+      tr.innerHTML = `
+        <td>${userAvatar}</td>
+        <td><b style="font-size:15px;">${u.name}</b></td>
+        <td style="color:var(--gray);">${u.phone}</td>
+        <td>${rText}</td>
+        <td style="font-weight:bold; color:var(--gold-dark); font-size:15px;">฿${bal.toLocaleString()}</td>
+        <td>${actionBtns}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  };
+
+  window.changeRole = async (uid, newRole) => {
+    if(confirm(`ต้องการเปลี่ยนสิทธิ์ผู้ใช้นี้เป็น ${newRole === 'subadmin' ? 'แอดมินรอง' : 'ลูกค้า'} ใช่หรือไม่?`)) {
+      showLoading(true);
+      
+      let targetUser = null;
+      for(let i=0; i<window.appState.users.length; i++){
+         if(window.appState.users[i].id === uid) targetUser = window.appState.users[i];
+      }
+      
+      if(targetUser) targetUser.role = newRole;
+      
+      try {
+         if(auth.currentUser) await updateDoc(getDocRef('appUsers', uid), { role: newRole });
+         renderAdminUsers();
+         showToast("เปลี่ยนสิทธิ์สำเร็จ");
+      } catch(e) {
+         console.error(e);
+         showToast("❌ เปลี่ยนสิทธิ์เฉพาะในเครื่อง (ออฟไลน์)", true);
+      }
+      showLoading(false);
+    }
+  };
+
+  // ฟังก์ชันลบผู้ใช้งาน
+  window.deleteUser = async (uid) => {
+    if(confirm('ต้องการลบผู้ใช้งานนี้อย่างถาวรใช่หรือไม่? (ข้อมูลจะหายไปทั้งหมด)')) {
+      showLoading(true);
+      const isAuthed = await ensureAuth();
+      if(!isAuthed) { showLoading(false); return showToast("⚠️ ออฟไลน์: ไม่สามารถลบได้", true); }
+      
+      try {
+         const { deleteDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
+         await deleteDoc(getDocRef('appUsers', uid));
+         
+         window.appState.users = window.appState.users.filter(x => x.id !== uid);
+         try { localStorage.setItem('cache_users', JSON.stringify(window.appState.users)); } catch(e){}
+         
+         renderAdminUsers();
+         updateDashboardStats();
+         showToast("ลบผู้ใช้งานสำเร็จ");
+      } catch(e) {
+         console.error(e);
+         showToast("❌ ลบผู้ใช้งานไม่สำเร็จ (ตรวจสอบสิทธิ์ Firebase)", true);
+      }
+      showLoading(false);
+    }
+  };
+
+  window.viewSlip = (txId) => {
+    let tx = null;
+    for(let i=0; i<window.appState.transactions.length; i++){
+       if(window.appState.transactions[i].id === txId) tx = window.appState.transactions[i];
+    }
+    
+    if(tx && tx.slipBase64) {
+      const img = getEl('slip-image-full');
+      if(img) { img.src = tx.slipBase64; openModal('modal-view-slip'); }
+    }
+  };
+
+  window.openEditWithdraw = (txId, reqAmount) => {
+    pendingTxId = txId;
+    setText('mw-req-amt', (reqAmount || 0).toLocaleString());
+    setVal('mw-app-amt', reqAmount || 0);
+    openModal('modal-edit-withdraw');
+  };
+
+  window.confirmApproveWithdraw = () => {
+    const el = getEl('mw-app-amt');
+    const appAmt = el ? parseFloat(el.value) : 0;
+    if(isNaN(appAmt) || appAmt <= 0) return showToast("ยอดเงินไม่ถูกต้อง", true);
+    closeModal('modal-edit-withdraw');
+    processTx(pendingTxId, 'approved', appAmt);
+  };
+
+  window.approveTx = (txId) => {
+    if(confirm("ยืนยันการอนุมัติรายการนี้?")) {
+      processTx(txId, 'approved');
+    }
+  };
+
+  window.rejectTx = (txId) => {
+    const reason = prompt("ระบุเหตุผลที่ปฏิเสธ (ถ้ามี):");
+    if(reason !== null) {
+      processTx(txId, 'rejected', null, reason);
+    }
+  };
+
+  const processTx = async (txId, status, overrideAmount = null, rejectReason = "") => {
+    showLoading(true);
+    
+    let tx = null;
+    if(window.appState.transactions) {
+       for(let i=0; i<window.appState.transactions.length; i++) {
+          if(window.appState.transactions[i].id === txId) tx = window.appState.transactions[i];
+       }
+    }
+    
+    if(!tx) { showLoading(false); return; }
+
+    let user = null;
+    if(window.appState.users) {
+       for(let i=0; i<window.appState.users.length; i++) {
+          if(window.appState.users[i].id === tx.userId) user = window.appState.users[i];
+       }
+    }
+
+    let finalAmount = overrideAmount !== null ? overrideAmount : (tx.amount ? tx.amount : 0);
+
+    try {
+      if(status === 'approved' && user) {
+        let newBalance = user.balance ? user.balance : 0;
+        if(tx.type === 'deposit') newBalance += finalAmount;
+        else if(tx.type === 'withdraw') {
+          if(finalAmount > newBalance) {
+            showToast("ลูกค้ามียอดไม่พอให้หัก", true);
+            showLoading(false);
+            return;
+          }
+          newBalance -= finalAmount;
+        }
+        user.balance = newBalance;
+        if(auth.currentUser) await updateDoc(getDocRef('appUsers', user.id), { balance: newBalance });
+      }
+
+      tx.status = status;
+      let updateData = { status: status };
+      if(overrideAmount !== null) { tx.amount = overrideAmount; updateData.amount = overrideAmount; }
+      if(rejectReason) {
+        const rm = tx.remark ? tx.remark : '';
+        tx.remark = rm + ` [ปฏิเสธ: ${rejectReason}]`;
+        updateData.remark = tx.remark;
+      }
+
+      if(auth.currentUser) await updateDoc(getDocRef('transactions', txId), updateData);
+      
+      try {
+        localStorage.setItem('cache_users', JSON.stringify(window.appState.users));
+        localStorage.setItem('cache_txs', JSON.stringify(window.appState.transactions));
+      } catch(e){}
+      
+      renderAdminTransactions();
+      renderAdminUsers();
+      updateDashboardStats();
+      
+      let statTh = status==='approved'?'✅ อนุมัติสำเร็จ':'❌ ถูกปฏิเสธ';
+      sendTgMsg(`อัปเดตสถานะธุรกรรม\nผู้ใช้: ${tx.userName}\nประเภท: ${tx.type==='deposit'?'ฝาก':'ถอน'}\nยอด: ฿${finalAmount.toLocaleString()}\nสถานะ: ${statTh}`);
+      
+      showToast("ดำเนินการสำเร็จ");
+    } catch(e) {
+      console.error(e);
+      showToast("❌ ดำเนินการเฉพาะในเครื่อง (โหมดออฟไลน์)", true);
+    }
+    showLoading(false);
+  };
+
+  const updateSettingsUI = () => {
+    const s = window.appState.settings || {};
+    
+    const sName = s.shopName ? s.shopName : 'พรีเมียมออมทอง';
+    setText('cust-header-name', sName);
+    setText('admin-shop-name', sName);
+    setText('admin-shop-name-sidebar', sName);
+    setText('login-shop-name', sName); 
+    
+    setText('cust-bank-name', s.bankName ? s.bankName : '-');
+    setText('cust-bank-accname', s.bankAccName ? s.bankAccName : '-');
+    setText('cust-bank-accno', s.bankAccNo ? s.bankAccNo : '-');
+    
+    const lineIdVal = s.lineId ? s.lineId : '';
+    const lineLinkVal = s.lineLink ? s.lineLink : '';
+    const phoneVal = s.phone ? s.phone : '';
+    
+    let contactHtml = '';
+    if (phoneVal) contactHtml += `<div style="margin-bottom:8px;">📞 โทร: <a href="tel:${phoneVal}" style="color:var(--gold-dark); text-decoration:none; font-weight:700;">${phoneVal}</a></div>`;
+    if (lineIdVal) contactHtml += `<div style="margin-bottom:12px;">💬 Line ID: <span style="color:var(--gold-dark); font-weight:700;">${lineIdVal}</span></div>`;
+    
+    const elDetails = getEl('cust-shop-contact-details');
+    if (elDetails) elDetails.innerHTML = contactHtml ? contactHtml : '-';
+    
+    const elBtn = getEl('cust-shop-contact-btn');
+    if (elBtn) {
+        if (lineLinkVal) {
+            let safeLink = lineLinkVal.startsWith('http') ? lineLinkVal : `https://${lineLinkVal}`;
+            elBtn.innerHTML = `<a href="${safeLink}" target="_blank" class="btn btn-success" style="display:inline-flex; width:100%; text-decoration:none; padding:12px 16px; font-size:15px; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);">✅ คลิกเพิ่มเพื่อน Line ติดต่อร้าน</a>`;
+        } else {
+            elBtn.innerHTML = '';
         }
     }
-}
-
-// ─── AUTH ────────────────────────────────────────────────────
-function setLoginMode(mode) {
-    loginMode = mode;
-    document.querySelectorAll('.login-tab').forEach(t => {
-        t.classList.toggle('active', (mode === 'login' && t.innerText.includes('เข้า')) || (mode === 'register' && t.innerText.includes('สมัคร')));
-    });
-    document.getElementById('reg-name-group').style.display       = mode === 'register' ? 'block' : 'none';
-    document.getElementById('reg-admin-code-group').style.display = (mode === 'register' && !hasSuperAdmin()) ? 'block' : 'none';
-}
-
-async function handleAuth() {
-    const phone = document.getElementById('login-phone').value.trim();
-    const pass  = document.getElementById('login-pass').value;
-    if (!phone || !pass) return showNotify('กรุณากรอกข้อมูลให้ครบ', 'error');
     
-    if (loginMode === 'login') {
-        const user = db.users[phone];
-        if (!user) return showNotify('ไม่พบบัญชีนี้ในระบบ', 'error');
-        
-        let ok = false;
-        if (user.passHash) { 
-            ok = await verifyPassword(pass, user.passHash); 
-        } else { 
-            ok = (user.pass === pass); 
-            if (ok) { 
-                user.passHash = await hashPassword(pass); 
-                delete user.pass; 
-                saveDB(); 
-            } 
-        }
-        
-        if (!ok) return showNotify('รหัสผ่านไม่ถูกต้อง', 'error');
-        saveSession(phone); currentUser = user;
-    } else {
-        const name = document.getElementById('reg-name').value.trim();
-        if (!name) return showNotify('กรุณากรอกชื่อ-นามสกุล', 'error');
-        if (db.users[phone]) return showNotify('เบอร์นี้มีในระบบแล้ว', 'error');
-        let role = 'customer';
-        if (!hasSuperAdmin()) {
-            const code = document.getElementById('reg-admin-code').value;
-            if (code === '9999') { role = 'superadmin'; }
-            else if (code !== '') return showNotify('รหัสตั้งต้นระบบไม่ถูกต้อง', 'error');
-        }
-        const passHash = await hashPassword(pass);
-        db.users[phone] = { uid:'u'+Date.now(), phone, name, role, balanceTHB:0, balanceGold:0, passHash, email:'', profilePic:null, telegramChatId:null };
-        saveDB(); saveSession(phone); currentUser = db.users[phone];
-        
-        // FEATURE: Notify when new user registered
-        sendTelegramAlert(`🎉 <b>มีสมาชิกสมัครใหม่เข้าสู่ระบบ!</b>\n👤 ชื่อ: ${name}\n📱 เบอร์โทร: ${phone}\n🔰 สิทธิ์: ${role==='superadmin'?'แอดมินหลัก':'ลูกค้า'}`);
-
-        if (role === 'superadmin') showNotify('คุณได้รับสิทธิ์ Super Admin แล้ว!');
+    if(s.shopLogoBase64) {
+      const lg = getEl('cust-header-logo');
+      if(lg) { lg.src = s.shopLogoBase64; lg.style.display = 'block'; }
+      const lfb = getEl('cust-header-logo-fallback');
+      if(lfb) lfb.style.display = 'none';
+      const lp = getEl('set-logo-preview');
+      if(lp) { lp.src = s.shopLogoBase64; lp.classList.remove('hidden'); }
+      
+      const logImg = getEl('login-logo-img');
+      if(logImg) { logImg.src = s.shopLogoBase64; logImg.style.display = 'block'; }
+      const logFb = getEl('login-logo-fallback');
+      if(logFb) logFb.style.display = 'none';
     }
-    initApp();
-}
 
-async function handleLineLogin() {
-    const key = "line_user_001";
-    if (!db.users[key]) {
-        const h = await hashPassword("linepass");
-        db.users[key] = { uid:'line_'+Date.now(), phone:key, name:"ผู้ใช้ LINE (Demo)", role:"customer", balanceTHB:0, balanceGold:0, passHash:h, email:"", profilePic:"https://upload.wikimedia.org/wikipedia/commons/4/41/LINE_logo.svg", telegramChatId:null };
-        saveDB();
-        sendTelegramAlert(`🎉 <b>มีสมาชิกสมัครใหม่เข้าสู่ระบบ!</b>\n👤 ชื่อ: ผู้ใช้ LINE (Demo)\n📱 รูปแบบ: เข้าสู่ระบบผ่าน LINE`);
+    if(s.qrBase64) {
+      const qg = getEl('cust-qr-img');
+      if(qg) { qg.src = s.qrBase64; qg.style.display = 'block'; }
+      const qfb = getEl('cust-qr-placeholder');
+      if(qfb) qfb.style.display = 'none';
+      const qp = getEl('set-qr-preview');
+      if(qp) { qp.src = s.qrBase64; qp.classList.remove('hidden'); }
     }
-    saveSession(key); currentUser = db.users[key];
-    showNotify('เข้าสู่ระบบด้วย LINE สำเร็จ'); initApp();
-}
 
-function handleLogout() {
-    clearTimeout(_inactivityTimer);
-    clearSession(); currentUser = null;
-    _pinLockActive = false;
-    document.getElementById('pin-lock-overlay').style.display = 'none';
-    document.getElementById('app-layout').style.display = 'none';
-    document.getElementById('login-page').style.display = 'flex';
-    document.getElementById('login-phone').value = '';
-    document.getElementById('login-pass').value = '';
-    setLoginMode('login');
-}
+    setVal('set-shopname', s.shopName ? s.shopName : '');
+    setVal('set-phone', s.phone ? s.phone : '');
+    setVal('set-line-id', s.lineId ? s.lineId : '');
+    setVal('set-line-link', s.lineLink ? s.lineLink : '');
+    setVal('set-bankname', s.bankName ? s.bankName : '');
+    setVal('set-bankaccname', s.bankAccName ? s.bankAccName : '');
+    setVal('set-bankaccno', s.bankAccNo ? s.bankAccNo : '');
+  };
 
-// ─── INIT ─────────────────────────────────────────────────────
-function initApp() {
-    currentUser = getUser();
-    if (!currentUser) return handleLogout();
-    document.getElementById('login-page').style.display  = 'none';
-    document.getElementById('app-layout').style.display  = 'flex';
-    document.getElementById('display-user-name').innerText = currentUser.name;
-    document.getElementById('display-user-avatar').innerHTML = currentUser.profilePic
-        ? `<img src="${currentUser.profilePic}" style="object-fit:cover;width:100%;height:100%;">`
-        : currentUser.name[0];
-    updateShopIdentity();
-    fetchLiveGoldPrice().then(() => navigate('home'));
-    resetInactivityTimer(); 
+  window.saveSettings = async () => {
+    showLoading(true);
+    const isAuthed = await ensureAuth();
+    if(!isAuthed) { showLoading(false); return showToast("⚠️ ออฟไลน์: ไม่สามารถบันทึกตั้งค่าขึ้นเซิร์ฟเวอร์", true); }
     
-    // เรียกตรวจเช็ค Weekly Backup หลังล็อกอินเสร็จ 1.5 วินาที
-    setTimeout(checkWeeklyBackup, 1500);
-}
+    const newData = {
+      shopName: getVal('set-shopname'),
+      phone: getVal('set-phone'),
+      lineId: getVal('set-line-id'),
+      lineLink: getVal('set-line-link'),
+      bankName: getVal('set-bankname'),
+      bankAccName: getVal('set-bankaccname'),
+      bankAccNo: getVal('set-bankaccno'),
+      tgToken: "8731749401:AAEmA6wiK5o4NM0CcjJnmgt_827PbyMtPYw", 
+      tgChatId: getVal('set-tg-chatid')
+    };
+    
+    const qrInput = getEl('set-qr-code');
+    if(qrInput && qrInput.dataset && qrInput.dataset.base64) newData.qrBase64 = qrInput.dataset.base64;
 
-window.onload = () => {
-    updateShopIdentity();
-    if (sessionPhone && db.users[sessionPhone]) {
-        initApp();
-    } else {
-        clearSession();
+    const logoInput = getEl('set-shop-logo');
+    if(logoInput && logoInput.dataset && logoInput.dataset.base64) newData.shopLogoBase64 = logoInput.dataset.base64;
+
+    window.appState.settings = {...(window.appState.settings||{}), ...newData};
+    try { localStorage.setItem('cache_settings', JSON.stringify(window.appState.settings)); } catch(e){}
+    updateSettingsUI();
+
+    try {
+      await setDoc(getDocRef('settings', 'global'), newData, {merge:true});
+      showToast("บันทึกการตั้งค่าสำเร็จ");
+    } catch(e) {
+      console.error(e);
+      showToast("❌ บันทึกไม่สำเร็จ (ตรวจสิทธิ์ Firebase)", true);
     }
-};
+    showLoading(false);
+  };
+
+  const sendTgMsg = async (text) => {
+    const s = window.appState.settings || {};
+    if(!s.tgToken || !s.tgChatId) return;
+    try {
+      await fetch(`https://api.telegram.org/bot${s.tgToken}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ chat_id: s.tgChatId, text: text, parse_mode: 'HTML' })
+      });
+    } catch(e) { console.log('TG Error:', e); }
+  };
+
+  window.testTelegram = () => {
+    showToast("กำลังส่งข้อความทดสอบ...");
+    sendTgMsg("🔔 ข้อความทดสอบจากระบบออมทองพรีเมียม");
+  };
+
+  window.exportData = (type) => {
+    let data = window.appState[type];
+    if(!data || data.length === 0) return showToast("ไม่มีข้อมูลให้ Export", true);
+    
+    let csvContent = "data:text/csv;charset=utf-8,\uFEFF";
+    if(type === 'users') {
+      csvContent += "Name,Phone,Role,Balance\n";
+      data.forEach(u => { 
+        let b = u.balance ? u.balance : 0;
+        csvContent += `"${u.name}","${u.phone}","${u.role}","${b}"\n`; 
+      });
+    } else {
+      csvContent += "Date,UserName,Type,Amount,Status,Remark\n";
+      data.forEach(t => { 
+        let d = new Date(t.date).toLocaleString('th-TH');
+        let amt = t.amount ? t.amount : 0;
+        let rm = t.remark ? t.remark : '';
+        csvContent += `"${d}","${t.userName}","${t.type}","${amt}","${t.status}","${rm}"\n`; 
+      });
+    }
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `export_${type}_${Date.now()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  window.backupToTelegram = async () => {
+    showLoading(true);
+    let userCount = window.appState.users ? window.appState.users.length : 0;
+    
+    let totalBal = 0;
+    if(window.appState.users) {
+       for(let i=0; i<window.appState.users.length; i++){
+          totalBal += (window.appState.users[i].balance ? window.appState.users[i].balance : 0);
+       }
+    }
+    
+    let txCount = window.appState.transactions ? window.appState.transactions.length : 0;
+    
+    let msg = `📦 <b>Weekly Backup Report</b>\n` +
+              `วันที่: ${new Date().toLocaleString('th-TH')}\n\n` +
+              `👥 จำนวนสมาชิกรวม: ${userCount}\n` +
+              `💰 ยอดเงินออมในระบบรวม: ฿${totalBal.toLocaleString()}\n` +
+              `📋 จำนวนธุรกรรมทั้งหมด: ${txCount}\n\n` +
+              `<i>หมายเหตุ: แอดมินสามารถโหลดข้อมูลแบบละเอียด(Excel) ได้จากระบบหลังบ้าน</i>`;
+    
+    await sendTgMsg(msg);
+    try { localStorage.setItem('goldAppLastBackup', Date.now().toString()); } catch(e){}
+    showToast("ส่ง Backup เข้า Telegram สำเร็จ");
+    setTimeout(() => { showLoading(false); }, 200);
+  };
+
+  const checkAndRunBackup = () => {
+    let last = null;
+    try { last = localStorage.getItem('goldAppLastBackup'); } catch(e){}
+    const now = Date.now();
+    if(!last || (now - parseInt(last)) > 604800000) {
+       backupToTelegram();
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', initApp);
+
 </script>
 </body>
 </html>
