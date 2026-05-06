@@ -309,7 +309,6 @@
 <!-- PAGE: LOGIN / REGISTER -->
 <div id="page-login" class="hidden">
   <div class="login-box">
-    <!-- โลโก้จะเปลี่ยนตามหน้าร้านอัตโนมัติ -->
     <div class="login-logo" id="login-logo-container">
       <img id="login-logo-img" src="" alt="โลโก้ร้าน" style="display:none; width: 100%; height: 100%; object-fit: cover;">
       <span id="login-logo-fallback">✨</span>
@@ -443,15 +442,10 @@
         <input type="text" id="wit-remark" class="form-control" placeholder="เช่น ต้องการทองแท่ง / มารับหน้าร้าน">
       </div>
       
-      <!-- แยกส่วนติดต่อร้าน -->
       <div class="form-group" style="background: #FEF3C7; padding: 20px; border-radius: 16px; margin-top: 24px; text-align:center;">
         <label style="color: #92400E; font-size: 14px; margin-bottom: 12px; display:block;">📞 ติดต่อร้านทองเพื่อยืนยันการถอน</label>
-        <div id="cust-shop-contact-details" style="font-size: 15px; font-weight: 600; color: #92400E; line-height: 1.8; margin-bottom: 12px;">
-          <!-- ข้อมูลเบอร์ และ ID จะถูกแทรกที่นี่ -->
-        </div>
-        <div id="cust-shop-contact-btn">
-          <!-- ปุ่มลิงก์คลิกเพิ่มเพื่อนจะแทรกที่นี่ -->
-        </div>
+        <div id="cust-shop-contact-details" style="font-size: 15px; font-weight: 600; color: #92400E; line-height: 1.8; margin-bottom: 12px;"></div>
+        <div id="cust-shop-contact-btn"></div>
       </div>
       
       <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="submitWithdraw()">ส่งคำขอถอนเงินออม</button>
@@ -508,7 +502,7 @@
 <div id="admin-sidebar-backdrop" onclick="toggleAdminSidebar()"></div>
 <div id="page-admin" class="hidden admin-layout">
   
-  <!-- Sidebar for Desktop (> 1400px) -->
+  <!-- Sidebar for Desktop -->
   <div class="admin-sidebar desktop-only" id="admin-sidebar">
     <div style="padding: calc(24px + env(safe-area-inset-top)) 24px 24px; border-bottom: 1px solid #E5E7EB;">
       <h2 class="serif" style="color: var(--gold-dark); font-size: 20px;">Admin Panel</h2>
@@ -527,7 +521,7 @@
   </div>
 
   <div class="admin-content" id="admin-content-area">
-    <!-- Topbar for iPad & Mobile (<= 1400px) -->
+    <!-- Topbar for Mobile -->
     <div class="admin-topbar mobile-only">
       <h2 class="serif" id="admin-page-title-mobile" style="font-size: 20px; margin: 0; color: var(--gold-dark);">ภาพรวมระบบ</h2>
       <button class="btn btn-sm btn-outline" style="border-radius: 20px; font-size: 12px; padding: 6px 14px;" onclick="logout()">ออกจากระบบ</button>
@@ -636,7 +630,7 @@
     </div>
   </div>
 
-  <!-- Bottom Nav for Admin (iPad & Mobile Only) -->
+  <!-- Bottom Nav for Admin -->
   <div class="admin-bottom-nav mobile-only">
     <div class="nav-item active nav-dashboard" onclick="navAdmin('dashboard')"><span class="nav-icon">📊</span>หน้าแรก</div>
     <div class="nav-item nav-tx" onclick="navAdmin('transactions')">
@@ -704,7 +698,6 @@
   const setVal = (id, val) => { const el = getEl(id); if(el) el.value = val; };
   const setText = (id, txt) => { const el = getEl(id); if(el) el.textContent = txt; };
 
-  // ของคุณแบบ 100% ไม่เปลี่ยน
   const myFirebaseConfig = {
     apiKey: "AIzaSyD1GnYInbXZHxjX91E25ki2WP-R0a9pWTU",
     authDomain: "gold-savings-517d2.firebaseapp.com",
@@ -740,7 +733,7 @@
   };
 
   let pendingTxId = null;
-  let pendingEditUserId = null; // ตัวแปรสำหรับแก้ไขยอดเงิน
+  let pendingEditUserId = null; 
   let isListenersSetup = false;
 
   window.showToast = (msg, isError = false) => {
@@ -835,7 +828,7 @@
         await signInAnonymously(auth);
       }
     } catch (e) {
-      console.warn("Offline Mode", e);
+      console.warn("Offline Mode");
     }
 
     setInterval(() => checkAndRunBackup(), 3600000);
@@ -902,7 +895,6 @@
     }
   };
 
-  // Switch to Customer View
   window.switchToCustomerView = () => {
     hideEl('page-admin');
     showEl('page-customer');
@@ -910,7 +902,6 @@
     navCust('home');
   };
 
-  // Switch to Admin View
   window.switchToAdminView = () => {
     hideEl('page-customer');
     showEl('page-admin');
@@ -942,7 +933,6 @@
       
       const isSuper = role === 'superadmin';
       
-      // ซ่อนเมนูที่แอดมินรองไม่มีสิทธิ์เข้าถึง (Dashboard, Users, Settings)
       document.querySelectorAll('.nav-dashboard, .nav-users, .nav-settings').forEach(el => {
           if(el) el.classList.toggle('hidden', !isSuper);
       });
@@ -1025,6 +1015,9 @@
     window.appState.currentUser = newUser;
     showToast("สมัครสมาชิกสำเร็จ!");
     routeUser();
+    
+    sendTgMsg(`🎉 <b>สมาชิกลงทะเบียนใหม่</b>\nชื่อ: ${name}\nเบอร์โทร: ${phone}\nสิทธิ์: ${role === 'superadmin' ? 'แอดมินหลัก' : 'ลูกค้า'}`);
+    
     setTimeout(() => { showLoading(false); }, 200);
   };
 
@@ -1047,6 +1040,8 @@
       try { localStorage.setItem('goldAppUser', JSON.stringify(user)); } catch(e){}
       showToast("เข้าสู่ระบบสำเร็จ");
       routeUser();
+      
+      sendTgMsg(`🔐 <b>เข้าสู่ระบบ</b>\nผู้ใช้: ${user.name} (${user.phone})`);
     } else {
       showToast("เบอร์โทรหรือรหัสผ่านไม่ถูกต้อง", true);
     }
@@ -1099,6 +1094,8 @@
        if(auth.currentUser) await updateDoc(getDocRef('appUsers', window.appState.currentUser.id), updateData);
        showToast("บันทึกโปรไฟล์สำเร็จ");
        updateProfileUI();
+       
+       sendTgMsg(`👤 <b>อัปเดตโปรไฟล์</b>\nผู้ใช้: ${window.appState.currentUser.name}\nมีการอัปเดตข้อมูลส่วนตัว`);
     } catch(e) {
        console.error(e);
        showToast("❌ บันทึกไม่สำเร็จ (ตรวจสอบสิทธิ์ Firebase)", true);
@@ -1117,6 +1114,8 @@
        if(auth.currentUser) await updateDoc(getDocRef('appUsers', window.appState.currentUser.id), { password: pass });
        showToast("เปลี่ยนรหัสผ่านสำเร็จ");
        setVal('edit-pass', '');
+       
+       sendTgMsg(`🔑 <b>เปลี่ยนรหัสผ่าน</b>\nผู้ใช้: ${window.appState.currentUser.name} เปลี่ยนรหัสผ่านใหม่`);
     } catch(e) {
        showToast("❌ บันทึกไม่สำเร็จ", true);
     }
@@ -1278,7 +1277,6 @@
   };
 
   window.navAdmin = (sec) => {
-    // ระบบกันแอดมินรอง (Sub admin ไม่ให้เข้าหน้าอื่นนอกจาก ธุรกรรม)
     const role = window.appState.currentUser?.role;
     if (role !== 'superadmin' && (sec === 'dashboard' || sec === 'users' || sec === 'settings')) {
         return; 
@@ -1436,8 +1434,6 @@
     let roleNameTh = newRole === 'superadmin' ? 'แอดมินหลัก' : (newRole === 'subadmin' ? 'แอดมินรอง' : 'ลูกค้า');
     if(confirm(`ต้องการเปลี่ยนสิทธิ์ผู้ใช้นี้เป็น ${roleNameTh} ใช่หรือไม่?`)) {
       showLoading(true);
-      const isAuthed = await ensureAuth();
-      if(!isAuthed) { showLoading(false); return showToast("ไม่ได้เชื่อมต่อฐานข้อมูล", true); }
       
       let targetUser = null;
       for(let i=0; i<window.appState.users.length; i++){
@@ -1450,6 +1446,9 @@
          if(auth.currentUser) await updateDoc(getDocRef('appUsers', uid), { role: newRole });
          renderAdminUsers();
          showToast("เปลี่ยนสิทธิ์สำเร็จ");
+         
+         // แจ้งเตือน Telegram
+         sendTgMsg(`🛡️ <b>เปลี่ยนสิทธิ์ผู้ใช้งาน</b>\nแอดมิน: ${window.appState.currentUser.name}\nเปลี่ยนสิทธิ์ ${targetUser ? targetUser.name : 'Unknown'} เป็น ${roleNameTh}`);
       } catch(e) {
          console.error(e);
          showToast("❌ เปลี่ยนสิทธิ์ไม่สำเร็จ", true);
@@ -1461,9 +1460,14 @@
   window.deleteUser = async (uid) => {
     if(confirm('ต้องการลบผู้ใช้งานนี้อย่างถาวรใช่หรือไม่? (ข้อมูลจะหายไปทั้งหมด)')) {
       showLoading(true);
-      const isAuthed = await ensureAuth();
-      if(!isAuthed) { showLoading(false); return showToast("⚠️ ออฟไลน์: ไม่สามารถลบได้", true); }
       
+      let targetUser = null;
+      if(window.appState.users) {
+          for(let i=0; i<window.appState.users.length; i++){
+             if(window.appState.users[i].id === uid) targetUser = window.appState.users[i];
+          }
+      }
+
       try {
          const { deleteDoc } = await import("https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js");
          await deleteDoc(getDocRef('appUsers', uid));
@@ -1474,6 +1478,8 @@
          renderAdminUsers();
          updateDashboardStats();
          showToast("ลบผู้ใช้งานสำเร็จ");
+         
+         sendTgMsg(`🗑️ <b>ลบผู้ใช้งาน</b>\nแอดมิน: ${window.appState.currentUser.name}\nลบผู้ใช้: ${targetUser ? targetUser.name : uid}`);
       } catch(e) {
          console.error(e);
          showToast("❌ ลบผู้ใช้งานไม่สำเร็จ (ตรวจสอบสิทธิ์ Firebase)", true);
@@ -1482,7 +1488,6 @@
     }
   };
 
-  // ฟังก์ชันสำหรับการแก้ไขยอดเงินโดยแอดมิน
   window.openEditBalance = (uid, currentBal, userName) => {
     pendingEditUserId = uid;
     setText('meb-name', userName);
@@ -1496,13 +1501,10 @@
     if(isNaN(newBal) || newBal < 0) return showToast("ยอดเงินไม่ถูกต้อง (ต้องมากกว่าหรือเท่ากับ 0)", true);
 
     showLoading(true);
-    const isAuthed = await ensureAuth();
-    if(!isAuthed) { showLoading(false); return showToast("ออฟไลน์: ไม่สามารถแก้ไขยอดเงินได้", true); }
 
     try {
        await updateDoc(getDocRef('appUsers', pendingEditUserId), { balance: newBal });
 
-       // Update local state
        for(let i=0; i<window.appState.users.length; i++){
           if(window.appState.users[i].id === pendingEditUserId) {
               window.appState.users[i].balance = newBal;
@@ -1518,7 +1520,7 @@
        closeModal('modal-edit-balance');
        showToast("อัปเดตยอดเงินเรียบร้อยแล้ว");
        
-       sendTgMsg(`🔧 <b>แจ้งเตือนแอดมินปรับลดยอดเงิน</b>\nลูกค้า: ${getEl('meb-name').textContent}\nยอดสุทธิใหม่: ฿${newBal.toLocaleString()}`);
+       sendTgMsg(`🔧 <b>แจ้งเตือนแอดมินแก้ไขยอดเงิน</b>\nลูกค้า: ${getEl('meb-name').textContent}\nยอดสุทธิใหม่: ฿${newBal.toLocaleString()}\nแก้ไขโดย: ${window.appState.currentUser.name}`);
 
     } catch(e) {
        console.error(e);
@@ -1569,8 +1571,6 @@
 
   const processTx = async (txId, status, overrideAmount = null, rejectReason = "") => {
     showLoading(true);
-    const isAuthed = await ensureAuth();
-    if(!isAuthed) { showLoading(false); return showToast("⚠️ ขาดการเชื่อมต่อ ไม่สามารถจัดการข้อมูล", true); }
     
     let tx = null;
     if(window.appState.transactions) {
@@ -1705,8 +1705,6 @@
 
   window.saveSettings = async () => {
     showLoading(true);
-    const isAuthed = await ensureAuth();
-    if(!isAuthed) { showLoading(false); return showToast("⚠️ ออฟไลน์: ไม่สามารถบันทึกตั้งค่าได้", true); }
     
     const newData = {
       shopName: getVal('set-shopname'),
@@ -1733,6 +1731,7 @@
     try {
       if(auth.currentUser) await setDoc(getDocRef('settings', 'global'), newData, {merge:true});
       showToast("บันทึกการตั้งค่าสำเร็จ");
+      sendTgMsg(`⚙️ <b>อัปเดตการตั้งค่าร้านค้า</b>\nโดยแอดมิน: ${window.appState.currentUser ? window.appState.currentUser.name : 'Unknown'}`);
     } catch(e) {
       console.error(e);
       showToast("❌ บันทึกไม่สำเร็จ (ตรวจสิทธิ์ Firebase)", true);
