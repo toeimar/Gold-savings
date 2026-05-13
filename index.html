@@ -385,7 +385,10 @@
           <div style="font-size:12px;color:var(--gray);">ธนาคาร</div><div class="font-bold" id="cust-bank-name" style="font-size:15px;margin-bottom:8px;font-weight:600;">-</div>
           <div style="font-size:12px;color:var(--gray);">ชื่อบัญชี</div><div class="font-bold" id="cust-bank-accname" style="font-size:15px;margin-bottom:8px;font-weight:600;">-</div>
           <div style="font-size:12px;color:var(--gray);">เลขบัญชี</div>
-          <div class="font-bold serif" id="cust-bank-accno" style="font-size:22px;color:var(--gold-dark);letter-spacing:2px;">-</div>
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <div class="font-bold serif" id="cust-bank-accno" style="font-size:22px;color:var(--gold-dark);letter-spacing:2px;">-</div>
+            <button class="btn btn-sm" style="background:var(--gray-light); color:var(--gray-dark); border:none; padding:6px 12px; border-radius:8px; font-size:12px; cursor:pointer;" onclick="copyBankAccount()">📋 คัดลอก</button>
+          </div>
         </div>
       </div>
       <div class="form-group"><label>จำนวนเงินที่โอน (บาท)</label><input type="number" id="dep-amount" class="form-control" placeholder="0.00"></div>
@@ -699,18 +702,18 @@
   const getCol = name => collection(db, name);
   const getDocRef = (col,id) => doc(db, col, id);
 
-  // ─── Pre-loaded Customer Data from CSV ───
+  // ─── Pre-loaded Customer Data from CSV (Updated from Image) ───
   const PRELOADED_CUSTOMERS = [
     {name:"พัชราภรณ์ ตาวตา",phone:"0840848829",balance:0,email:"tpatcharaporn728@gmail.com",createdAt:new Date("2026-05-10").getTime()},
     {name:"กอนมะณี ศรีสุราช",phone:"0612190173",balance:0,email:"khabmana29@gmail.com",createdAt:new Date("2026-04-29").getTime()},
-    {name:"นุสรา หมุดเพ็ชร์",phone:"0935829537",balance:8600,email:"nus24mud@gmail.com",createdAt:new Date("2026-03-11").getTime()},
+    {name:"นุสรา หมุดเพ็ชร์",phone:"0935829537",balance:8600,email:"nussara2521@gmail.com",createdAt:new Date("2026-03-11").getTime()},
     {name:"วิศรุต ปัญญา",phone:"0946082290",balance:100,email:"wisarutpanya4886@gmail.com",createdAt:new Date("2026-03-08").getTime()},
     {name:"นงนุช กำแพงจันทร์",phone:"0840433398",balance:11500,email:"",createdAt:new Date("2026-03-08").getTime()},
     {name:"นางสุวิมล สุขสวัสดิ์",phone:"0877625889",balance:13000,email:"krusuvimol@gmail.com",createdAt:new Date("2026-03-08").getTime()},
     {name:"เสาวนีย์ จิตร์สุวรรณ์",phone:"0930311630",balance:0,email:"phonebeerauy58@gmail.com",createdAt:new Date("2026-02-21").getTime()},
     {name:"กฤษดาวัลย์ เตียนสิงห์",phone:"0830784278",balance:4110,email:"addkridsadawan@gmail.com",createdAt:new Date("2026-02-07").getTime()},
     {name:"เบญจางค์ ประมาณ",phone:"0989767494",balance:0,email:"prbenjang@gmail.com",createdAt:new Date("2026-01-30").getTime()},
-    {name:"Phanomkorn Baikrabao",phone:"0639078668",balance:0,email:"phanomkorn2002.2ttter@gmail.con",createdAt:new Date("2026-01-22").getTime()},
+    {name:"Phanomkorn Baikrabao",phone:"0639078668",balance:0,email:"phanomkorn2002.2ttter@gmail.com",createdAt:new Date("2026-01-22").getTime()},
     {name:"นพดล เหมือนต้นเทียน",phone:"0955170974",balance:0,email:"armnaja1535@gmail.com",createdAt:new Date("2025-12-23").getTime()},
     {name:"วรวุฒิ เสริฐทรัพย์",phone:"0630756410",balance:0,email:"Huvvip123@gmail.com",createdAt:new Date("2025-10-29").getTime()},
     {name:"ธีรเชษฐ์ กลิ่นดำรงค์",phone:"0613394242",balance:0,email:"rockker617@gmail.com",createdAt:new Date("2025-10-06").getTime()},
@@ -718,7 +721,7 @@
     {name:"กิ่งแก้ว มารมย์",phone:"0868956240",balance:24000,email:"",createdAt:new Date("2025-09-03").getTime()},
     {name:"ณัฏฐณิชา สันทะวงศ์",phone:"0634494145",balance:0,email:"nattanichasantawong84@gmail.com",createdAt:new Date("2025-08-07").getTime()},
     {name:"ภัทราภรณ์ สุขพอดี",phone:"0825209192",balance:0,email:"mix.ptrp1642@gmail.com",createdAt:new Date("2025-08-05").getTime()},
-    {name:"นางสาววรินภัคค์ พัชรธันย์อมร",phone:"0820088657",balance:12100,email:"warinphak.p@gmail.com",createdAt:new Date("2025-07-19").getTime()},
+    {name:"นางสาววรินภัคค์ พัชรธันย์อมร",phone:"0820088657",balance:12100,email:"chirapha.konesukkhi@gmail.com",createdAt:new Date("2025-07-19").getTime()},
     {name:"แสงเดือน อ้อมกลาง",phone:"0847025281",balance:4400,email:"duen.7212@gmail.com",createdAt:new Date("2025-07-06").getTime()},
     {name:"ทิพย์รัตน์ บุญสร้าง",phone:"0802862574",balance:0,email:"tipparat.bunsang@gmail.com",createdAt:new Date("2025-07-06").getTime()},
     {name:"สุภัสสรา หอมสุวรรณ์",phone:"0838629412",balance:1500,email:"supassaraize@gmail.com",createdAt:new Date("2025-06-28").getTime()},
@@ -732,7 +735,7 @@
     {name:"ศักย์ศรณ์ ซื่อสัตย์อุดม",phone:"0889634924",balance:0,email:"saksorns@gmail.com",createdAt:new Date("2025-05-08").getTime()},
     {name:"นางสาวอรนุช มูลปราศัย",phone:"0632202996",balance:6400,email:"OranuchMoonparsai@gmail.com",createdAt:new Date("2025-05-06").getTime()},
     {name:"จริญญา ผู้สามศักดิ์",phone:"0928322623",balance:0,email:"",createdAt:new Date("2025-05-01").getTime()},
-    {name:"ผกามาศ เจือสุวรรณ",phone:"0925044636",balance:3010,email:"",createdAt:new Date("2025-04-30").getTime()},
+    {name:"ผกามาศ เจือสุวรรณ",phone:"0925044636",balance:3010,email:"amodeacon5@gmail.com",createdAt:new Date("2025-04-30").getTime()},
     {name:"สุนารี ยอดโพธิ์",phone:"0800164165",balance:3200,email:"ned_sunaree@gmail.com",createdAt:new Date("2025-04-29").getTime()},
     {name:"ปรีดา แตงจันทร์",phone:"0957240893",balance:0,email:"",createdAt:new Date("2025-04-24").getTime()},
     {name:"พีรภาส ใสสอาด",phone:"0915999376",balance:0,email:"",createdAt:new Date("2025-04-19").getTime()},
@@ -744,28 +747,30 @@
     {name:"อรพรรณ หมั่นเขตกิจ",phone:"0862817496",balance:0,email:"ouy.olive@gmail.com",createdAt:new Date("2025-03-26").getTime()},
     {name:"มัลลิกา น้อยวัง",phone:"0817809930",balance:9000,email:"mallikagang09@gmail.com",createdAt:new Date("2025-03-24").getTime()},
     {name:"ฐิติพรรณ ถนอมชาติ",phone:"0985917165",balance:0,email:"",createdAt:new Date("2025-03-18").getTime()},
-    {name:"นางพิชามญชุ์ แสงทอง",phone:"0638864835",balance:0,email:"",createdAt:new Date("2025-03-14").getTime()},
-    {name:"ชลธิชา พูลพร",phone:"0639342669",balance:0,email:"pikpoonpon26@gmail.com",createdAt:new Date("2025-03-14").getTime()},
+    {name:"นางพิชามญชุ์ แสงทอง",phone:"0638864835",balance:0,email:"11nurerythai@gmail.com",createdAt:new Date("2025-03-14").getTime()},
+    {name:"ชลธิชา พูลพร",phone:"0639342669",balance:0,email:"eikpoonpon26@gmail.com",createdAt:new Date("2025-03-14").getTime()},
     {name:"อารยา เอกชน",phone:"0630722114",balance:0,email:"da.fuu15@gmail.com",createdAt:new Date("2025-03-12").getTime()},
-    {name:"เรณู หีตชะนา",phone:"0851241471",balance:0,email:"",createdAt:new Date("2025-03-11").getTime()},
+    {name:"เรณู หีตชะนา",phone:"0851241471",balance:0,email:"ranuheatchana@gmail.com",createdAt:new Date("2025-03-11").getTime()},
     {name:"ประจวบ ฉุยกลม",phone:"0965186473",balance:0,email:"meme290340@gmail.com",createdAt:new Date("2025-03-11").getTime()},
-    {name:"พรชนก พงษ์เพ็ง",phone:"0971628565",balance:0,email:"",createdAt:new Date("2025-03-10").getTime()},
+    {name:"พรชนก พงษ์เพ็ง",phone:"0971628565",balance:0,email:"noknok27102529@gmail.com",createdAt:new Date("2025-03-10").getTime()},
     {name:"ดาริณี แก้วเกตุ",phone:"0615986428",balance:7200,email:"dary.darinee@gmail.com",createdAt:new Date("2025-03-08").getTime()},
     {name:"ณิชชา หนักแน่น",phone:"0953236855",balance:1000,email:"",createdAt:new Date("2025-03-06").getTime()},
     {name:"โชติกา เที่ยงนัยญาติ",phone:"0969345307",balance:0,email:"loveyuizanaka@gmail.com",createdAt:new Date("2025-03-05").getTime()},
     {name:"ศรีไพร แก้วเล็ก",phone:"0644175415",balance:0,email:"",createdAt:new Date("2025-03-05").getTime()},
     {name:"Khwanchira Phikunthong",phone:"0622170544",balance:0,email:"khwankorn30@gmail.com",createdAt:new Date("2025-03-03").getTime()},
     {name:"สุธิดา เนื้อแก้ว",phone:"0923506408",balance:0,email:"",createdAt:new Date("2025-02-28").getTime()},
-    {name:"จิราวรณ ชอบด้วยไทย",phone:"0822201933",balance:200,email:"",createdAt:new Date("2025-02-21").getTime()},
-    {name:"สมศรี ด้วงนวม",phone:"0860628298",balance:0,email:"",createdAt:new Date("2025-02-21").getTime()},
-    {name:"ภัสสร มีประมวล",phone:"0985366468",balance:10450,email:"",createdAt:new Date("2025-02-20").getTime()},
+    {name:"จิราวรณ ชอบด้วยไทย",phone:"0822201933",balance:200,email:"jirawan.c1986@gmail.com",createdAt:new Date("2025-02-21").getTime()},
+    {name:"สมศรี คำหวน",phone:"0860628298",balance:0,email:"somsri212518@gmail.com",createdAt:new Date("2025-02-21").getTime()},
+    {name:"ภัสสร มีประมวล",phone:"0985366468",balance:10450,email:"parssur7@gmail.com",createdAt:new Date("2025-02-20").getTime()},
     {name:"ปรมินทร์ ภิญมิตร",phone:"0957686877",balance:0,email:"leang2545poramin@gmail.com",createdAt:new Date("2025-02-20").getTime()},
+    {name:"ปานจันทร์ หมื่นกล้า",phone:"0987686877",balance:0,email:"",createdAt:new Date("2025-02-20").getTime()},
+    {name:"trianner crm",phone:"0966595909",balance:0,email:"trianner4289@gmail.com",createdAt:new Date("2025-02-16").getTime()},
     {name:"นที ศรีผาติ",phone:"0894198222",balance:100,email:"thanthita.gold@gmail.com",createdAt:new Date("2025-02-16").getTime()},
     {name:"Chotika Sujinpram",phone:"0854959988",balance:0,email:"chotikasujinpram@gmail.com",createdAt:new Date("2025-02-16").getTime()},
     {name:"เสาวณีย์ แซ่จง",phone:"0641628117",balance:0,email:"Kk9451750@gmail.com",createdAt:new Date("2025-02-14").getTime()},
     {name:"ชัยรัตน์ เพ็ชรสุข",phone:"0623456544",balance:0,email:"chairathjec5124@gmail.com",createdAt:new Date("2025-02-08").getTime()},
-    {name:"Chalibee Piyasakornsith",phone:"0936465164",balance:0,email:"destinybb@hotmail.con",createdAt:new Date("2025-02-08").getTime()},
-    {name:"รุจิรา กิจรักษา",phone:"0636515246",balance:1500,email:"",createdAt:new Date("2025-02-02").getTime()},
+    {name:"Chalibee Piyasakornsith",phone:"0936465164",balance:0,email:"destinybb@hotmail.com",createdAt:new Date("2025-02-08").getTime()},
+    {name:"รุจิรา กิจรักษา",phone:"0636515246",balance:1500,email:"rujira.kitraksa@gmail.com",createdAt:new Date("2025-02-02").getTime()}
   ];
 
   // ─── App State ───
@@ -814,6 +819,24 @@
       };
       reader.readAsDataURL(input.files[0]);
     }
+  };
+
+  // ─── ฟังก์ชันใหม่: คัดลอกเลขบัญชี ───
+  window.copyBankAccount = () => {
+    const accNo = getEl('cust-bank-accno').textContent;
+    if(!accNo || accNo === '-') return showToast('ไม่มีเลขบัญชีให้คัดลอก', true);
+
+    const tempInput = document.createElement("textarea");
+    tempInput.value = accNo.replace(/\s+/g, ''); // ลบช่องว่างออกเพื่อความถูกต้องเวลาโอน
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    try {
+      document.execCommand("copy");
+      showToast('📋 คัดลอกเลขบัญชีแล้ว');
+    } catch (err) {
+      showToast('❌ ไม่สามารถคัดลอกได้', true);
+    }
+    document.body.removeChild(tempInput);
   };
 
   // ─── Seed Customers into Firebase ───
@@ -879,9 +902,9 @@
     // 2. Trend chart
     renderTrendChart('monthly');
 
-    // 3. Gender pie
+    // 3. Gender pie (Updated with new names)
     const genders={หญิง:0,ชาย:0,อื่นๆ:0};
-    const csvGender={'พัชราภรณ์ ตาวตา':'หญิง','กอนมะณี ศรีสุราช':'ชาย','นุสรา หมุดเพ็ชร์':'หญิง','วิศรุต ปัญญา':'ชาย','นงนุช กำแพงจันทร์':'หญิง','นางสุวิมล สุขสวัสดิ์':'หญิง','เสาวนีย์ จิตร์สุวรรณ์':'หญิง','กฤษดาวัลย์ เตียนสิงห์':'อื่นๆ','เบญจางค์ ประมาณ':'หญิง','นพดล เหมือนต้นเทียน':'ชาย','วรวุฒิ เสริฐทรัพย์':'ชาย','ธีรเชษฐ์ กลิ่นดำรงค์':'ชาย','สนิท มูลประเสริฐ':'ชาย','กิ่งแก้ว มารมย์':'หญิง','ณัฏฐณิชา สันทะวงศ์':'หญิง','ภัทราภรณ์ สุขพอดี':'หญิง','นางสาววรินภัคค์ พัชรธันย์อมร':'หญิง','แสงเดือน อ้อมกลาง':'หญิง','ทิพย์รัตน์ บุญสร้าง':'หญิง','สุภัสสรา หอมสุวรรณ์':'อื่นๆ','กิ่งกาญจน์ นิยมสุข':'หญิง','อัญชลี แป้นยิ้ม':'หญิง','ขนิษฐา ประดับศรี':'หญิง','ลวิตรา อินทร์หาญ':'หญิง','สุภาวดี หอมสอาด':'หญิง','รัชนี อ่างทอง':'หญิง','ศักย์ศรณ์ ซื่อสัตย์อุดม':'ชาย','นางสาวอรนุช มูลปราศัย':'หญิง','จริญญา ผู้สามศักดิ์':'หญิง','ผกามาศ เจือสุวรรณ':'หญิง','สุนารี ยอดโพธิ์':'หญิง','ปรีดา แตงจันทร์':'หญิง','พีรภาส ใสสอาด':'ชาย','เยาวลักษณ์ บุญขาว':'หญิง','อรพัน เลิศพิทักษ์':'หญิง','เนรมิตร ชูกมล':'ชาย','ณัฐพร ภาควิหค':'หญิง','สาธิต สุขแสงจันทร์':'ชาย','อรพรรณ หมั่นเขตกิจ':'หญิง','มัลลิกา น้อยวัง':'หญิง','ฐิติพรรณ ถนอมชาติ':'หญิง','นางพิชามญชุ์ แสงทอง':'หญิง','ชลธิชา พูลพร':'หญิง','อารยา เอกชน':'หญิง','เรณู หีตชะนา':'หญิง','ประจวบ ฉุยกลม':'หญิง','พรชนก พงษ์เพ็ง':'หญิง','ดาริณี แก้วเกตุ':'หญิง','ณิชชา หนักแน่น':'หญิง','โชติกา เที่ยงนัยญาติ':'หญิง','ศรีไพร แก้วเล็ก':'หญิง','สุธิดา เนื้อแก้ว':'หญิง','จิราวรณ ชอบด้วยไทย':'หญิง','สมศรี ด้วงนวม':'หญิง','ภัสสร มีประมวล':'หญิง','ปรมินทร์ ภิญมิตร':'ชาย','นที ศรีผาติ':'ชาย','เสาวณีย์ แซ่จง':'หญิง','ชัยรัตน์ เพ็ชรสุข':'ชาย','รุจิรา กิจรักษา':'หญิง'};
+    const csvGender={'พัชราภรณ์ ตาวตา':'หญิง','กอนมะณี ศรีสุราช':'ชาย','นุสรา หมุดเพ็ชร์':'หญิง','วิศรุต ปัญญา':'ชาย','นงนุช กำแพงจันทร์':'หญิง','นางสุวิมล สุขสวัสดิ์':'หญิง','เสาวนีย์ จิตร์สุวรรณ์':'หญิง','กฤษดาวัลย์ เตียนสิงห์':'อื่นๆ','เบญจางค์ ประมาณ':'หญิง','นพดล เหมือนต้นเทียน':'ชาย','วรวุฒิ เสริฐทรัพย์':'ชาย','ธีรเชษฐ์ กลิ่นดำรงค์':'ชาย','สนิท มูลประเสริฐ':'ชาย','กิ่งแก้ว มารมย์':'หญิง','ณัฏฐณิชา สันทะวงศ์':'หญิง','ภัทราภรณ์ สุขพอดี':'หญิง','นางสาววรินภัคค์ พัชรธันย์อมร':'หญิง','แสงเดือน อ้อมกลาง':'หญิง','ทิพย์รัตน์ บุญสร้าง':'หญิง','สุภัสสรา หอมสุวรรณ์':'อื่นๆ','กิ่งกาญจน์ นิยมสุข':'หญิง','อัญชลี แป้นยิ้ม':'หญิง','ขนิษฐา ประดับศรี':'หญิง','ลวิตรา อินทร์หาญ':'หญิง','สุภาวดี หอมสอาด':'หญิง','รัชนี อ่างทอง':'หญิง','ศักย์ศรณ์ ซื่อสัตย์อุดม':'ชาย','นางสาวอรนุช มูลปราศัย':'หญิง','จริญญา ผู้สามศักดิ์':'หญิง','ผกามาศ เจือสุวรรณ':'หญิง','สุนารี ยอดโพธิ์':'หญิง','ปรีดา แตงจันทร์':'หญิง','พีรภาส ใสสอาด':'ชาย','เยาวลักษณ์ บุญขาว':'หญิง','อรพัน เลิศพิทักษ์':'หญิง','เนรมิตร ชูกมล':'ชาย','ณัฐพร ภาควิหค':'หญิง','สาธิต สุขแสงจันทร์':'ชาย','อรพรรณ หมั่นเขตกิจ':'หญิง','มัลลิกา น้อยวัง':'หญิง','ฐิติพรรณ ถนอมชาติ':'หญิง','นางพิชามญชุ์ แสงทอง':'หญิง','ชลธิชา พูลพร':'หญิง','อารยา เอกชน':'หญิง','เรณู หีตชะนา':'หญิง','ประจวบ ฉุยกลม':'หญิง','พรชนก พงษ์เพ็ง':'หญิง','ดาริณี แก้วเกตุ':'หญิง','ณิชชา หนักแน่น':'หญิง','โชติกา เที่ยงนัยญาติ':'หญิง','ศรีไพร แก้วเล็ก':'หญิง','สุธิดา เนื้อแก้ว':'หญิง','จิราวรณ ชอบด้วยไทย':'หญิง','สมศรี ด้วงนวม':'หญิง','ภัสสร มีประมวล':'หญิง','ปรมินทร์ ภิญมิตร':'ชาย','นที ศรีผาติ':'ชาย','เสาวณีย์ แซ่จง':'หญิง','ชัยรัตน์ เพ็ชรสุข':'ชาย','รุจิรา กิจรักษา':'หญิง','สมศรี คำหวน':'หญิง','ปานจันทร์ หมื่นกล้า':'หญิง','trianner crm':'หญิง'};
     users.forEach(u=>{ const g=csvGender[u.name]||'อื่นๆ'; if(g in genders) genders[g]++; else genders['อื่นๆ']++; });
     if(chartGender) chartGender.destroy();
     const ctx3=getEl('chart-gender');
